@@ -16,6 +16,7 @@
 package org.telosys.webtools.monitoring.bean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
@@ -140,7 +141,7 @@ public class TopRequests {
 				all.add(request);
 			}
 		}
-		all.sort(new RequestComparator());
+		Collections.sort(all, new RequestComparator());
 		return all;
 	}
 
@@ -155,7 +156,7 @@ public class TopRequests {
 				all.add(request);
 			}
 		}
-		all.sort(new RequestComparator(false));
+		Collections.sort(all, new RequestComparator(false));
 		return all;
 	}
 

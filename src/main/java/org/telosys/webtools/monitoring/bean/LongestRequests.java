@@ -16,6 +16,7 @@
 package org.telosys.webtools.monitoring.bean;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -127,7 +128,7 @@ public class LongestRequests {
 				requests.add(request);
 			}
 		}
-		requests.sort(new RequestComparator(false));
+		Collections.sort(requests, new RequestComparator(false));
 		return requests;
 	}
 	
