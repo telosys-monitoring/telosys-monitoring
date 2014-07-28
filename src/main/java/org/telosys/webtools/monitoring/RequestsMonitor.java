@@ -754,6 +754,8 @@ public class RequestsMonitor implements Filter {
 			out.println("Requests monitoring status (" + date + ")");
 			out.println("IP address : " + ipAddress);
 			out.println("Hostname : " + hostname );
+			out.println("Java : "+System.getProperty("java.version")+" - vendor :"+System.getProperty("java.vendor"));
+			out.println("OS : "+System.getProperty("os.arch")+" - name : "+System.getProperty("os.name")+" - version : "+System.getProperty("os.version"));
 			out.println(" ");
 			
 			out.println("Duration threshold : " + durationThreshold );
@@ -853,6 +855,8 @@ public class RequestsMonitor implements Filter {
 			out.println("<ul>");
 			out.println("<li>IP address : " + ipAddress + "</li>");
 			out.println("<li>Hostname : " + hostname + "</li>");
+			out.println("<li>Java : "+System.getProperty("java.version")+" - "+System.getProperty("java.vendor")+"</li>");
+			out.println("<li>OS : "+System.getProperty("os.arch")+" - "+System.getProperty("os.name")+" - "+System.getProperty("os.version")+"</li>");
 			out.println("</ul>");
 			out.println("</div>");
 			
