@@ -60,7 +60,8 @@ public class SendRequest implements Runnable {
 					return;
 				}
 			}
-			HttpServletRequest httpRequest = nextHttpServletRequest();
+			int count = counter.increment();
+			HttpServletRequest httpRequest = nextHttpServletRequest(count);
 			Request request = requestsMonitor.createRequest(httpRequest, new Date().getTime(), 0);
 			requests.add(request);
 			
@@ -78,12 +79,11 @@ public class SendRequest implements Runnable {
 		doneSignal.countDown();
 	}
 	
-	public HttpServletRequest nextHttpServletRequest() {
-		int i = counter.increment();
+	public HttpServletRequest nextHttpServletRequest(int count) {
 		HttpServletRequest httpRequest = mock(HttpServletRequest.class);
-		when(httpRequest.getServletPath()).thenReturn("/test"+i);
-		when(httpRequest.getRequestURL()).thenReturn(new StringBuffer("http://request"+i));
-		when(httpRequest.getQueryString()).thenReturn("query"+i);
+		when(httpRequest.getServletPath()).thenReturn("/test"+count);
+		when(httpRequest.getRequestURL()).thenReturn(new StringBuffer("http://request"+count));
+		when(httpRequest.getQueryString()).thenReturn("query"+count);
 		return httpRequest;
 	}
 	

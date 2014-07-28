@@ -106,6 +106,8 @@ public class RequestsMonitor implements Filter {
 	protected long   countAllRequest        = 0 ; 
 	/** Count longest requests */
 	protected long   countLongTimeRequests  = 0 ; 
+	/** Count all requests for request log */
+	protected long   countAllRequestForRequest = 0 ;
 	
 	/** Last stored requests */
 	protected CircularStack logLines = new CircularStack(DEFAULT_LOG_SIZE);
@@ -143,9 +145,11 @@ public class RequestsMonitor implements Filter {
 		protected boolean activated             = true ;
 		
 		/** Count all requests */
-		protected long   countAllRequest        = 0 ; 
+		protected long   countAllRequest           = 0 ; 
 		/** Count longest requests */
-		protected long   countLongTimeRequests  = 0 ; 
+		protected long   countLongTimeRequests     = 0 ; 
+		/** Count all requests for request log */
+		protected long   countAllRequestForRequest = 0 ;
 	}
 	
     /**
@@ -348,9 +352,10 @@ public class RequestsMonitor implements Filter {
 	 */
 	protected void doFilterWithMonitoring(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		long startTime = 0;
+		long countAllRequest = 0;
 
 		try {
-			incrementCountAllRequest();
+			countAllRequest = incrementCountAllRequest();
 			startTime = getTime();
 		} catch(Throwable throwable) {
 			manageError(throwable);
@@ -365,7 +370,6 @@ public class RequestsMonitor implements Filter {
 			try {
 				final long elapsedTime = getTime() - startTime;
 				if ( elapsedTime > durationThreshold ) {
-					incrementCountLongTimeRequests();
 					logRequest(request, startTime, elapsedTime);
 				}
 			} catch(Throwable throwable) {
@@ -410,21 +414,28 @@ public class RequestsMonitor implements Filter {
 	/**
 	 * Increment count all requests.
 	 */
-	protected synchronized void incrementCountAllRequest() {
+	protected synchronized long incrementCountAllRequest() {
 		countAllRequest++;
 		if(countAllRequest > COUNT_LIMIT) {
 			countAllRequest = 1;
 		}
+		return countAllRequest;
 	}
 
 	/**
 	 * Increment count all long time requests.
 	 */
-	protected synchronized void incrementCountLongTimeRequests() {
+	protected synchronized void incrementCountLongTimeRequests(Request request) {
 		countLongTimeRequests++;
 		if(countLongTimeRequests > COUNT_LIMIT) {
 			countLongTimeRequests = 1;
 		}
+		request.setCountLongTimeRequests(countLongTimeRequests);
+		countAllRequestForRequest++;
+		if(countAllRequestForRequest > COUNT_LIMIT) {
+			countAllRequestForRequest = 1;
+		}
+		request.setCountAllRequest(countAllRequestForRequest);
 	}
 
 	/**
@@ -432,6 +443,8 @@ public class RequestsMonitor implements Filter {
 	 * @param httpRequest HTTP request
 	 * @param startTime Start date
 	 * @param elapsedTime Execution time
+	 * @param countAllRequest Count all resquests
+	 * @param countLongTimeRequests Count Longest requests
 	 */
 	protected final void logRequest(ServletRequest servletRequest, long startTime, long elapsedTime ) {
 		Request request = createRequest(servletRequest, startTime, elapsedTime);
@@ -448,7 +461,9 @@ public class RequestsMonitor implements Filter {
 	 * @param httpRequest HTTP request
 	 * @param startTime Start date
 	 * @param elapsedTime Request execution time
-	 * @return
+	 * @param countAllRequest Count all requests
+	 * @param countLongTimeRequests Count longest requests
+	 * @return request
 	 */
 	protected Request createRequest(ServletRequest servletRequest, long startTime, long elapsedTime) {
 		Request request = new Request();
@@ -466,8 +481,7 @@ public class RequestsMonitor implements Filter {
 			request.setRequestURL("");
 			request.setServletPath("");
 		}
-		request.setCountAllRequest(countAllRequest);
-		request.setCountLongTimeRequests(countLongTimeRequests);
+		this.incrementCountLongTimeRequests(request);
 		return request;
 	}
 	

@@ -389,6 +389,7 @@ public class RequestsMonitorTest {
 		requestsMonitor.reportingReqPath = "/monitoring";
 		requestsMonitor.durationThreshold = -99999999;
 		requestsMonitor.countAllRequest = requestsMonitor.COUNT_LIMIT-1;
+		requestsMonitor.countAllRequestForRequest = requestsMonitor.COUNT_LIMIT-1;
 		requestsMonitor.countLongTimeRequests = requestsMonitor.COUNT_LIMIT-1;
 		
 		when(requestsMonitor.getTime()).thenAnswer(new Answer<Long>() {

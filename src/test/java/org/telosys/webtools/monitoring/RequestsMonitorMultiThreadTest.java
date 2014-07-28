@@ -15,6 +15,8 @@
  */
 package org.telosys.webtools.monitoring;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.util.ArrayList;
@@ -27,9 +29,7 @@ import java.util.concurrent.CountDownLatch;
 import javax.servlet.ServletException;
 
 import org.junit.Test;
-import org.telosys.webtools.monitoring.bean.CircularStack;
-import org.telosys.webtools.monitoring.bean.LongestRequests;
-import org.telosys.webtools.monitoring.bean.TopRequests;
+import org.telosys.webtools.monitoring.bean.Request;
 
 public class RequestsMonitorMultiThreadTest {
 	
@@ -100,6 +100,19 @@ public class RequestsMonitorMultiThreadTest {
 		System.out.println("logLines: " + requestsMonitor.logLines.getAllAscending().size());
 		System.out.println("by_time: " + requestsMonitor.topRequests.getAllDescending().size());
 		System.out.println("by_url : " + requestsMonitor.longestRequests.getAllDescending().size());
+		
+		// Verify counts in requests
+		long countAll = -1;
+		long countLongest = -1;
+		for(Request request : requestsMonitor.logLines.getAllAscending()) {
+			if(countAll != -1 && countLongest != -1) {
+				assertTrue(countAll < request.getCountAllRequest());
+				assertTrue(countLongest < request.getCountLongTimeRequests());
+			}
+			countAll = request.getCountAllRequest();
+			countLongest = request.getCountLongTimeRequests();
+			assertEquals(request.getCountAllRequest(), request.getCountLongTimeRequests());
+		}
 	}
 	
 	public void randomActions(RequestsMonitor requestsMonitor, Random random, int count) {
