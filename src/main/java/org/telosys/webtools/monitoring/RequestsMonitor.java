@@ -17,6 +17,7 @@ package org.telosys.webtools.monitoring;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
@@ -80,6 +81,8 @@ public class RequestsMonitor implements Filter {
 	protected final static int DEFAULT_TOP_TEN_SIZE        =  10 ;
 	/** Number of longest requests */
 	protected final static int DEFAULT_LONGEST_SIZE        =  10 ;
+	/** Count limit */
+	protected final static long COUNT_LIMIT                =  1000000;
 	
 	/** Execution time threshold */
 	protected int     durationThreshold     = DEFAULT_DURATION_THRESHOLD ;
@@ -409,6 +412,9 @@ public class RequestsMonitor implements Filter {
 	 */
 	protected synchronized void incrementCountAllRequest() {
 		countAllRequest++;
+		if(countAllRequest > COUNT_LIMIT) {
+			countAllRequest = 1;
+		}
 	}
 
 	/**
@@ -416,6 +422,9 @@ public class RequestsMonitor implements Filter {
 	 */
 	protected synchronized void incrementCountLongTimeRequests() {
 		countLongTimeRequests++;
+		if(countLongTimeRequests > COUNT_LIMIT) {
+			countLongTimeRequests = 1;
+		}
 	}
 
 	/**

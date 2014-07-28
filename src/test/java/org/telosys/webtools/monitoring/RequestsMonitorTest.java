@@ -388,6 +388,8 @@ public class RequestsMonitorTest {
 		requestsMonitor.activated = true;
 		requestsMonitor.reportingReqPath = "/monitoring";
 		requestsMonitor.durationThreshold = -99999999;
+		requestsMonitor.countAllRequest = requestsMonitor.COUNT_LIMIT-1;
+		requestsMonitor.countLongTimeRequests = requestsMonitor.COUNT_LIMIT-1;
 		
 		when(requestsMonitor.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -420,16 +422,16 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest2, response);
 		
 		List<Request> requests = requestsMonitor.logLines.getAllAscending();
-		assertEquals("1970/01/01 01:00:00 - [ 1 / 1 ] - 500 ms - http://request1.url?query1", requests.get(0).toString());
-		assertEquals("1970/01/01 01:00:01 - [ 2 / 2 ] - 500 ms - http://request2.url?query2", requests.get(1).toString());
+		assertEquals("1970/01/01 01:00:00 - [ "+RequestsMonitor.COUNT_LIMIT+" / "+RequestsMonitor.COUNT_LIMIT+" ] - 500 ms - http://request1.url?query1", requests.get(0).toString());
+		assertEquals("1970/01/01 01:00:01 - [ 1 / 1 ] - 500 ms - http://request2.url?query2", requests.get(1).toString());
 		
 		requests = requestsMonitor.topRequests.getAllAscending();
-		assertEquals("1970/01/01 01:00:00 - [ 1 / 1 ] - 500 ms - http://request1.url?query1", requests.get(0).toString());
-		assertEquals("1970/01/01 01:00:01 - [ 2 / 2 ] - 500 ms - http://request2.url?query2", requests.get(1).toString());
+		assertEquals("1970/01/01 01:00:00 - [ "+RequestsMonitor.COUNT_LIMIT+" / "+RequestsMonitor.COUNT_LIMIT+" ] - 500 ms - http://request1.url?query1", requests.get(0).toString());
+		assertEquals("1970/01/01 01:00:01 - [ 1 / 1 ] - 500 ms - http://request2.url?query2", requests.get(1).toString());
 		
 		requests = requestsMonitor.longestRequests.getAllDescending();
-		assertEquals("1970/01/01 01:00:01 - [ 2 / 2 ] - 500 ms - http://request2.url?query2", requests.get(0).toString());
-		assertEquals("1970/01/01 01:00:00 - [ 1 / 1 ] - 500 ms - http://request1.url?query1", requests.get(1).toString());
+		assertEquals("1970/01/01 01:00:01 - [ 1 / 1 ] - 500 ms - http://request2.url?query2", requests.get(0).toString());
+		assertEquals("1970/01/01 01:00:00 - [ "+RequestsMonitor.COUNT_LIMIT+" / "+RequestsMonitor.COUNT_LIMIT+" ] - 500 ms - http://request1.url?query1", requests.get(1).toString());
 	}
 
 	@Test
