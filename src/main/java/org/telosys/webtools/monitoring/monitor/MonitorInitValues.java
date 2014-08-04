@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Init values.
  */
-public class InitValues implements Serializable {
+public class MonitorInitValues implements Serializable {
 
 	/**
 	 * Serial id.

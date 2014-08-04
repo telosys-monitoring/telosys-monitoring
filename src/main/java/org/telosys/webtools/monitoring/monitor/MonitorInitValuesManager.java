@@ -9,8 +9,9 @@ import javax.servlet.ServletException;
 import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.LongestRequests;
 import org.telosys.webtools.monitoring.bean.TopRequests;
+import org.telosys.webtools.monitoring.util.Utils;
 
-public class MonitorWebXmlManager {
+public class MonitorInitValuesManager {
 
 	/**
 	 * Utils.
@@ -22,8 +23,8 @@ public class MonitorWebXmlManager {
 	 * @param filterConfig Filter configuration
 	 * @throws ServletException Error
 	 */
-	public InitValues initValues(final FilterConfig filterConfig) {
-		final InitValues initValues = new InitValues();
+	public MonitorInitValues initValues(final FilterConfig filterConfig) {
+		final MonitorInitValues initValues = new MonitorInitValues();
 
 		//--- Parameter : activated
 		final String activatedParam = filterConfig.getInitParameter("activated");
@@ -33,19 +34,19 @@ public class MonitorWebXmlManager {
 
 		//--- Parameter : duration threshold
 		initValues.durationThreshold =
-				utils.parseInt( filterConfig.getInitParameter("duration"), InitValues.DEFAULT_DURATION_THRESHOLD );
+				utils.parseInt( filterConfig.getInitParameter("duration"), MonitorInitValues.DEFAULT_DURATION_THRESHOLD );
 
 		//--- Parameter : memory log size
 		initValues.logSize =
-				utils.parseInt( filterConfig.getInitParameter("logsize"), InitValues.DEFAULT_LOG_SIZE );
+				utils.parseInt( filterConfig.getInitParameter("logsize"), MonitorInitValues.DEFAULT_LOG_SIZE );
 
 		//--- Parameter : memory top ten size
 		initValues.topTenSize =
-				utils.parseInt( filterConfig.getInitParameter("toptensize"), InitValues.DEFAULT_TOP_TEN_SIZE );
+				utils.parseInt( filterConfig.getInitParameter("toptensize"), MonitorInitValues.DEFAULT_TOP_TEN_SIZE );
 
 		//--- Parameter : memory longest requests size
 		initValues.longestSize =
-				utils.parseInt( filterConfig.getInitParameter("longestsize"), InitValues.DEFAULT_LONGEST_SIZE );
+				utils.parseInt( filterConfig.getInitParameter("longestsize"), MonitorInitValues.DEFAULT_LONGEST_SIZE );
 
 		//--- Parameter : status report URI
 		final String reportingParam = filterConfig.getInitParameter("reporting");
@@ -67,7 +68,7 @@ public class MonitorWebXmlManager {
 	 * @param initValues Initial values
 	 * @param monitorBean Data monitor
 	 */
-	public void reset(final InitValues initValues, final MonitorData monitorBean) {
+	public void reset(final MonitorInitValues initValues, final MonitorData monitorBean) {
 
 		//--- Parameter : duration threshold
 		monitorBean.durationThreshold = initValues.durationThreshold;

@@ -3,7 +3,7 @@ package org.telosys.webtools.monitoring.dispatch.reporting.html;
 import java.io.PrintWriter;
 
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.monitor.RequestAttributeNames;
+import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
 
 public class ActionBarForReporting {
 
@@ -31,10 +31,10 @@ public class ActionBarForReporting {
 		out.println(" | ");
 		out.println("<select id='key'>");
 		out.println("<option value=''></option>");
-		out.println("<option value='"+RequestAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD+"'>Duration threshold</option>");
-		out.println("<option value='"+RequestAttributeNames.ATTRIBUTE_NAME_LOG_SIZE+"'>Log size</option>");
-		out.println("<option value='"+RequestAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE+"'>Top requests by Time size</option>");
-		out.println("<option value='"+RequestAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE+"'>Top requests by URL size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD+"'>Duration threshold</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE+"'>Log size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE+"'>Top requests by Time size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE+"'>Top requests by URL size</option>");
 		out.println("</select>");
 		out.println("<input type='text' id='value' value=''/>");
 		out.println("<input type='button' value='Modify' onclick='doParam(document.getElementById(\"key\").value,document.getElementById(\"value\").value)'/>");
@@ -44,9 +44,9 @@ public class ActionBarForReporting {
 		out.println("<input type='button' value='Reset' onclick='doAction(\"reset\")'/>");
 		out.println(" | ");
 		if(data.activated) {
-			out.println("<input type='button' value=' Stop ' onclick='doAction(\""+RequestAttributeNames.ATTRIBUTE_VALUE_ACTION_STOP+"\")'/>");
+			out.println("<input type='button' value=' Stop ' onclick='doAction(\""+MonitorAttributeNames.ATTRIBUTE_VALUE_ACTION_STOP+"\")'/>");
 		} else {
-			out.println("<input type='button' value=' Start ' onclick='doAction(\""+RequestAttributeNames.ATTRIBUTE_VALUE_ACTION_START+"\")'/>");
+			out.println("<input type='button' value=' Start ' onclick='doAction(\""+MonitorAttributeNames.ATTRIBUTE_VALUE_ACTION_START+"\")'/>");
 		}
 		out.println("</div>");
 		out.println("</div>");

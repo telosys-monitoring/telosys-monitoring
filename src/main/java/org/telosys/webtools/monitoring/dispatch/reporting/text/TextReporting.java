@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.dispatch.reporting.Reporting;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.monitor.Utils;
+import org.telosys.webtools.monitoring.util.Utils;
 
 /**
  * Report as simple text.

@@ -39,9 +39,9 @@ import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.LongestRequests;
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.bean.TopRequests;
-import org.telosys.webtools.monitoring.monitor.InitValues;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.monitor.MonitorWebXmlManager;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
 
 public class RequestsMonitorTest {
 
@@ -51,10 +51,10 @@ public class RequestsMonitorTest {
 		final RequestsMonitor requestsMonitor = new RequestsMonitor();
 		requestsMonitor.utils = spy(requestsMonitor.utils);
 
-		requestsMonitor.monitorWebXmlManager = mock(MonitorWebXmlManager.class);
+		requestsMonitor.monitorWebXmlManager = mock(MonitorInitValuesManager.class);
 
 		final FilterConfig filterConfig = mock(FilterConfig.class);
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 		doReturn(initValues).when(requestsMonitor.monitorWebXmlManager).initValues(filterConfig);
 
 		requestsMonitor.data = mock(MonitorData.class);
@@ -77,10 +77,10 @@ public class RequestsMonitorTest {
 		requestsMonitor.utils = spy(requestsMonitor.utils);
 		doReturn(true).when(requestsMonitor.utils).isBlank(null);
 
-		requestsMonitor.monitorWebXmlManager = mock(MonitorWebXmlManager.class);
+		requestsMonitor.monitorWebXmlManager = mock(MonitorInitValuesManager.class);
 
 		final FilterConfig filterConfig = mock(FilterConfig.class);
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 		doReturn(initValues).when(requestsMonitor.monitorWebXmlManager).initValues(filterConfig);
 
 		initValues.reportingReqPath = null;

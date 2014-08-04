@@ -1,6 +1,6 @@
 package org.telosys.webtools.monitoring.monitor;
 
-public interface RequestAttributeNames {
+public interface MonitorAttributeNames {
 
 	/** Action */
 	String ATTRIBUTE_NAME_ACTION = "action";

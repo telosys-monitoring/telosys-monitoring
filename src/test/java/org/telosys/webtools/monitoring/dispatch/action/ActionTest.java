@@ -20,11 +20,11 @@ import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.LongestRequests;
 import org.telosys.webtools.monitoring.bean.TopRequests;
-import org.telosys.webtools.monitoring.monitor.InitValues;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.monitor.MonitorWebXmlManager;
-import org.telosys.webtools.monitoring.monitor.RequestAttributeNames;
-import org.telosys.webtools.monitoring.monitor.Utils;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
+import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
+import org.telosys.webtools.monitoring.util.Utils;
 
 
 public class ActionTest {
@@ -34,7 +34,7 @@ public class ActionTest {
 		// Given
 		final Action action = new Action();
 		final MonitorData data = new MonitorData();
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
@@ -50,11 +50,11 @@ public class ActionTest {
 		data.traceFlag = true;
 
 		final Map<String,String> params = new HashMap<String,String>();
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD, "201");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "301");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, "401");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, "501");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_TRACE_FLAG, "true");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD, "201");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "301");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, "401");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, "501");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_TRACE_FLAG, "true");
 
 		// When
 		action.action(params, data, initValues);
@@ -76,7 +76,7 @@ public class ActionTest {
 		// Given
 		final Action action = new Action();
 		final MonitorData data = new MonitorData();
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
@@ -92,11 +92,11 @@ public class ActionTest {
 		data.traceFlag = true;
 
 		final Map<String,String> params = new HashMap<String,String>();
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD, "200");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "300");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, "400");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, "500");
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_TRACE_FLAG, "false");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD, "200");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "300");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, "400");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, "500");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_TRACE_FLAG, "false");
 
 		// When
 		action.action(params, data, initValues);
@@ -117,7 +117,7 @@ public class ActionTest {
 		// Given
 		final Action action = new Action();
 		final MonitorData data = new MonitorData();
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
@@ -129,7 +129,7 @@ public class ActionTest {
 		data.activated = true;
 
 		final Map<String,String> params = new HashMap<String,String>();
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_ACTION, RequestAttributeNames.ATTRIBUTE_VALUE_ACTION_STOP);
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_ACTION, MonitorAttributeNames.ATTRIBUTE_VALUE_ACTION_STOP);
 
 		// When
 		action.action(params, data, initValues);
@@ -143,7 +143,7 @@ public class ActionTest {
 		// Given
 		final Action action = new Action();
 		final MonitorData data = new MonitorData();
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
@@ -155,7 +155,7 @@ public class ActionTest {
 		data.activated = false;
 
 		final Map<String,String> params = new HashMap<String,String>();
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_ACTION, RequestAttributeNames.ATTRIBUTE_VALUE_ACTION_START);
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_ACTION, MonitorAttributeNames.ATTRIBUTE_VALUE_ACTION_START);
 
 		// When
 		action.action(params, data, initValues);
@@ -169,7 +169,7 @@ public class ActionTest {
 		// Given
 		final Action action = new Action();
 		final MonitorData data = new MonitorData();
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
@@ -183,7 +183,7 @@ public class ActionTest {
 		data.longestSize = 500;
 
 		final Map<String,String> params = new HashMap<String,String>();
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_ACTION, RequestAttributeNames.ATTRIBUTE_VALUE_ACTION_CLEAR);
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_ACTION, MonitorAttributeNames.ATTRIBUTE_VALUE_ACTION_CLEAR);
 
 		// When
 		action.action(params, data, initValues);
@@ -202,7 +202,7 @@ public class ActionTest {
 		 */
 
 		// Given
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 		final Utils utils = spy(new Utils());
 		monitorWebXmlManager.setUtils(utils);
 
@@ -214,15 +214,15 @@ public class ActionTest {
 		final FilterConfig filterConfig = mock(FilterConfig.class);
 
 		// When
-		final InitValues initValues = monitorWebXmlManager.initValues(filterConfig);
+		final MonitorInitValues initValues = monitorWebXmlManager.initValues(filterConfig);
 		final MonitorData data = new MonitorData();
 		monitorWebXmlManager.reset(initValues, data);
 
 		// Then
-		assertEquals(InitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
-		assertEquals(InitValues.DEFAULT_LOG_SIZE, data.logSize);
-		assertEquals(InitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
-		assertEquals(InitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
+		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logSize);
+		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
 		assertEquals("/monitor", data.reportingReqPath);
 		assertFalse(data.traceFlag);
 		assertEquals("10.11.12.13", data.ipAddress);
@@ -250,16 +250,16 @@ public class ActionTest {
 		action.monitorWebXmlManager = monitorWebXmlManager;
 
 		final Map<String,String> params = new HashMap<String,String>();
-		params.put(RequestAttributeNames.ATTRIBUTE_NAME_ACTION, RequestAttributeNames.ATTRIBUTE_VALUE_ACTION_RESET);
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_ACTION, MonitorAttributeNames.ATTRIBUTE_VALUE_ACTION_RESET);
 
 		// When
 		action.action(params, data, initValues);
 
 		// Then
-		assertEquals(InitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
-		assertEquals(InitValues.DEFAULT_LOG_SIZE, data.logSize);
-		assertEquals(InitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
-		assertEquals(InitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
+		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logSize);
+		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
 		assertEquals("/monitor", data.reportingReqPath);
 		assertFalse(data.traceFlag);
 		assertEquals("10.11.12.13", data.ipAddress);

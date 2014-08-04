@@ -1,4 +1,4 @@
-package org.telosys.webtools.monitoring.monitor;
+package org.telosys.webtools.monitoring.util;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;

@@ -16,24 +16,24 @@ import javax.servlet.ServletException;
 import org.junit.Test;
 
 
-public class MonitorWebXmlManagerTest {
+public class MonitorInitValuesManagerTest {
 
 	@Test
 	public void testInitValues() throws Exception {
 
 		// Given
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 
 		final FilterConfig filterConfig = mock(FilterConfig.class);
 
 		// When
-		final InitValues initValues = monitorWebXmlManager.initValues(filterConfig);
+		final MonitorInitValues initValues = monitorWebXmlManager.initValues(filterConfig);
 
 		// Then
-		assertEquals(InitValues.DEFAULT_DURATION_THRESHOLD, initValues.durationThreshold);
-		assertEquals(InitValues.DEFAULT_LOG_SIZE, initValues.logSize);
-		assertEquals(InitValues.DEFAULT_TOP_TEN_SIZE, initValues.topTenSize);
-		assertEquals(InitValues.DEFAULT_LONGEST_SIZE, initValues.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, initValues.durationThreshold);
+		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, initValues.logSize);
+		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, initValues.topTenSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, initValues.longestSize);
 		assertEquals("/monitor", initValues.reportingReqPath);
 		assertFalse(initValues.traceFlag);
 		assertTrue(initValues.activated);
@@ -43,7 +43,7 @@ public class MonitorWebXmlManagerTest {
 	public void testInitValuesCustomized() throws ServletException {
 
 		// Given
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 
 		final FilterConfig filterConfig = mock(FilterConfig.class);
 		when(filterConfig.getInitParameter("duration")).thenReturn("200");
@@ -55,7 +55,7 @@ public class MonitorWebXmlManagerTest {
 		when(filterConfig.getInitParameter("activated")).thenReturn("true");
 
 		// When
-		final InitValues initValues = monitorWebXmlManager.initValues(filterConfig);
+		final MonitorInitValues initValues = monitorWebXmlManager.initValues(filterConfig);
 
 		// Then
 		assertEquals(200, initValues.durationThreshold);
@@ -70,14 +70,14 @@ public class MonitorWebXmlManagerTest {
 	@Test
 	public void testInitValuesCustomized2() throws ServletException {
 		// Given
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 
 		final FilterConfig filterConfig = mock(FilterConfig.class);
 		when(filterConfig.getInitParameter("trace")).thenReturn("false");
 		when(filterConfig.getInitParameter("activated")).thenReturn("false");
 
 		// When
-		final InitValues initValues = monitorWebXmlManager.initValues(filterConfig);
+		final MonitorInitValues initValues = monitorWebXmlManager.initValues(filterConfig);
 
 		// Then
 		assertFalse(initValues.traceFlag);
@@ -89,16 +89,16 @@ public class MonitorWebXmlManagerTest {
 	public void testReset() throws Exception {
 
 		// Given
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 		monitorWebXmlManager.setUtils(spy(monitorWebXmlManager.getUtils()));
 
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 		final MonitorData data = new MonitorData();
 
-		initValues.durationThreshold = InitValues.DEFAULT_DURATION_THRESHOLD;
-		initValues.logSize = InitValues.DEFAULT_LOG_SIZE;
-		initValues.topTenSize = InitValues.DEFAULT_TOP_TEN_SIZE;
-		initValues.longestSize = InitValues.DEFAULT_LONGEST_SIZE;
+		initValues.durationThreshold = MonitorInitValues.DEFAULT_DURATION_THRESHOLD;
+		initValues.logSize = MonitorInitValues.DEFAULT_LOG_SIZE;
+		initValues.topTenSize = MonitorInitValues.DEFAULT_TOP_TEN_SIZE;
+		initValues.longestSize = MonitorInitValues.DEFAULT_LONGEST_SIZE;
 		initValues.reportingReqPath = "/monitor";
 		initValues.traceFlag = true;
 		initValues.activated = true;
@@ -112,13 +112,13 @@ public class MonitorWebXmlManagerTest {
 		monitorWebXmlManager.reset(initValues, data);
 
 		// Then
-		assertEquals(InitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
-		assertEquals(InitValues.DEFAULT_LOG_SIZE, data.logSize);
-		assertEquals(InitValues.DEFAULT_LOG_SIZE, data.logLines.getSize());
-		assertEquals(InitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
-		assertEquals(InitValues.DEFAULT_TOP_TEN_SIZE, data.topRequests.getSize());
-		assertEquals(InitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
-		assertEquals(InitValues.DEFAULT_LONGEST_SIZE, data.longestRequests.getSize());
+		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
+		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logSize);
+		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logLines.getSize());
+		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
+		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topRequests.getSize());
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestRequests.getSize());
 		assertEquals("/monitor", data.reportingReqPath);
 		assertEquals("10.11.12.13", data.ipAddress);
 		assertEquals("hostname", data.hostname);
@@ -130,10 +130,10 @@ public class MonitorWebXmlManagerTest {
 	public void testResetCustomized() throws ServletException {
 
 		// Given
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 		monitorWebXmlManager.setUtils(spy(monitorWebXmlManager.getUtils()));
 
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 		final MonitorData data = new MonitorData();
 
 		initValues.durationThreshold = 200;

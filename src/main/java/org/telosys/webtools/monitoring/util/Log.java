@@ -1,4 +1,4 @@
-package org.telosys.webtools.monitoring.monitor;
+package org.telosys.webtools.monitoring.util;
 
 import org.telosys.webtools.monitoring.bean.Request;
 

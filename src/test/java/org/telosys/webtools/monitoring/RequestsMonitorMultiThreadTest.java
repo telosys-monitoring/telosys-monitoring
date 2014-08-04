@@ -30,9 +30,9 @@ import javax.servlet.ServletException;
 
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.Request;
-import org.telosys.webtools.monitoring.monitor.InitValues;
-import org.telosys.webtools.monitoring.monitor.MonitorWebXmlManager;
-import org.telosys.webtools.monitoring.monitor.RequestAttributeNames;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
+import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
 
 public class RequestsMonitorMultiThreadTest {
 
@@ -51,7 +51,7 @@ public class RequestsMonitorMultiThreadTest {
 
 		final RequestsMonitor requestsMonitor = new RequestsMonitor();
 
-		final InitValues initValues = new InitValues();
+		final MonitorInitValues initValues = new MonitorInitValues();
 		initValues.durationThreshold = -999;
 		initValues.logSize = 100;
 		initValues.topTenSize = 100;
@@ -59,7 +59,7 @@ public class RequestsMonitorMultiThreadTest {
 		initValues.traceFlag = false;
 		requestsMonitor.initValues = initValues;
 
-		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 		monitorWebXmlManager.reset(initValues, requestsMonitor.data);
 
 		final int nbRequestsBySender = 5;
@@ -138,11 +138,11 @@ public class RequestsMonitorMultiThreadTest {
 			requestsMonitor.dispatch.getAction().action(getParams("action", "start"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		// log size
-		requestsMonitor.dispatch.getAction().action(getParams(RequestAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.getAction().action(getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by time size
-		requestsMonitor.dispatch.getAction().action(getParams(RequestAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.getAction().action(getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by url size
-		requestsMonitor.dispatch.getAction().action(getParams(RequestAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.getAction().action(getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 	}
 
 	private Map<String,String> getParams(final String key, final String name) {

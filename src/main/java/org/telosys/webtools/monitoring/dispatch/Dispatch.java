@@ -10,9 +10,9 @@ import org.telosys.webtools.monitoring.dispatch.action.Action;
 import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.dispatch.reporting.Reporting;
 import org.telosys.webtools.monitoring.dispatch.reporting.html.HtmlReporting;
-import org.telosys.webtools.monitoring.monitor.InitValues;
-import org.telosys.webtools.monitoring.monitor.Log;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
+import org.telosys.webtools.monitoring.util.Log;
 
 public class Dispatch {
 
@@ -35,7 +35,7 @@ public class Dispatch {
 	 * @param data monitor data
 	 * @param initValues Init values from web.xml
 	 */
-	public void dispatch(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final MonitorData data, final InitValues initValues) {
+	public void dispatch(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final MonitorData data, final MonitorInitValues initValues) {
 		final Map<String,String> params = getParameters.getParameters(httpServletRequest);
 		final boolean isMakingAction = action.action(params, data, initValues);
 		if(isMakingAction) {

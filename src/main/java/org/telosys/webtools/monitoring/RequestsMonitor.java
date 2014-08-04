@@ -28,11 +28,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.dispatch.Dispatch;
-import org.telosys.webtools.monitoring.monitor.InitValues;
-import org.telosys.webtools.monitoring.monitor.Log;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.monitor.MonitorWebXmlManager;
-import org.telosys.webtools.monitoring.monitor.Utils;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
+import org.telosys.webtools.monitoring.util.Log;
+import org.telosys.webtools.monitoring.util.Utils;
 
 /**
  * Servlet Filter for Http Requests Monitor
@@ -43,7 +43,7 @@ public class RequestsMonitor implements Filter {
 	public final static String VERSION = "v1.8";
 
 	/** Configuration in the web.xml */
-	protected MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+	protected MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 
 	/** Dispatch request */
 	protected Dispatch dispatch = new Dispatch();
@@ -58,7 +58,7 @@ public class RequestsMonitor implements Filter {
 	protected MonitorData data = new MonitorData();
 
 	/** Init values from web.xml configuration. */
-	protected InitValues initValues;
+	protected MonitorInitValues initValues;
 
 	/** Count limit */
 	public final static long COUNT_LIMIT                =  1000000;
@@ -268,14 +268,14 @@ public class RequestsMonitor implements Filter {
 	/**
 	 * @return the monitorWebXmlManager
 	 */
-	public MonitorWebXmlManager getMonitorWebXmlManager() {
+	public MonitorInitValuesManager getMonitorWebXmlManager() {
 		return monitorWebXmlManager;
 	}
 
 	/**
 	 * @param monitorWebXmlManager the monitorWebXmlManager to set
 	 */
-	public void setMonitorWebXmlManager(final MonitorWebXmlManager monitorWebXmlManager) {
+	public void setMonitorWebXmlManager(final MonitorInitValuesManager monitorWebXmlManager) {
 		this.monitorWebXmlManager = monitorWebXmlManager;
 	}
 
