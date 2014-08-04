@@ -30,60 +30,65 @@ import javax.servlet.ServletException;
 
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.Request;
+import org.telosys.webtools.monitoring.monitor.InitValues;
+import org.telosys.webtools.monitoring.monitor.MonitorWebXmlManager;
+import org.telosys.webtools.monitoring.monitor.RequestAttributeNames;
 
 public class RequestsMonitorMultiThreadTest {
-	
+
 	@Test
 	public void initDefaultsWithErrorManagement() {
 		try {
 			initDefaults();
-		} catch(Throwable t) {
+		} catch(final Throwable t) {
 			t.printStackTrace(System.err);
 			fail(t.getMessage());
 		}
 	}
-	
+
 	public void initDefaults() throws ServletException, InterruptedException {
 		System.out.println("Test - Begin");
-		
-		RequestsMonitor.InitValues initValues = new RequestsMonitor.InitValues();
+
+		final RequestsMonitor requestsMonitor = new RequestsMonitor();
+
+		final InitValues initValues = new InitValues();
 		initValues.durationThreshold = -999;
 		initValues.logSize = 100;
 		initValues.topTenSize = 100;
 		initValues.longestSize = 100;
 		initValues.traceFlag = false;
-		
-		RequestsMonitor requestsMonitor = new RequestsMonitor();
 		requestsMonitor.initValues = initValues;
-		requestsMonitor.reset();
-		
-		int nbRequestsBySender = 10;
-		int nbThreads = 1500;
-		int delayRequestSending = 0;
-		int delayAction = 2;
-		
-		Counter counter = new Counter();
-		Random random = new Random();
-		
-		CountDownLatch startSignal = new CountDownLatch(1);
-	    CountDownLatch doneSignal = new CountDownLatch(nbThreads);
-		
-	    List<Thread> threads = new ArrayList<Thread>();
-		List<SendRequest> sendRequests = new ArrayList<SendRequest>();
+
+		final MonitorWebXmlManager monitorWebXmlManager = new MonitorWebXmlManager();
+		monitorWebXmlManager.reset(initValues, requestsMonitor.data);
+
+		final int nbRequestsBySender = 5;
+		final int nbThreads = 1500;
+		final int delayRequestSending = 0;
+		final int delayAction = 2;
+
+		final Counter counter = new Counter();
+		final Random random = new Random();
+
+		final CountDownLatch startSignal = new CountDownLatch(1);
+		final CountDownLatch doneSignal = new CountDownLatch(nbThreads);
+
+		final List<Thread> threads = new ArrayList<Thread>();
+		final List<SendRequest> sendRequests = new ArrayList<SendRequest>();
 		for(int i=0; i<nbThreads; i++) {
-			SendRequest sendRequest = 
+			final SendRequest sendRequest =
 					new SendRequest(i, startSignal, doneSignal, requestsMonitor, counter, random, nbRequestsBySender, delayRequestSending);
 			sendRequests.add(sendRequest);
-			Thread thread = new Thread(sendRequest);
+			final Thread thread = new Thread(sendRequest);
 			threads.add(thread);
 		}
-		
+
 		// Run
-		for(Thread thread : threads) {
+		for(final Thread thread : threads) {
 			thread.start();
 		}
 		startSignal.countDown();
-		
+
 		// Random actions
 		int count = 0;
 		while(doneSignal.getCount() > 0) {
@@ -92,58 +97,58 @@ public class RequestsMonitorMultiThreadTest {
 			count++;
 		}
 		doneSignal.await();
-		
+
 		System.out.println("Test - End");
-		
-		System.out.println("countAllRequest: " + requestsMonitor.countAllRequest);
-		System.out.println("countLongTimeRequests: " + requestsMonitor.countLongTimeRequests);
-		System.out.println("logLines: " + requestsMonitor.logLines.getAllAscending().size());
-		System.out.println("by_time: " + requestsMonitor.topRequests.getAllDescending().size());
-		System.out.println("by_url : " + requestsMonitor.longestRequests.getAllDescending().size());
-		
+
+		System.out.println("countAllRequest: " + requestsMonitor.data.countAllRequest);
+		System.out.println("countLongTimeRequests: " + requestsMonitor.data.countLongTimeRequests);
+		System.out.println("logLines: " + requestsMonitor.data.logLines.getAllAscending().size());
+		System.out.println("by_time: " + requestsMonitor.data.topRequests.getAllDescending().size());
+		System.out.println("by_url : " + requestsMonitor.data.longestRequests.getAllDescending().size());
+
 		// Verify counts in requests
 		long countAll = -1;
 		long countLongest = -1;
-		for(Request request : requestsMonitor.logLines.getAllAscending()) {
-			if(countAll != -1 && countLongest != -1) {
-				assertTrue(countAll < request.getCountAllRequest());
-				assertTrue(countLongest < request.getCountLongTimeRequests());
+		for(final Request request : requestsMonitor.data.logLines.getAllAscending()) {
+			if((countAll != -1) && (countLongest != -1)) {
+				assertTrue(countAll < request.countAllRequest);
+				assertTrue(countLongest < request.countLongTimeRequests);
 			}
-			countAll = request.getCountAllRequest();
-			countLongest = request.getCountLongTimeRequests();
-			assertEquals(request.getCountAllRequest(), request.getCountLongTimeRequests());
+			countAll = request.countAllRequest;
+			countLongest = request.countLongTimeRequests;
+			assertEquals(request.countAllRequest, request.countLongTimeRequests);
 		}
 	}
-	
-	public void randomActions(RequestsMonitor requestsMonitor, Random random, int count) {
-		if(count % 10 == 5) {
+
+	public void randomActions(final RequestsMonitor requestsMonitor, final Random random, final int count) {
+		if((count % 10) == 5) {
 			// reset
-			requestsMonitor.action(getParams("action", "reset"));
+			requestsMonitor.dispatch.getAction().action(getParams("action", "reset"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		if(random.nextInt(50) == 25) {
 			// clear
-			requestsMonitor.action(getParams("action", "clear"));
+			requestsMonitor.dispatch.getAction().action(getParams("action", "clear"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		if(random.nextInt(50) == 25) {
 			// stop
-			requestsMonitor.action(getParams("action", "stop"));
+			requestsMonitor.dispatch.getAction().action(getParams("action", "stop"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		if(random.nextInt(50) == 25) {
 			// start
-			requestsMonitor.action(getParams("action", "start"));
+			requestsMonitor.dispatch.getAction().action(getParams("action", "start"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		// log size
-		requestsMonitor.action(getParams(RequestsMonitor.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)));
+		requestsMonitor.dispatch.getAction().action(getParams(RequestAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by time size
-		requestsMonitor.action(getParams(RequestsMonitor.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)));
+		requestsMonitor.dispatch.getAction().action(getParams(RequestAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by url size
-		requestsMonitor.action(getParams(RequestsMonitor.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)));
+		requestsMonitor.dispatch.getAction().action(getParams(RequestAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 	}
-	
-	private Map<String,String> getParams(String key, String name) {
-		Map<String,String> params = new HashMap<String, String>();
+
+	private Map<String,String> getParams(final String key, final String name) {
+		final Map<String,String> params = new HashMap<String, String>();
 		params.put(key, name);
 		return params;
 	}
-	
+
 }

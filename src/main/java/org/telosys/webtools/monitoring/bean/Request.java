@@ -20,38 +20,36 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 /**
  * Request.
  */
 public class Request implements Serializable {
-	
+
 	private static final long serialVersionUID = -2713511325247998819L;
-	
+
 	/** Start date */
-	private long startTime;
+	public long startTime;
 	/** Execution time */
-	private long elapsedTime;
+	public long elapsedTime;
 	/** URL */
-	private String requestURL;
+	public String requestURL;
 	/** URL params */
-	private String queryString;
+	public String queryString;
 	/** Servlet path */
-	private String servletPath;
+	public String servletPath;
 	/** URL Path */
-	private String pathInfo;
+	public String pathInfo;
 	/** Counting all requests */
-	private long countAllRequest;
+	public long countAllRequest;
 	/** Counting all longest requests */
-	private long countLongTimeRequests;
+	public long countLongTimeRequests;
 
 	/**
 	 * Constructor
 	 */
 	public Request() {
 	}
-	
+
 	/**
 	 * Convert to String value.
 	 * @return string value
@@ -59,7 +57,7 @@ public class Request implements Serializable {
 	@Override
 	public String toString() {
 		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		final String sStartTime = dateFormat.format( new Date(getStartTime()) ) ;
+		final String sStartTime = dateFormat.format( new Date(startTime) ) ;
 		final StringBuilder sb = new StringBuilder();
 		sb.append(sStartTime );
 		sb.append(" - [ ");
@@ -82,7 +80,7 @@ public class Request implements Serializable {
 	 */
 	public String toStringWithoutCounting() {
 		final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		final String sStartTime = dateFormat.format( new Date(getStartTime()) ) ;
+		final String sStartTime = dateFormat.format( new Date(startTime) ) ;
 		final StringBuilder sb = new StringBuilder();
 		sb.append(sStartTime );
 		sb.append(" - ");
@@ -94,7 +92,7 @@ public class Request implements Serializable {
 		}
 		return sb.toString();
 	}
-	
+
 	/**
 	 * Return complete URL of the request including URL parameters.
 	 * @return Complete URL as String value
@@ -105,70 +103,6 @@ public class Request implements Serializable {
 		} else {
 			return requestURL;
 		}
-	}
-	
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public long getElapsedTime() {
-		return elapsedTime;
-	}
-
-	public void setElapsedTime(long elapsedTime) {
-		this.elapsedTime = elapsedTime;
-	}
-
-	public String getRequestURL() {
-		return requestURL;
-	}
-
-	public void setRequestURL(String requestURL) {
-		this.requestURL = requestURL;
-	}
-
-	public String getQueryString() {
-		return queryString;
-	}
-
-	public void setQueryString(String queryString) {
-		this.queryString = queryString;
-	}
-
-	public String getServletPath() {
-		return servletPath;
-	}
-
-	public void setServletPath(String servletPath) {
-		this.servletPath = servletPath;
-	}
-
-	public String getPathInfo() {
-		return pathInfo;
-	}
-
-	public void setPathInfo(String pathInfo) {
-		this.pathInfo = pathInfo;
-	}
-
-	public long getCountAllRequest() {
-		return countAllRequest;
-	}
-
-	public void setCountAllRequest(long countAllRequest) {
-		this.countAllRequest = countAllRequest;
-	}
-
-	public long getCountLongTimeRequests() {
-		return countLongTimeRequests;
-	}
-
-	public void setCountLongTimeRequests(long countLongTimeRequests) {
-		this.countLongTimeRequests = countLongTimeRequests;
 	}
 
 }

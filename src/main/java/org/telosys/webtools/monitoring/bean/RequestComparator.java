@@ -26,43 +26,42 @@ public class RequestComparator implements Comparator<Request> {
 	// true : ascending : shortest to longest requests
 	// false: descending : longest to shortest requests
 	private final boolean orderAscendant;
-	
+
 	/**
 	 * Constructor with ascending order.
 	 */
 	public RequestComparator() {
 		this.orderAscendant = true;
 	}
-	
+
 	/**
 	 * Constructor.
 	 * @param orderAscendant true:ascending, false:descending
 	 */
-	public RequestComparator(boolean orderAscendant) {
+	public RequestComparator(final boolean orderAscendant) {
 		this.orderAscendant = orderAscendant;
 	}
-	
+
 	/**
 	 * Compare two requests by their execution time.
 	 * @param r1 Request 1
 	 * @param r2 Request 2
 	 */
-	@Override
-	public int compare(Request r1, Request r2) {
-		int compareAscendant = compareAscendant(r1, r2);
+	public int compare(final Request r1, final Request r2) {
+		final int compareAscendant = compareAscendant(r1, r2);
 		if(orderAscendant) {
 			return compareAscendant;
 		} else {
 			return -compareAscendant;
 		}
 	}
-	
+
 	/**
 	 * Compare two requests by their execution time.
 	 * @param r1 Request 1
 	 * @param r2 Request 2
 	 */
-	private int compareAscendant(Request r1, Request r2) {
+	private int compareAscendant(final Request r1, final Request r2) {
 		if(r1 == null) {
 			if(r2 == null) {
 				return 0;
@@ -72,14 +71,14 @@ public class RequestComparator implements Comparator<Request> {
 		if(r2 == null) {
 			return 1;
 		}
-		if(r1.getElapsedTime() == r2.getElapsedTime()) {
+		if(r1.elapsedTime == r2.elapsedTime) {
 			return 0;
 		}
-		if(r1.getElapsedTime() > r2.getElapsedTime()) {
+		if(r1.elapsedTime > r2.elapsedTime) {
 			return 1;
 		} else {
 			return -1;
 		}
 	}
-	
+
 }

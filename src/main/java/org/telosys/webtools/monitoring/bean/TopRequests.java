@@ -17,23 +17,20 @@ package org.telosys.webtools.monitoring.bean;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 /**
  * Top longest requests with duplication.
  */
 public class TopRequests {
-	
+
 	/** Array of stored requests */
 	private final Request[] requests;
-	/** Position and value of the shortest stored request in the requests array */ 
+	/** Position and value of the shortest stored request in the requests array */
 	private ValuePosition minimum;
 	/** Indicates if the requests array is completed */
 	private boolean completed = false;
-	
+
 	/**
 	 * Contains position and value of a request in the requests array.
 	 */
@@ -41,12 +38,12 @@ public class TopRequests {
 		public Long value = null;
 		public Integer position = null;
 	}
-	
+
 	/**
 	 * Constructor.
 	 * @param size Number of requests in the array.
 	 */
-	public TopRequests(int size) {
+	public TopRequests(final int size) {
 		if(size <= 0) {
 			throw new IllegalStateException("size of top requests list must be greater than 0");
 		}
@@ -58,17 +55,17 @@ public class TopRequests {
 		minimum = new ValuePosition();
 		minimum.position = 0;
 	}
-	
+
 	/**
 	 * Copy constructor.
 	 * @param topRequests Original data to copy.
 	 * @param size Number of requests in the array.
 	 */
-	public TopRequests(TopRequests topRequests, int size) {
+	public TopRequests(final TopRequests topRequests, final int size) {
 		this.requests = new Request[size];
-		List<Request> requests = topRequests.getAllDescending();
+		final List<Request> requests = topRequests.getAllDescending();
 		int pos = 0;
-		for(Request request : requests) {
+		for(final Request request : requests) {
 			if(pos >= size) {
 				break;
 			}
@@ -80,17 +77,17 @@ public class TopRequests {
 		}
 		this.minimum = getMinimum();
 	}
-	
+
 	/**
 	 * Add new request.
 	 * @param request Request
 	 */
-	public synchronized void add(Request request) {
+	public synchronized void add(final Request request) {
 		if(!completed) {
 			// Le tableau n'a pas été entièrement rempli : on met la requête dans une des cases libres du tableau
 			requests[minimum.position] = request;
 			// calcul de la position de la future requête à ajouter
-			if(minimum.position < requests.length-1) {
+			if(minimum.position < (requests.length-1)) {
 				// Le tableau contient encore des espaces libres, on passe à la position suivante dans le tableau
 				minimum.position++;
 			} else {
@@ -101,30 +98,30 @@ public class TopRequests {
 				minimum = getMinimum();
 			}
 		}
-		else if(minimum.value <= request.getElapsedTime()) {
+		else if(minimum.value <= request.elapsedTime) {
 			// La requête est plus longue que l'une des requêtes déjà présentes dans le tableau
 			requests[minimum.position] = request;
 			// calcul de la position de la requête la plus courte qui sera remplacée par la future requête à ajouter
 			minimum = getMinimum();
 		}
 	}
-	
+
 	/**
 	 * Returns value and position of the shortest stored request.
 	 * @return Value and position
 	 */
 	protected ValuePosition getMinimum() {
 		// Calcule la position et la durée d'exécution de la requête la plus courte dans le tableau des requêtes
-		ValuePosition minimum = new ValuePosition();
+		final ValuePosition minimum = new ValuePosition();
 		minimum.position = 0;
 		for(int pos=0; pos<requests.length; pos++) {
-			Request request = requests[pos];
+			final Request request = requests[pos];
 			if(request == null) {
 				break;
 			}
-			if(minimum.value == null || request.getElapsedTime() < minimum.value) {
+			if((minimum.value == null) || (request.elapsedTime < minimum.value)) {
 				minimum.position = pos;
-				minimum.value = request.getElapsedTime();
+				minimum.value = request.elapsedTime;
 			}
 		}
 		return minimum;
@@ -135,8 +132,8 @@ public class TopRequests {
 	 * @return requests
 	 */
 	public synchronized List<Request> getAllAscending() {
-		List<Request> all = new ArrayList<Request>();
-		for(Request request : requests) {
+		final List<Request> all = new ArrayList<Request>();
+		for(final Request request : requests) {
 			if(request != null) {
 				all.add(request);
 			}
@@ -150,14 +147,22 @@ public class TopRequests {
 	 * @return requests
 	 */
 	public synchronized List<Request> getAllDescending() {
-		List<Request> all = new ArrayList<Request>();
-		for(Request request : requests) {
+		final List<Request> all = new ArrayList<Request>();
+		for(final Request request : requests) {
 			if(request != null) {
 				all.add(request);
 			}
 		}
 		Collections.sort(all, new RequestComparator(false));
 		return all;
+	}
+
+	/**
+	 * Size.
+	 * @return size
+	 */
+	public int getSize() {
+		return this.requests.length;
 	}
 
 }

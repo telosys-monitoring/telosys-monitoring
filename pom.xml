@@ -5,7 +5,7 @@
   <name>telosys-webtools</name>
   <groupId>org.telosys.webtools</groupId>
   <artifactId>telosys-monitoring</artifactId>
-  <version>1.8</version>
+  <version>1.9</version>
   <packaging>jar</packaging>
   
   <dependencies>
@@ -38,8 +38,8 @@
 		   <artifactId>maven-compiler-plugin</artifactId>
 		   <version>3.0</version>
 		   <configuration>
-		      <source>1.6</source>
-		      <target>1.6</target>
+		      <source>1.5</source>
+		      <target>1.5</target>
 		   </configuration>
 		</plugin>    
 	</plugins>

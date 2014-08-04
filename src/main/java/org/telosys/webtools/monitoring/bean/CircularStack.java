@@ -16,28 +16,27 @@
 package org.telosys.webtools.monitoring.bean;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
  * Circular stack contains the last long requests : old requests are replaced by the new requests.
  */
 public class CircularStack {
-	
+
 	/** Number of stored requests. */
 	protected final int size;
 	/** Array of stored requests */
 	protected Request[] arrays;
-	/** Position of the next request in the array */ 
+	/** Position of the next request in the array */
 	protected int nextIndex = 0;
 	/** Indicates if the array is completed */
 	protected boolean completed = false;
-	
+
 	/**
 	 * Constructor.
 	 * @param size Number of stored requests
 	 */
-	public CircularStack(int size) {
+	public CircularStack(final int size) {
 		this.size = size;
 		this.arrays = new Request[size];
 	}
@@ -46,11 +45,11 @@ public class CircularStack {
 	 * Copy constructor.
 	 * @param size Number of stored requests
 	 */
-	public CircularStack(CircularStack circularStack, int size) {	
+	public CircularStack(final CircularStack circularStack, final int size) {
 		this.size = size;
 		this.arrays = new Request[size];
 		int pos = 0;
-		for(Request request : circularStack.getAllAscending()) {
+		for(final Request request : circularStack.getAllAscending()) {
 			if(pos >= size) {
 				break;
 			}
@@ -69,17 +68,17 @@ public class CircularStack {
 	 * Add new request in the stack.
 	 * @param request Request.
 	 */
-	public synchronized void add(Request request) {
-		int index = getNextIndice();
+	public synchronized void add(final Request request) {
+		final int index = getNextIndice();
 		this.arrays[index] = request;
 	}
-	
+
 	/**
 	 * Next position in the requests array.
 	 * @return position
 	 */
 	private int getNextIndice() {
-		int index = this.nextIndex;
+		final int index = this.nextIndex;
 		this.nextIndex++;
 		if(this.nextIndex >= this.size) {
 			this.nextIndex = 0;
@@ -87,15 +86,15 @@ public class CircularStack {
 		}
 		return index;
 	}
-	
+
 	/**
 	 * Returns all requests by ascending.
 	 * @return requests
 	 */
 	public synchronized List<Request> getAllAscending() {
-		List<Request> results = new ArrayList<Request>();
-		int index = this.nextIndex;
-		boolean completed = this.completed;
+		final List<Request> results = new ArrayList<Request>();
+		final int index = this.nextIndex;
+		final boolean completed = this.completed;
 		if(completed) {
 			for(int i=index; i<this.size; i++) {
 				results.add(this.arrays[i]);
@@ -106,15 +105,15 @@ public class CircularStack {
 		}
 		return results;
 	}
-	
+
 	/**
 	 * Returns all requests by descending.
 	 * @return requests
 	 */
 	public synchronized List<Request> getAllDescending() {
-		List<Request> results = new ArrayList<Request>();
-		int index = this.nextIndex;
-		boolean completed = this.completed;
+		final List<Request> results = new ArrayList<Request>();
+		final int index = this.nextIndex;
+		final boolean completed = this.completed;
 		for(int i=index-1; i>=0; i--) {
 			results.add(this.arrays[i]);
 		}
@@ -124,6 +123,14 @@ public class CircularStack {
 			}
 		}
 		return results;
+	}
+
+	/**
+	 * Size.
+	 * @return size
+	 */
+	public int getSize() {
+		return this.size;
 	}
 
 }

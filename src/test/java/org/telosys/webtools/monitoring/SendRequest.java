@@ -42,7 +42,6 @@ public class SendRequest implements Runnable {
 		this.delay = delay;
 	}
 	
-	@Override
 	public void run() {
 		System.out.println(numSender + " - run - wait");
 		try {

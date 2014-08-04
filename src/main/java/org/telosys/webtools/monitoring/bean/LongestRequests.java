@@ -25,7 +25,7 @@ import java.util.Map;
  * Longest requests without duplication.
  */
 public class LongestRequests {
-	
+
 	/** Stored requests by their URL. */
 	private Map<String, Request> requestsByURLs = new HashMap<String, Request>();
 	/** Number of stored requests. */
@@ -34,12 +34,12 @@ public class LongestRequests {
 	private String minURL = null;
 	/** Minimum execution time. */
 	private Long minTime = null;
-	
+
 	/**
 	 * Constructor.
 	 * @param size Numbers of requests.
 	 */
-	public LongestRequests(int size) {
+	public LongestRequests(final int size) {
 		this.size = size;
 	}
 
@@ -48,11 +48,11 @@ public class LongestRequests {
 	 * @param longestRequests original data to copy
 	 * @param size Numbers of requests.
 	 */
-	public LongestRequests(LongestRequests longestRequests, int size) {
+	public LongestRequests(final LongestRequests longestRequests, final int size) {
 		this.size = size;
-		List<Request> requests = longestRequests.getAllDescending();
+		final List<Request> requests = longestRequests.getAllDescending();
 		int pos = 0;
-		for(Request request : requests) {
+		for(final Request request : requests) {
 			if(pos >= size) {
 				break;
 			}
@@ -61,35 +61,35 @@ public class LongestRequests {
 		}
 		calculateMinimum();
 	}
-	
+
 	/**
 	 * The new request is added if the execution time is longest than the existing requests.
-	 * If the request already exists, its execution time is updated.  
+	 * If the request already exists, its execution time is updated.
 	 * @param request Request.
 	 */
-	public synchronized void add(Request request) {
+	public synchronized void add(final Request request) {
 		if(minTime == null) {
 			// Cas de départ : arrive une seule fois
 			requestsByURLs.put(request.getURL(), request);
-			minTime = request.getElapsedTime();
+			minTime = request.elapsedTime;
 			minURL = request.getURL();
 		} else {
 			if(requestsByURLs.containsKey(request.getURL())) {
-				// Remplace le temps de la même requête déjà présente dans le tableau 
-				Request requestStored = requestsByURLs.get(request.getURL());
-				if(requestStored.getElapsedTime() < request.getElapsedTime()) {
+				// Remplace le temps de la même requête déjà présente dans le tableau
+				final Request requestStored = requestsByURLs.get(request.getURL());
+				if(requestStored.elapsedTime < request.elapsedTime) {
 					requestsByURLs.put(request.getURL(), request);
 				}
 			} else {
 				if(requestsByURLs.size() < size) {
-					// Insère la requête dans un espace libre du tableau 
+					// Insère la requête dans un espace libre du tableau
 					requestsByURLs.put(request.getURL(), request);
-					if(minTime > request.getElapsedTime()) {
-						minTime = request.getElapsedTime();
+					if(minTime > request.elapsedTime) {
+						minTime = request.elapsedTime;
 						minURL = request.getURL();
 					}
 				} else {
-					if(minTime < request.getElapsedTime()) {
+					if(minTime < request.elapsedTime) {
 						// Dans le cas où le tableau n'a plus d'espace libre
 						// et que la requête a un temps supérieur à l'une des requêtes présentes dans le tableau
 						requestsByURLs.remove(minURL);
@@ -100,30 +100,30 @@ public class LongestRequests {
 			}
 		}
 	}
-	
+
 	/**
 	 * Calculate the minimum execution of stored requests.
 	 */
 	private void calculateMinimum() {
 		String minURL = null;
 		Long minTime = null;
-		for(Request request : requestsByURLs.values()) {
-			if(minTime == null || minTime > request.getElapsedTime()) {
-				minTime = request.getElapsedTime();
+		for(final Request request : requestsByURLs.values()) {
+			if((minTime == null) || (minTime > request.elapsedTime)) {
+				minTime = request.elapsedTime;
 				minURL = request.getURL();
 			}
 		}
 		this.minURL = minURL;
 		this.minTime = minTime;
 	}
-	
+
 	/**
 	 * Returns requests by descending execution time.
 	 * @return requests
 	 */
 	public synchronized List<Request> getAllDescending() {
-		List<Request> requests = new ArrayList<Request>();
-		for(Request request : requestsByURLs.values()) {
+		final List<Request> requests = new ArrayList<Request>();
+		for(final Request request : requestsByURLs.values()) {
 			if(request != null) {
 				requests.add(request);
 			}
@@ -131,5 +131,13 @@ public class LongestRequests {
 		Collections.sort(requests, new RequestComparator(false));
 		return requests;
 	}
-	
+
+	/**
+	 * Size.
+	 * @return size
+	 */
+	public int getSize() {
+		return this.size;
+	}
+
 }
