@@ -31,11 +31,13 @@ public class RestTopRequestsServiceTest {
 		// When/Then
 		assertFalse(restTopRequestsService.match(null, null));
 		assertFalse(restTopRequestsService.match(new String[] {}, null));
-		assertTrue(restTopRequestsService.match(new String[] {"top"}, null));
-		assertTrue(restTopRequestsService.match(new String[] {"top","after"}, null));
-		assertFalse(restTopRequestsService.match(new String[] {"before","top"}, null));
-		assertFalse(restTopRequestsService.match(new String[] {"before","top","after"}, null));
-		assertFalse(restTopRequestsService.match(new String[] {"top2"}, null));
+		assertFalse(restTopRequestsService.match(new String[] {"top"}, null));
+		assertFalse(restTopRequestsService.match(new String[] {"top","after"}, null));
+		assertTrue(restTopRequestsService.match(new String[] {"rest","top"}, null));
+		assertTrue(restTopRequestsService.match(new String[] {"rest","top","after"}, null));
+		assertFalse(restTopRequestsService.match(new String[] {"rest","before","top"}, null));
+		assertFalse(restTopRequestsService.match(new String[] {"rest","before","top","after"}, null));
+		assertFalse(restTopRequestsService.match(new String[] {"rest","top2"}, null));
 	}
 
 	@Test

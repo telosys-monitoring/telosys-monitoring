@@ -8,23 +8,11 @@ import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.dispatch.rest.service.AbstractRestService;
 import org.telosys.webtools.monitoring.dispatch.rest.service.RestService;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.util.JSONWriter;
-import org.telosys.webtools.monitoring.util.Utils;
 
 /**
- * REST URL : /rest/info
+ * REST URL : /rest/top
  */
 public class RestTopRequestsService extends AbstractRestService implements RestService {
-
-	/**
-	 * JSON writer.
-	 */
-	private JSONWriter jsonWriter;
-
-	/**
-	 * Utils.
-	 */
-	protected Utils utils = new Utils();
 
 	/**
 	 * Indicates if URL paths match to this manager.
@@ -35,7 +23,10 @@ public class RestTopRequestsService extends AbstractRestService implements RestS
 		if(paths == null) {
 			return false;
 		}
-		return ((paths.length == 1) || (paths.length == 2)) && "top".equals(paths[0]);
+		if((paths.length < 2) || (paths.length > 3)) {
+			return false;
+		}
+		return "rest".equals(paths[0]) && "top".equals(paths[1]);
 	}
 
 	@Override

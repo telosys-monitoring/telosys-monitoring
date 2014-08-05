@@ -27,11 +27,12 @@ public class RestInfoServiceTest {
 		// When/Then
 		assertFalse(restInfoService.match(null, null));
 		assertFalse(restInfoService.match(new String[] {}, null));
-		assertFalse(restInfoService.match(new String[] {"info","after"}, null));
-		assertFalse(restInfoService.match(new String[] {"before","info"}, null));
-		assertFalse(restInfoService.match(new String[] {"before","info","after"}, null));
-		assertFalse(restInfoService.match(new String[] {"info2"}, null));
-		assertTrue(restInfoService.match(new String[] {"info"}, null));
+		assertTrue(restInfoService.match(new String[] {"rest","info"}, null));
+		assertFalse(restInfoService.match(new String[] {"info"}, null));
+		assertFalse(restInfoService.match(new String[] {"rest","info","after"}, null));
+		assertFalse(restInfoService.match(new String[] {"before","rest","info"}, null));
+		assertFalse(restInfoService.match(new String[] {"rest","before","info","after"}, null));
+		assertFalse(restInfoService.match(new String[] {"rest","info2"}, null));
 	}
 
 	@Test

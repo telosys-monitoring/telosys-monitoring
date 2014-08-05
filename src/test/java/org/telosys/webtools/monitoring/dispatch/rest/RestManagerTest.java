@@ -129,9 +129,10 @@ public class RestManagerTest {
 		final String[] paths = restManager.getPaths(httpServletRequest, data);
 
 		// Then
-		assertEquals(2, paths.length);
-		assertEquals("path1", paths[0]);
-		assertEquals("path2", paths[1]);
+		assertEquals(3, paths.length);
+		assertEquals("rest", paths[0]);
+		assertEquals("path1", paths[1]);
+		assertEquals("path2", paths[2]);
 	}
 
 	@Test

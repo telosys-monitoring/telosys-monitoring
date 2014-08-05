@@ -117,7 +117,7 @@ public class RestManager {
 	public String[] getPaths(final HttpServletRequest httpServletRequest,
 			final MonitorData data) {
 		String url = httpServletRequest.getServletPath();
-		url = utils.removeRootURL(url, utils.joinURL(data.reportingReqPath, REST_PATH_URL));
+		url = utils.removeRootURL(url, data.reportingReqPath);
 		final String[] paths = utils.splitURLPaths(url);
 		return paths;
 	}

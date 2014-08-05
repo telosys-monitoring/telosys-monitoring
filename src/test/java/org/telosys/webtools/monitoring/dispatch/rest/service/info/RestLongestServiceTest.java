@@ -31,11 +31,13 @@ public class RestLongestServiceTest {
 		// When/Then
 		assertFalse(restLongestsService.match(null, null));
 		assertFalse(restLongestsService.match(new String[] {}, null));
-		assertTrue(restLongestsService.match(new String[] {"longest"}, null));
-		assertTrue(restLongestsService.match(new String[] {"longest","after"}, null));
-		assertFalse(restLongestsService.match(new String[] {"before","longest"}, null));
-		assertFalse(restLongestsService.match(new String[] {"before","longest","after"}, null));
-		assertFalse(restLongestsService.match(new String[] {"longest2"}, null));
+		assertFalse(restLongestsService.match(new String[] {"longest"}, null));
+		assertFalse(restLongestsService.match(new String[] {"longest","after"}, null));
+		assertTrue(restLongestsService.match(new String[] {"rest","longest"}, null));
+		assertTrue(restLongestsService.match(new String[] {"rest","longest","after"}, null));
+		assertFalse(restLongestsService.match(new String[] {"rest","before","longest"}, null));
+		assertFalse(restLongestsService.match(new String[] {"rest","before","longest","after"}, null));
+		assertFalse(restLongestsService.match(new String[] {"rest","longest2"}, null));
 	}
 
 	@Test

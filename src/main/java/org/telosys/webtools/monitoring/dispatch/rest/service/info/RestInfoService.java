@@ -5,23 +5,11 @@ import java.util.Map;
 import org.telosys.webtools.monitoring.dispatch.rest.service.AbstractRestService;
 import org.telosys.webtools.monitoring.dispatch.rest.service.RestService;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
-import org.telosys.webtools.monitoring.util.JSONWriter;
-import org.telosys.webtools.monitoring.util.Utils;
 
 /**
  * REST URL : /rest/info
  */
 public class RestInfoService extends AbstractRestService implements RestService {
-
-	/**
-	 * JSON writer.
-	 */
-	private JSONWriter jsonWriter;
-
-	/**
-	 * Utils.
-	 */
-	protected Utils utils = new Utils();
 
 	/**
 	 * Indicates if URL paths match to this manager.
@@ -32,7 +20,10 @@ public class RestInfoService extends AbstractRestService implements RestService 
 		if(paths == null) {
 			return false;
 		}
-		return (paths.length == 1) && "info".equals(paths[0]);
+		if((paths.length < 2) || (paths.length > 2)) {
+			return false;
+		}
+		return "rest".equals(paths[0]) && "info".equals(paths[1]);
 	}
 
 	@Override
