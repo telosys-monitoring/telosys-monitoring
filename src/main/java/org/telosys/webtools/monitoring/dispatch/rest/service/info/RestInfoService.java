@@ -28,7 +28,7 @@ public class RestInfoService extends AbstractRestService implements RestService 
 	 * @param paths URL paths
 	 * @return boolean
 	 */
-	public boolean match(final String[] paths) {
+	public boolean match(final String[] paths, final Map<String,String> params) {
 		if(paths == null) {
 			return false;
 		}
@@ -36,7 +36,7 @@ public class RestInfoService extends AbstractRestService implements RestService 
 	}
 
 	@Override
-	public Map<String, Object> getData(final MonitorData data) {
+	public Map<String, Object> getData(final String[] paths, final Map<String, String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
 		final Map<String, Object> host = newMap();

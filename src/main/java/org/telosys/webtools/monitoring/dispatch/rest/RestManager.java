@@ -2,10 +2,12 @@ package org.telosys.webtools.monitoring.dispatch.rest;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.dispatch.rest.service.RestService;
 import org.telosys.webtools.monitoring.dispatch.rest.service.info.RestInfoService;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
@@ -21,6 +23,11 @@ public class RestManager {
 	 * Utils.
 	 */
 	private Utils utils = new Utils();
+
+	/**
+	 * GetParameters.
+	 */
+	private GetParameters getParameters = new GetParameters();
 
 	/**
 	 * REST services.
@@ -70,17 +77,19 @@ public class RestManager {
 	 * @param initValues Init values
 	 */
 	public void process(final HttpServletRequest httpServletRequest,
-			final HttpServletResponse httpServletResponse, final MonitorData data,
+			final HttpServletResponse httpServletResponse,
+			final MonitorData data,
 			final MonitorInitValues initValues) {
 
 		final String[] paths = getPaths(httpServletRequest, data);
+		final Map<String, String> params = getParameters.getParameters(httpServletRequest);
 
-		final RestService restService = getRestServiceForURLPaths(getRestServices(), paths);
+		final RestService restService = getRestServiceForURLPaths(getRestServices(), paths, params);
 
 		if(restService == null) {
 			httpServletResponse.setStatus(404);
 		} else {
-			restService.process(httpServletRequest, httpServletResponse, data, initValues);
+			restService.process(httpServletRequest, httpServletResponse, paths, params, data, initValues);
 		}
 	}
 
@@ -90,15 +99,14 @@ public class RestManager {
 	 * @param paths URL paths
 	 * @return RestService
 	 */
-	protected RestService getRestServiceForURLPaths(final List<RestService> restServices, final String[] paths) {
+	protected RestService getRestServiceForURLPaths(final List<RestService> restServices, final String[] paths, final Map<String, String> params) {
 		for(final RestService restService : restServices) {
-			if(restService.match(paths)) {
+			if(restService.match(paths, params)) {
 				return restService;
 			}
 		}
 		return null;
 	}
-
 
 	/**
 	 * Return paths from URL.
@@ -140,6 +148,20 @@ public class RestManager {
 	 */
 	public void setRestServices(final List<RestService> restServices) {
 		this.restServices = restServices;
+	}
+
+	/**
+	 * @return the getParameters
+	 */
+	public GetParameters getGetParameters() {
+		return getParameters;
+	}
+
+	/**
+	 * @param getParameters the getParameters to set
+	 */
+	public void setGetParameters(final GetParameters getParameters) {
+		this.getParameters = getParameters;
 	}
 
 

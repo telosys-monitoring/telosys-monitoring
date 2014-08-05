@@ -36,7 +36,10 @@ public abstract class AbstractRestService implements RestService {
 	 * @param initValues Init values
 	 */
 	public void process(final HttpServletRequest httpServletRequest,
-			final HttpServletResponse httpServletResponse, final MonitorData data,
+			final HttpServletResponse httpServletResponse,
+			final String[] paths,
+			final Map<String, String> params,
+			final MonitorData data,
 			final MonitorInitValues initValues) {
 		httpServletResponse.setContentType("application/json");
 
@@ -45,7 +48,7 @@ public abstract class AbstractRestService implements RestService {
 		httpServletResponse.setHeader("Cache-Control", "no-store, no-cache, must-revalidate"); // Set standard HTTP/1.1 no-cache header.
 		httpServletResponse.setDateHeader ("Expires", 0); // Prevents caching on proxies
 
-		final Map<String, Object> map = getData(data);
+		final Map<String, Object> map = getData(paths, params, data);
 		final StringBuffer str = new StringBuffer();
 		jsonWriter.write(str, map);
 
@@ -61,10 +64,12 @@ public abstract class AbstractRestService implements RestService {
 
 	/**
 	 * Return data to add in JSON.
+	 * @param paths URL paths
+	 * @param params URL params
 	 * @param data Monitor Data
 	 * @return JSON content
 	 */
-	public abstract Map<String, Object> getData(final MonitorData data);
+	public abstract Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data);
 
 	/**
 	 * Get new Map.

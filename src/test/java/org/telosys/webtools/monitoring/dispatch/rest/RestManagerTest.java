@@ -11,12 +11,15 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
+import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.dispatch.rest.service.RestService;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
@@ -174,6 +177,9 @@ public class RestManagerTest {
 		// Given
 		final RestManager restManager = spy(new RestManager());
 
+		final GetParameters getParameters = mock(GetParameters.class);
+		restManager.setGetParameters(getParameters);
+
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
 		final MonitorData data = mock(MonitorData.class);
@@ -184,8 +190,11 @@ public class RestManagerTest {
 		};
 		doReturn(paths).when(restManager).getPaths(httpServletRequest, data);
 
+		final Map<String,String> params = new HashMap<String, String>();
+		when(getParameters.getParameters(httpServletRequest)).thenReturn(params);
+
 		final RestService restService = mock(RestService.class);
-		when(restService.match(paths)).thenReturn(true);
+		when(restService.match(paths, params)).thenReturn(true);
 
 		final List<RestService> restServices = new ArrayList<RestService>();
 		restServices.add(restService);
@@ -195,7 +204,7 @@ public class RestManagerTest {
 		restManager.process(httpServletRequest, httpServletResponse, data, initValues);
 
 		// Then
-		verify(restService).process(httpServletRequest, httpServletResponse, data, initValues);
+		verify(restService).process(httpServletRequest, httpServletResponse, paths, params, data, initValues);
 		verify(httpServletResponse, never()).setStatus(404);
 	}
 
@@ -203,6 +212,9 @@ public class RestManagerTest {
 	public void testProcess_None() {
 		// Given
 		final RestManager restManager = spy(new RestManager());
+
+		final GetParameters getParameters = mock(GetParameters.class);
+		restManager.setGetParameters(getParameters);
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
@@ -214,8 +226,11 @@ public class RestManagerTest {
 		};
 		doReturn(paths).when(restManager).getPaths(httpServletRequest, data);
 
+		final Map<String,String> params = new HashMap<String, String>();
+		when(getParameters.getParameters(httpServletRequest)).thenReturn(params);
+
 		final RestService restService = mock(RestService.class);
-		when(restService.match(paths)).thenReturn(false);
+		when(restService.match(paths, params)).thenReturn(false);
 
 		final List<RestService> restServices = new ArrayList<RestService>();
 		restServices.add(restService);
@@ -226,7 +241,7 @@ public class RestManagerTest {
 
 		// Then
 		verify(httpServletResponse).setStatus(404);
-		verify(restService, never()).process(httpServletRequest, httpServletResponse, data, initValues);
+		verify(restService, never()).process(httpServletRequest, httpServletResponse, paths, params, data, initValues);
 	}
 
 }
