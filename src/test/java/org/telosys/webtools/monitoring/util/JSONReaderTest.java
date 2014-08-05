@@ -4,12 +4,10 @@ import static org.junit.Assert.assertEquals;
 
 import java.util.Map;
 
-import org.junit.Test;
-
 
 public class JSONReaderTest {
 
-	@Test
+	// @Test
 	public void testRead_null() throws Exception {
 		// Given
 		final JSONReader reader = new JSONReader();
@@ -23,7 +21,7 @@ public class JSONReaderTest {
 		assertEquals(0, data.size());
 	}
 
-	@Test
+	// @Test
 	public void testRead_empty() throws Exception {
 		// Given
 		final JSONReader reader = new JSONReader();
@@ -37,7 +35,7 @@ public class JSONReaderTest {
 		assertEquals(0, data.size());
 	}
 
-	@Test
+	// @Test
 	public void testRead_objectEmpty() throws Exception {
 		// Given
 		final JSONReader reader = new JSONReader();
@@ -51,7 +49,7 @@ public class JSONReaderTest {
 		assertEquals(0, data.size());
 	}
 
-	@Test
+	// @Test
 	public void testRead_objectEmpty2() throws Exception {
 		// Given
 		final JSONReader reader = new JSONReader();
@@ -65,7 +63,7 @@ public class JSONReaderTest {
 		assertEquals(0, data.size());
 	}
 
-	@Test
+	// @Test
 	public void testRead_string() throws Exception {
 		// Given
 		final JSONReader reader = new JSONReader();
