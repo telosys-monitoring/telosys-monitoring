@@ -23,7 +23,7 @@ public class RestTopRequestsService extends AbstractRestService implements RestS
 		if(paths == null) {
 			return false;
 		}
-		if((paths.length < 2) || (paths.length > 3)) {
+		if(paths.length != 2) {
 			return false;
 		}
 		return "rest".equals(paths[0]) && "top".equals(paths[1]);
@@ -53,18 +53,7 @@ public class RestTopRequestsService extends AbstractRestService implements RestS
 	protected List<Request> getRequests(final String[] paths, final Map<String, String> params, final MonitorData data) {
 		final List<Request> requests;
 
-		final String startAsString = utils.trimToNull(params.get("start"));
-		if(startAsString != null) {
-			requests = new ArrayList<Request>();
-			final Integer start = utils.parseInt(startAsString, 0);
-			for(final Request request : data.topRequests.getAllDescending()) {
-				if(request.countLongTimeRequests >= start) {
-					requests.add(request);
-				}
-			}
-		} else {
-			requests = data.topRequests.getAllDescending();
-		}
+		requests = data.topRequests.getAllDescending();
 
 		return requests;
 	}

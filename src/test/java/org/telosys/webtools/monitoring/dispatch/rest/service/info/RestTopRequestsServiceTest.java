@@ -35,7 +35,7 @@ public class RestTopRequestsServiceTest {
 		assertFalse(restTopRequestsService.match(new String[] {"top"}, null));
 		assertFalse(restTopRequestsService.match(new String[] {"top","after"}, null));
 		assertTrue(restTopRequestsService.match(new String[] {"rest","top"}, null));
-		assertTrue(restTopRequestsService.match(new String[] {"rest","top","after"}, null));
+		assertFalse(restTopRequestsService.match(new String[] {"rest","top","after"}, null));
 		assertFalse(restTopRequestsService.match(new String[] {"rest","before","top"}, null));
 		assertFalse(restTopRequestsService.match(new String[] {"rest","before","top","after"}, null));
 		assertFalse(restTopRequestsService.match(new String[] {"rest","top2"}, null));
@@ -56,7 +56,6 @@ public class RestTopRequestsServiceTest {
 
 		final String[] paths = new String[] {"top"};
 		final Map<String,String> params = new HashMap<String, String>();
-		params.put("start", "2");
 
 		final List<Request> requests = new ArrayList<Request>();
 
@@ -86,9 +85,10 @@ public class RestTopRequestsServiceTest {
 
 		// Then
 		assertEquals(1, map.keySet().size());
-		assertEquals(2, ((List<String>)map.get("top")).size());
-		assertEquals(mapRequest2, ((List<String>)map.get("top")).get(0));
-		assertEquals(mapRequest3, ((List<String>)map.get("top")).get(1));
+		assertEquals(3, ((List<String>)map.get("top")).size());
+		assertEquals(mapRequest1, ((List<String>)map.get("top")).get(0));
+		assertEquals(mapRequest2, ((List<String>)map.get("top")).get(1));
+		assertEquals(mapRequest3, ((List<String>)map.get("top")).get(2));
 
 	}
 

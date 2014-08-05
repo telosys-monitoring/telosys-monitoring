@@ -35,7 +35,7 @@ public class RestLogServiceTest {
 		assertFalse(restLogService.match(new String[] {"log"}, null));
 		assertFalse(restLogService.match(new String[] {"log","after"}, null));
 		assertTrue(restLogService.match(new String[] {"rest","log"}, null));
-		assertTrue(restLogService.match(new String[] {"rest","log","after"}, null));
+		assertFalse(restLogService.match(new String[] {"rest","log","after"}, null));
 		assertFalse(restLogService.match(new String[] {"rest","before","log"}, null));
 		assertFalse(restLogService.match(new String[] {"rest","before","log","after"}, null));
 		assertFalse(restLogService.match(new String[] {"rest","info2"}, null));

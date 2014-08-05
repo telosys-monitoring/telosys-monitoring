@@ -23,7 +23,7 @@ public class RestLogService extends AbstractRestService implements RestService {
 		if(paths == null) {
 			return false;
 		}
-		if((paths.length < 2) || (paths.length > 3)) {
+		if(paths.length != 2) {
 			return false;
 		}
 		return "rest".equals(paths[0]) && "log".equals(paths[1]);

@@ -35,7 +35,7 @@ public class RestLongestServiceTest {
 		assertFalse(restLongestsService.match(new String[] {"longest"}, null));
 		assertFalse(restLongestsService.match(new String[] {"longest","after"}, null));
 		assertTrue(restLongestsService.match(new String[] {"rest","longest"}, null));
-		assertTrue(restLongestsService.match(new String[] {"rest","longest","after"}, null));
+		assertFalse(restLongestsService.match(new String[] {"rest","longest","after"}, null));
 		assertFalse(restLongestsService.match(new String[] {"rest","before","longest"}, null));
 		assertFalse(restLongestsService.match(new String[] {"rest","before","longest","after"}, null));
 		assertFalse(restLongestsService.match(new String[] {"rest","longest2"}, null));
@@ -56,7 +56,6 @@ public class RestLongestServiceTest {
 
 		final String[] paths = new String[] {"longest"};
 		final Map<String,String> params = new HashMap<String, String>();
-		params.put("start", "2");
 
 		final List<Request> requests = new ArrayList<Request>();
 
@@ -86,9 +85,10 @@ public class RestLongestServiceTest {
 
 		// Then
 		assertEquals(1, map.keySet().size());
-		assertEquals(2, ((List<String>)map.get("longest")).size());
-		assertEquals(mapRequest2, ((List<String>)map.get("longest")).get(0));
-		assertEquals(mapRequest3, ((List<String>)map.get("longest")).get(1));
+		assertEquals(3, ((List<String>)map.get("longest")).size());
+		assertEquals(mapRequest1, ((List<String>)map.get("longest")).get(0));
+		assertEquals(mapRequest2, ((List<String>)map.get("longest")).get(1));
+		assertEquals(mapRequest3, ((List<String>)map.get("longest")).get(2));
 
 	}
 
