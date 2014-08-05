@@ -10,8 +10,9 @@ import org.telosys.webtools.monitoring.dispatch.action.Action;
 import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.dispatch.reporting.Reporting;
 import org.telosys.webtools.monitoring.dispatch.reporting.html.HtmlReporting;
-import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
+import org.telosys.webtools.monitoring.dispatch.rest.RestManager;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.util.Log;
 
 public class Dispatch {
@@ -24,6 +25,9 @@ public class Dispatch {
 
 	/** Make actions */
 	protected Reporting reporting = new HtmlReporting();
+
+	/** REST */
+	protected RestManager restManager = new RestManager();
 
 	/** Log */
 	protected Log log = new Log();
@@ -47,8 +51,14 @@ public class Dispatch {
 				log.manageError(e);
 			}
 		} else {
-			// Report page
-			reporting.reporting(httpServletResponse, data);
+			final boolean isRestURL = restManager.isRestURL(httpServletRequest, httpServletResponse, data, initValues);
+			if(isRestURL) {
+				// Rest URL
+				restManager.process(httpServletRequest, httpServletResponse, data, initValues);
+			} else {
+				// Report page
+				reporting.reporting(httpServletResponse, data);
+			}
 		}
 	}
 

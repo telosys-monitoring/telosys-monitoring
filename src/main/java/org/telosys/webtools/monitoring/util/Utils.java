@@ -101,4 +101,129 @@ public class Utils {
 		return (txt == null) || "".equals(txt.trim());
 	}
 
+	/**
+	 * Trim string value, and return empty if null
+	 * @param txt Text
+	 * @return result
+	 */
+	public String trimToNull(String txt) {
+		if(txt == null) {
+			return null;
+		}
+		txt = txt.trim();
+		if("".equals(txt)) {
+			return null;
+		}
+		return txt;
+	}
+
+	/**
+	 * Trim string value, and return empty if null
+	 * @param txt Text
+	 * @return result
+	 */
+	public String trimToEmpty(final String txt) {
+		if(txt == null) {
+			return "";
+		}
+		return txt.trim();
+	}
+
+	/**
+	 * Join URL and path.
+	 * @param url URL
+	 * @param path path
+	 * @return URL with path
+	 */
+	public String joinURL( String url, String path) {
+		final StringBuffer result = new StringBuffer();
+
+		url = trimToEmpty(url);
+		if((url.length() > 0) && (url.charAt(url.length()-1) == '/')) {
+			result.append(url.substring(0, url.length()-1));
+		} else {
+			result.append(url);
+		}
+
+		path = trimToEmpty(path);
+		if(path.length() > 0) {
+			if(path.charAt(0) != '/') {
+				result.append('/');
+			}
+			result.append(path);
+		}
+
+		return result.toString();
+	}
+
+	/**
+	 * Remove root of URL.
+	 * @param url URL
+	 * @param path path
+	 * @return URL with path
+	 */
+	public String removeRootURL(String url, String root) {
+		if(url == null) {
+			return null;
+		}
+		url = trimToEmpty(url);
+		if(url.length() == 0) {
+			return url;
+		}
+
+		root = trimToEmpty(root);
+
+		String result;
+		if(url.startsWith(root)) {
+			result = url.substring(root.length());
+		}
+		else if(url.startsWith('/' + root)) {
+			result = url.substring(root.length()+1);
+		}
+		else if(('/'+url).startsWith(root)) {
+			result = url.substring(root.length()-1);
+		}
+		else {
+			result = url;
+		}
+		if(result.length() > 0) {
+			if(result.charAt(0) == '/') {
+				result = result.substring(1);
+			}
+		}
+		return result;
+	}
+
+	/**
+	 * Split URL to URL paths array.
+	 * @param url URL
+	 * @return URL paths array
+	 */
+	public String[] splitURLPaths(final String url) {
+		return split(url, '/');
+	}
+
+	/**
+	 * Split URL to URL paths array.
+	 * @param url URL
+	 * @return URL paths array
+	 */
+	public String[] split(String url, final char separator) {
+		url = trimToEmpty(url);
+		if(url.length() == 0) {
+			return new String[0];
+		}
+		else if(url.length() == 1) {
+			if(url.charAt(0) == separator) {
+				return new String[0];
+			}
+			return new String[] {url};
+		} else {
+			if(url.charAt(0) == separator) {
+				url = url.substring(1);
+			}
+			return url.split(String.valueOf(separator));
+		}
+	}
+
 }
