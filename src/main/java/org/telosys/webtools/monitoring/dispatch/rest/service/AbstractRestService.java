@@ -21,7 +21,7 @@ public abstract class AbstractRestService implements RestService {
 	/**
 	 * JSON writer.
 	 */
-	private JSONWriter jsonWriter;
+	private JSONWriter jsonWriter = new JSONWriter();
 
 	/**
 	 * Utils.

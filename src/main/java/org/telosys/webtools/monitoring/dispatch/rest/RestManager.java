@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.dispatch.rest.service.RestService;
 import org.telosys.webtools.monitoring.dispatch.rest.service.info.RestInfoService;
+import org.telosys.webtools.monitoring.dispatch.rest.service.info.RestLogService;
+import org.telosys.webtools.monitoring.dispatch.rest.service.info.RestLongestService;
+import org.telosys.webtools.monitoring.dispatch.rest.service.info.RestTopRequestsService;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.util.Utils;
@@ -44,6 +47,9 @@ public class RestManager {
 	 */
 	public RestManager() {
 		restServices.add(new RestInfoService());
+		restServices.add(new RestLogService());
+		restServices.add(new RestTopRequestsService());
+		restServices.add(new RestLongestService());
 	}
 
 	/**

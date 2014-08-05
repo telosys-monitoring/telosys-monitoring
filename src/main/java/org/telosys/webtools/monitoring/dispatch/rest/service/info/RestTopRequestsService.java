@@ -33,13 +33,13 @@ public class RestTopRequestsService extends AbstractRestService implements RestS
 	public Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
-		final List<String> log = new ArrayList<String>();
-		json.put("log", log);
+		final List<String> top = new ArrayList<String>();
+		json.put("top", top);
 
 		final List<Request> requests = getRequests(paths, params, data);
 
 		for(final Request request : requests) {
-			log.add(request.toString());
+			top.add(request.toString());
 		}
 
 		return json;

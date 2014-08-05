@@ -33,13 +33,13 @@ public class RestLongestService extends AbstractRestService implements RestServi
 	public Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
-		final List<String> log = new ArrayList<String>();
-		json.put("log", log);
+		final List<String> longest = new ArrayList<String>();
+		json.put("longest", longest);
 
 		final List<Request> requests = getRequests(paths, params, data);
 
 		for(final Request request : requests) {
-			log.add(request.toString());
+			longest.add(request.toString());
 		}
 
 		return json;

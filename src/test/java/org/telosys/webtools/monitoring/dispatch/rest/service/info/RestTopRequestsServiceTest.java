@@ -50,7 +50,7 @@ public class RestTopRequestsServiceTest {
 		final MonitorData data = mock(MonitorData.class);
 		final MonitorInitValues initValues = new MonitorInitValues();
 
-		final String[] paths = new String[] {"log"};
+		final String[] paths = new String[] {"top"};
 		final Map<String,String> params = new HashMap<String, String>();
 
 		final List<Request> requests = new ArrayList<Request>();
@@ -69,9 +69,9 @@ public class RestTopRequestsServiceTest {
 
 		// Then
 		assertEquals(1, map.keySet().size());
-		assertEquals(2, ((List<String>)map.get("log")).size());
-		assertEquals("request1", ((List<String>)map.get("log")).get(0));
-		assertEquals("request2", ((List<String>)map.get("log")).get(1));
+		assertEquals(2, ((List<String>)map.get("top")).size());
+		assertEquals("request1", ((List<String>)map.get("top")).get(0));
+		assertEquals("request2", ((List<String>)map.get("top")).get(1));
 
 	}
 

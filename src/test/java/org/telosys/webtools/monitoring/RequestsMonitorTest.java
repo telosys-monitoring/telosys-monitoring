@@ -16,7 +16,10 @@
 package org.telosys.webtools.monitoring;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static org.mockito.Matchers.anyString;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
@@ -24,6 +27,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.FilterChain;
@@ -39,8 +43,8 @@ import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.LongestRequests;
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.bean.TopRequests;
-import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
 
 public class RequestsMonitorTest {
@@ -208,6 +212,298 @@ public class RequestsMonitorTest {
 
 		requests = data.longestRequests.getAllDescending();
 		assertEquals(0, requests.size());
+	}
+
+	@Test
+	public void testDoFilter_RestInfo() throws IOException, ServletException {
+		// Given
+		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
+		requestsMonitor.utils = spy(requestsMonitor.utils);
+
+		final MonitorData data = requestsMonitor.data;
+		data.activated = false;
+		data.reportingReqPath = "/monitoring";
+		data.durationThreshold = -99999999;
+		data.logLines = new CircularStack(200);
+		data.topRequests = new TopRequests(200);
+		data.longestRequests = new LongestRequests(200);
+
+		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
+			private long time = 0;
+			public Long answer(final InvocationOnMock invocation) throws Throwable {
+				time += 500;
+				return time;
+			}
+		});
+
+		final HttpServletResponse response = mock(HttpServletResponse.class);
+		final FilterChain chain = mock(FilterChain.class);
+
+		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
+		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
+		when(httpRequest1.getQueryString()).thenReturn("query1");
+
+		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
+		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest2.getQueryString()).thenReturn("query2");
+
+		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
+		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/info");
+		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest3.getQueryString()).thenReturn("");
+
+		final PrintWriter printWriter = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(printWriter);
+		final StringBuffer out = new StringBuffer();
+		final Answer answer = new Answer() {
+			public Object answer(final InvocationOnMock invocation) throws Throwable {
+				final Object[] arguments = invocation.getArguments();
+				out.append(arguments[0]);
+				return null;
+			}
+		};
+		doAnswer(answer).when(printWriter).print(anyString());
+
+		// When
+		requestsMonitor.doFilter(httpRequest1, response, chain);
+		requestsMonitor.doFilter(httpRequest2, response, chain);
+		requestsMonitor.doFilter(httpRequest3, response, chain);
+
+		// Then
+		verify(chain).doFilter(httpRequest1, response);
+		verify(chain).doFilter(httpRequest2, response);
+
+		List<Request> requests = data.logLines.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.topRequests.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.longestRequests.getAllDescending();
+		assertEquals(0, requests.size());
+
+		assertTrue(out.toString().indexOf("\"host\":") != -1);
+	}
+
+	@Test
+	public void testDoFilter_RestLog() throws IOException, ServletException {
+		// Given
+		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
+		requestsMonitor.utils = spy(requestsMonitor.utils);
+
+		final MonitorData data = requestsMonitor.data;
+		data.activated = false;
+		data.reportingReqPath = "/monitoring";
+		data.durationThreshold = -99999999;
+		data.logLines = new CircularStack(200);
+		data.topRequests = new TopRequests(200);
+		data.longestRequests = new LongestRequests(200);
+
+		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
+			private long time = 0;
+			public Long answer(final InvocationOnMock invocation) throws Throwable {
+				time += 500;
+				return time;
+			}
+		});
+
+		final HttpServletResponse response = mock(HttpServletResponse.class);
+		final FilterChain chain = mock(FilterChain.class);
+
+		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
+		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
+		when(httpRequest1.getQueryString()).thenReturn("query1");
+
+		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
+		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest2.getQueryString()).thenReturn("query2");
+
+		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
+		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/log");
+		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest3.getQueryString()).thenReturn("");
+
+		final PrintWriter printWriter = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(printWriter);
+		final StringBuffer out = new StringBuffer();
+		final Answer answer = new Answer() {
+			public Object answer(final InvocationOnMock invocation) throws Throwable {
+				final Object[] arguments = invocation.getArguments();
+				out.append(arguments[0]);
+				return null;
+			}
+		};
+		doAnswer(answer).when(printWriter).print(anyString());
+
+		// When
+		requestsMonitor.doFilter(httpRequest1, response, chain);
+		requestsMonitor.doFilter(httpRequest2, response, chain);
+		requestsMonitor.doFilter(httpRequest3, response, chain);
+
+		// Then
+		verify(chain).doFilter(httpRequest1, response);
+		verify(chain).doFilter(httpRequest2, response);
+
+		List<Request> requests = data.logLines.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.topRequests.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.longestRequests.getAllDescending();
+		assertEquals(0, requests.size());
+
+		assertTrue(out.toString().indexOf("\"log\":") != -1);
+	}
+
+	@Test
+	public void testDoFilter_RestTop() throws IOException, ServletException {
+		// Given
+		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
+		requestsMonitor.utils = spy(requestsMonitor.utils);
+
+		final MonitorData data = requestsMonitor.data;
+		data.activated = false;
+		data.reportingReqPath = "/monitoring";
+		data.durationThreshold = -99999999;
+		data.logLines = new CircularStack(200);
+		data.topRequests = new TopRequests(200);
+		data.longestRequests = new LongestRequests(200);
+
+		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
+			private long time = 0;
+			public Long answer(final InvocationOnMock invocation) throws Throwable {
+				time += 500;
+				return time;
+			}
+		});
+
+		final HttpServletResponse response = mock(HttpServletResponse.class);
+		final FilterChain chain = mock(FilterChain.class);
+
+		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
+		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
+		when(httpRequest1.getQueryString()).thenReturn("query1");
+
+		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
+		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest2.getQueryString()).thenReturn("query2");
+
+		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
+		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/top");
+		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest3.getQueryString()).thenReturn("");
+
+		final PrintWriter printWriter = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(printWriter);
+		final StringBuffer out = new StringBuffer();
+		final Answer answer = new Answer() {
+			public Object answer(final InvocationOnMock invocation) throws Throwable {
+				final Object[] arguments = invocation.getArguments();
+				out.append(arguments[0]);
+				return null;
+			}
+		};
+		doAnswer(answer).when(printWriter).print(anyString());
+
+		// When
+		requestsMonitor.doFilter(httpRequest1, response, chain);
+		requestsMonitor.doFilter(httpRequest2, response, chain);
+		requestsMonitor.doFilter(httpRequest3, response, chain);
+
+		// Then
+		verify(chain).doFilter(httpRequest1, response);
+		verify(chain).doFilter(httpRequest2, response);
+
+		List<Request> requests = data.logLines.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.topRequests.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.longestRequests.getAllDescending();
+		assertEquals(0, requests.size());
+
+		assertTrue(out.toString().indexOf("\"top\":") != -1);
+	}
+
+	@Test
+	public void testDoFilter_RestLongest() throws IOException, ServletException {
+		// Given
+		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
+		requestsMonitor.utils = spy(requestsMonitor.utils);
+
+		final MonitorData data = requestsMonitor.data;
+		data.activated = false;
+		data.reportingReqPath = "/monitoring";
+		data.durationThreshold = -99999999;
+		data.logLines = new CircularStack(200);
+		data.topRequests = new TopRequests(200);
+		data.longestRequests = new LongestRequests(200);
+
+		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
+			private long time = 0;
+			public Long answer(final InvocationOnMock invocation) throws Throwable {
+				time += 500;
+				return time;
+			}
+		});
+
+		final HttpServletResponse response = mock(HttpServletResponse.class);
+		final FilterChain chain = mock(FilterChain.class);
+
+		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
+		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
+		when(httpRequest1.getQueryString()).thenReturn("query1");
+
+		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
+		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest2.getQueryString()).thenReturn("query2");
+
+		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
+		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/longest");
+		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
+		when(httpRequest3.getQueryString()).thenReturn("");
+
+		final PrintWriter printWriter = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(printWriter);
+		final StringBuffer out = new StringBuffer();
+		final Answer answer = new Answer() {
+			public Object answer(final InvocationOnMock invocation) throws Throwable {
+				final Object[] arguments = invocation.getArguments();
+				out.append(arguments[0]);
+				return null;
+			}
+		};
+		doAnswer(answer).when(printWriter).print(anyString());
+
+		// When
+		requestsMonitor.doFilter(httpRequest1, response, chain);
+		requestsMonitor.doFilter(httpRequest2, response, chain);
+		requestsMonitor.doFilter(httpRequest3, response, chain);
+
+		// Then
+		verify(chain).doFilter(httpRequest1, response);
+		verify(chain).doFilter(httpRequest2, response);
+
+		List<Request> requests = data.logLines.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.topRequests.getAllAscending();
+		assertEquals(0, requests.size());
+
+		requests = data.longestRequests.getAllDescending();
+		assertEquals(0, requests.size());
+
+		assertTrue(out.toString().indexOf("\"longest\":") != -1);
 	}
 
 }
