@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.LongestRequests;
 import org.telosys.webtools.monitoring.bean.Request;
+import org.telosys.webtools.monitoring.dispatch.rest.service.RequestToMap;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 
@@ -45,6 +46,9 @@ public class RestLongestServiceTest {
 		// Given
 		final RestLongestService restLongestsService = new RestLongestService();
 
+		final RequestToMap requestToMap = mock(RequestToMap.class);
+		restLongestsService.setRequestToMap(requestToMap);
+
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
 		final MonitorData data = mock(MonitorData.class);
@@ -52,14 +56,27 @@ public class RestLongestServiceTest {
 
 		final String[] paths = new String[] {"longest"};
 		final Map<String,String> params = new HashMap<String, String>();
+		params.put("start", "2");
 
 		final List<Request> requests = new ArrayList<Request>();
+
 		final Request request1 = mock(Request.class);
 		requests.add(request1);
-		when(request1.toString()).thenReturn("request1");
+		request1.countLongTimeRequests = 1L;
+		final Map<String, Object> mapRequest1 = new HashMap<String, Object>();
+		requestToMap.transformRequestToMap(request1);
+
 		final Request request2 = mock(Request.class);
 		requests.add(request2);
-		when(request2.toString()).thenReturn("request2");
+		request2.countLongTimeRequests = 2L;
+		final Map<String, Object> mapRequest2 = new HashMap<String, Object>();
+		requestToMap.transformRequestToMap(request2);
+
+		final Request request3 = mock(Request.class);
+		requests.add(request3);
+		request3.countLongTimeRequests = 3L;
+		final Map<String, Object> mapRequest3 = new HashMap<String, Object>();
+		requestToMap.transformRequestToMap(request3);
 
 		data.longestRequests = mock(LongestRequests.class);
 		when(data.longestRequests.getAllDescending()).thenReturn(requests);
@@ -70,8 +87,8 @@ public class RestLongestServiceTest {
 		// Then
 		assertEquals(1, map.keySet().size());
 		assertEquals(2, ((List<String>)map.get("longest")).size());
-		assertEquals("request1", ((List<String>)map.get("longest")).get(0));
-		assertEquals("request2", ((List<String>)map.get("longest")).get(1));
+		assertEquals(mapRequest2, ((List<String>)map.get("longest")).get(0));
+		assertEquals(mapRequest3, ((List<String>)map.get("longest")).get(1));
 
 	}
 

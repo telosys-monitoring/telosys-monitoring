@@ -29,6 +29,11 @@ public abstract class AbstractRestService implements RestService {
 	protected Utils utils = new Utils();
 
 	/**
+	 * Request to Map.
+	 */
+	private RequestToMap requestToMap = new RequestToMap();
+
+	/**
 	 * Process Rest URL : /rest/info
 	 * @param httpServletRequest Request
 	 * @param httpServletResponse Response
@@ -105,6 +110,20 @@ public abstract class AbstractRestService implements RestService {
 	 */
 	public void setUtils(final Utils utils) {
 		this.utils = utils;
+	}
+
+	/**
+	 * @return the requestToMap
+	 */
+	public RequestToMap getRequestToMap() {
+		return requestToMap;
+	}
+
+	/**
+	 * @param requestToMap the requestToMap to set
+	 */
+	public void setRequestToMap(final RequestToMap requestToMap) {
+		this.requestToMap = requestToMap;
 	}
 
 }

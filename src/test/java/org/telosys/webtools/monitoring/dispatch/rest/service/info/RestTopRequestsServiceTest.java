@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.bean.TopRequests;
+import org.telosys.webtools.monitoring.dispatch.rest.service.RequestToMap;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 
@@ -45,6 +46,9 @@ public class RestTopRequestsServiceTest {
 		// Given
 		final RestTopRequestsService restTopRequestsService = new RestTopRequestsService();
 
+		final RequestToMap requestToMap = mock(RequestToMap.class);
+		restTopRequestsService.setRequestToMap(requestToMap);
+
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
 		final MonitorData data = mock(MonitorData.class);
@@ -52,14 +56,27 @@ public class RestTopRequestsServiceTest {
 
 		final String[] paths = new String[] {"top"};
 		final Map<String,String> params = new HashMap<String, String>();
+		params.put("start", "2");
 
 		final List<Request> requests = new ArrayList<Request>();
+
 		final Request request1 = mock(Request.class);
 		requests.add(request1);
-		when(request1.toString()).thenReturn("request1");
+		request1.countLongTimeRequests = 1L;
+		final Map<String, Object> mapRequest1 = new HashMap<String, Object>();
+		requestToMap.transformRequestToMap(request1);
+
 		final Request request2 = mock(Request.class);
 		requests.add(request2);
-		when(request2.toString()).thenReturn("request2");
+		request2.countLongTimeRequests = 2L;
+		final Map<String, Object> mapRequest2 = new HashMap<String, Object>();
+		requestToMap.transformRequestToMap(request2);
+
+		final Request request3 = mock(Request.class);
+		requests.add(request3);
+		request3.countLongTimeRequests = 3L;
+		final Map<String, Object> mapRequest3 = new HashMap<String, Object>();
+		requestToMap.transformRequestToMap(request3);
 
 		data.topRequests = mock(TopRequests.class);
 		when(data.topRequests.getAllDescending()).thenReturn(requests);
@@ -70,8 +87,8 @@ public class RestTopRequestsServiceTest {
 		// Then
 		assertEquals(1, map.keySet().size());
 		assertEquals(2, ((List<String>)map.get("top")).size());
-		assertEquals("request1", ((List<String>)map.get("top")).get(0));
-		assertEquals("request2", ((List<String>)map.get("top")).get(1));
+		assertEquals(mapRequest2, ((List<String>)map.get("top")).get(0));
+		assertEquals(mapRequest3, ((List<String>)map.get("top")).get(1));
 
 	}
 

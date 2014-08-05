@@ -48,6 +48,7 @@ public class RestInfoServiceTest {
 		final String[] paths = new String[] {"info"};
 		final Map<String,String> params = new HashMap<String, String>();
 
+		data.activated = true;
 		data.ipAddress = "1.2.3.4";
 		data.hostname = "hostname";
 		data.durationThreshold = 100;
@@ -83,6 +84,7 @@ public class RestInfoServiceTest {
 
 		final Map<String, Object> monitoring = (Map<String, Object>) json.get("monitoring");
 
+		assertEquals(Boolean.TRUE, monitoring.get("activated"));
 		assertEquals("initializationDate",monitoring.get("initializationDate"));
 		assertEquals(500L,monitoring.get("countAllRequest"));
 		assertEquals(600L,monitoring.get("countLongTimeRequests"));

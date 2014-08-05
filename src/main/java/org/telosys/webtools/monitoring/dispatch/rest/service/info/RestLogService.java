@@ -33,13 +33,13 @@ public class RestLogService extends AbstractRestService implements RestService {
 	public Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
-		final List<String> log = new ArrayList<String>();
+		final List<Map<String,Object>> log = new ArrayList<Map<String,Object>>();
 		json.put("log", log);
 
 		final List<Request> requests = getRequests(paths, params, data);
 
 		for(final Request request : requests) {
-			log.add(request.toString());
+			log.add(getRequestToMap().transformRequestToMap(request));
 		}
 
 		return json;
@@ -51,7 +51,20 @@ public class RestLogService extends AbstractRestService implements RestService {
 	 * @return requests
 	 */
 	protected List<Request> getRequests(final String[] paths, final Map<String, String> params, final MonitorData data) {
-		final List<Request> requests = data.logLines.getAllAscending();
+		final List<Request> requests;
+
+		final String startAsString = utils.trimToNull(params.get("start"));
+		if(startAsString != null) {
+			requests = new ArrayList<Request>();
+			final Integer start = utils.parseInt(startAsString, 0);
+			for(final Request request : data.logLines.getAllAscending()) {
+				if(request.countLongTimeRequests >= start) {
+					requests.add(request);
+				}
+			}
+		} else {
+			requests = data.logLines.getAllAscending();
+		}
 
 		return requests;
 	}

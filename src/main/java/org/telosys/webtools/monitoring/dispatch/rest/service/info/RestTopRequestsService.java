@@ -33,13 +33,13 @@ public class RestTopRequestsService extends AbstractRestService implements RestS
 	public Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
-		final List<String> top = new ArrayList<String>();
+		final List<Map<String,Object>> top = new ArrayList<Map<String,Object>>();
 		json.put("top", top);
 
 		final List<Request> requests = getRequests(paths, params, data);
 
 		for(final Request request : requests) {
-			top.add(request.toString());
+			top.add(getRequestToMap().transformRequestToMap(request));
 		}
 
 		return json;
@@ -51,7 +51,20 @@ public class RestTopRequestsService extends AbstractRestService implements RestS
 	 * @return requests
 	 */
 	protected List<Request> getRequests(final String[] paths, final Map<String, String> params, final MonitorData data) {
-		final List<Request> requests = data.topRequests.getAllDescending();
+		final List<Request> requests;
+
+		final String startAsString = utils.trimToNull(params.get("start"));
+		if(startAsString != null) {
+			requests = new ArrayList<Request>();
+			final Integer start = utils.parseInt(startAsString, 0);
+			for(final Request request : data.topRequests.getAllDescending()) {
+				if(request.countLongTimeRequests >= start) {
+					requests.add(request);
+				}
+			}
+		} else {
+			requests = data.topRequests.getAllDescending();
+		}
 
 		return requests;
 	}

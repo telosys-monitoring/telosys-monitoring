@@ -52,6 +52,7 @@ public class RestInfoService extends AbstractRestService implements RestService 
 		final Map<String, Object> monitoring = newMap();
 		json.put("monitoring", monitoring);
 
+		monitoring.put("activated", data.activated);
 		monitoring.put("initializationDate", data.initializationDate);
 		monitoring.put("countAllRequest", data.countAllRequest);
 		monitoring.put("countLongTimeRequests", data.countLongTimeRequests);
