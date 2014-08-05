@@ -1,6 +1,7 @@
 package org.telosys.webtools.monitoring.util;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -281,7 +282,14 @@ public class JSONWriterTest {
 		jsonWriter.write(out, map);
 
 		// Then
-		assertEquals("{\n\"key1\": [\n{\n\"key21\": \"value21\",\n\"key22\": \"value22\"\n}\n]\n}", out.toString());
+		boolean equals = false;
+		if(out.toString().equals("{\n\"key1\": [\n{\n\"key21\": \"value21\",\n\"key22\": \"value22\"\n}\n]\n}")) {
+			equals = true;
+		}
+		if(out.toString().equals("{\n\"key1\": [\n{\n\"key22\": \"value22\",\n\"key21\": \"value21\"\n}\n]\n}")) {
+			equals = true;
+		}
+		assertTrue(equals);
 	}
 
 	@Test
@@ -298,7 +306,6 @@ public class JSONWriterTest {
 		list.add("before");
 		list.add(map2);
 		map2.put("key21", "value21");
-		map2.put("key22", "value22");
 		list.add("after");
 
 		final StringBuffer out = new StringBuffer();
@@ -307,7 +314,7 @@ public class JSONWriterTest {
 		jsonWriter.write(out, map);
 
 		// Then
-		assertEquals("{\n\"key\": [\n\"before\",\n{\n\"key21\": \"value21\",\n\"key22\": \"value22\"\n},\n\"after\"\n]\n}", out.toString());
+		assertEquals("{\n\"key\": [\n\"before\",\n{\n\"key21\": \"value21\"\n},\n\"after\"\n]\n}", out.toString());
 	}
 
 }
