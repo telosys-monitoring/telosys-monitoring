@@ -30,9 +30,9 @@ import javax.servlet.ServletException;
 
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.Request;
+import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
-import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
 
 public class RequestsMonitorMultiThreadTest {
 
@@ -123,26 +123,26 @@ public class RequestsMonitorMultiThreadTest {
 	public void randomActions(final RequestsMonitor requestsMonitor, final Random random, final int count) {
 		if((count % 10) == 5) {
 			// reset
-			requestsMonitor.dispatch.getAction().action(getParams("action", "reset"), requestsMonitor.data, requestsMonitor.initValues);
+			requestsMonitor.dispatch.doActions(null, null, null, getParams("action", "reset"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		if(random.nextInt(50) == 25) {
 			// clear
-			requestsMonitor.dispatch.getAction().action(getParams("action", "clear"), requestsMonitor.data, requestsMonitor.initValues);
+			requestsMonitor.dispatch.doActions(null, null, null, getParams("action", "clear"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		if(random.nextInt(50) == 25) {
 			// stop
-			requestsMonitor.dispatch.getAction().action(getParams("action", "stop"), requestsMonitor.data, requestsMonitor.initValues);
+			requestsMonitor.dispatch.doActions(null, null, null, getParams("action", "stop"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		if(random.nextInt(50) == 25) {
 			// start
-			requestsMonitor.dispatch.getAction().action(getParams("action", "start"), requestsMonitor.data, requestsMonitor.initValues);
+			requestsMonitor.dispatch.doActions(null, null, null, getParams("action", "start"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		// log size
-		requestsMonitor.dispatch.getAction().action(getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by time size
-		requestsMonitor.dispatch.getAction().action(getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by url size
-		requestsMonitor.dispatch.getAction().action(getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 	}
 
 	private Map<String,String> getParams(final String key, final String name) {

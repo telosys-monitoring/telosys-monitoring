@@ -1,65 +1,216 @@
 package org.telosys.webtools.monitoring.dispatch;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.telosys.webtools.monitoring.dispatch.action.Action;
+import org.telosys.webtools.monitoring.dispatch.action.ByTimeSizeAction;
+import org.telosys.webtools.monitoring.dispatch.action.ByUrlSizeAction;
+import org.telosys.webtools.monitoring.dispatch.action.CleanAction;
+import org.telosys.webtools.monitoring.dispatch.action.DurationThresholdAction;
+import org.telosys.webtools.monitoring.dispatch.action.LogSizeAction;
+import org.telosys.webtools.monitoring.dispatch.action.ResetAction;
+import org.telosys.webtools.monitoring.dispatch.action.StartAction;
+import org.telosys.webtools.monitoring.dispatch.action.StopAction;
+import org.telosys.webtools.monitoring.dispatch.display.Controller;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestInfoController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestLogController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestLongestController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestTopRequestController;
+import org.telosys.webtools.monitoring.dispatch.display.web.HtmlReporting;
 import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
-import org.telosys.webtools.monitoring.dispatch.reporting.Reporting;
-import org.telosys.webtools.monitoring.dispatch.reporting.html.HtmlReporting;
-import org.telosys.webtools.monitoring.dispatch.rest.RestManager;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.util.Log;
+import org.telosys.webtools.monitoring.util.Utils;
 
+/**
+ * Dispatch.
+ */
 public class Dispatch {
 
-	/** Get URL parameters */
-	protected GetParameters getParameters = new GetParameters();
+	/** GetParameters */
+	private GetParameters getParameters = new GetParameters();
 
-	/** Make actions */
-	protected Action action = new Action();
+	/** Actions */
+	private List<Action> actions = new ArrayList<Action>();
 
-	/** Make actions */
-	protected Reporting reporting = new HtmlReporting();
+	/** Controllers */
+	private List<Controller> controllers = new ArrayList<Controller>();
 
-	/** REST */
-	protected RestManager restManager = new RestManager();
+	/** Utils */
+	private Utils utils = new Utils();
 
 	/** Log */
 	protected Log log = new Log();
 
 	/**
-	 * Command for reporting.
-	 * @param httpServletRequest request
-	 * @param httpServletResponse response
-	 * @param data monitor data
-	 * @param initValues Init values from web.xml
+	 * Constructor.
 	 */
-	public void dispatch(final HttpServletRequest httpServletRequest, final HttpServletResponse httpServletResponse, final MonitorData data, final MonitorInitValues initValues) {
-		final Map<String,String> params = getParameters.getParameters(httpServletRequest);
-		final boolean isMakingAction = action.action(params, data, initValues);
-		if(isMakingAction) {
-			// Redirection to the default reporting url
-			final String redirectURL = httpServletRequest.getRequestURL().toString();
-			try {
-				httpServletResponse.sendRedirect(redirectURL);
-			} catch (final IOException e) {
-				log.manageError(e);
-			}
+	public Dispatch() {
+
+		// Actions
+		actions.add(new CleanAction());
+		actions.add(new ResetAction());
+		actions.add(new StartAction());
+		actions.add(new StopAction());
+		actions.add(new DurationThresholdAction());
+		actions.add(new LogSizeAction());
+		actions.add(new ByTimeSizeAction());
+		actions.add(new ByUrlSizeAction());
+
+		// Report HTML page
+		controllers.add(new HtmlReporting());
+
+		// REST URL
+		controllers.add(new RestInfoController());
+		controllers.add(new RestLogController());
+		controllers.add(new RestTopRequestController());
+		controllers.add(new RestLongestController());
+	}
+
+	/**
+	 * Dispatch.
+	 * @param httpServletRequest Request
+	 * @param httpServletResponse Response
+	 * @param data Monitor data
+	 * @param initValues Init values
+	 */
+	public void dispatch(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse,
+			final MonitorData data,
+			final MonitorInitValues initValues) {
+
+		// URL paths
+		final String[] paths = getPaths(httpServletRequest, data);
+
+		// URL parameters
+		final Map<String, String> params = getParameters.getParameters(httpServletRequest);
+
+		// Actions
+		final boolean hasActions = doActions(httpServletRequest, httpServletResponse, paths, params, data, initValues);
+		if(hasActions) {
+			// Always redirect after actions
+			redirect(httpServletRequest, httpServletResponse);
 		} else {
-			final boolean isRestURL = restManager.isRestURL(httpServletRequest, httpServletResponse, data, initValues);
-			if(isRestURL) {
-				// Rest URL
-				restManager.process(httpServletRequest, httpServletResponse, data, initValues);
+			// Controller
+			final Controller controller = getControllerForURLPaths(getControllers(), paths, params);
+			if(controller == null) {
+				// page not found
+				httpServletResponse.setStatus(404);
 			} else {
-				// Report page
-				reporting.reporting(httpServletResponse, data);
+				// display page
+				controller.process(httpServletRequest, httpServletResponse, paths, params, data, initValues);
 			}
 		}
+	}
+
+	/**
+	 * Make actions.
+	 * @param httpServletRequest request
+	 * @param httpServletResponse response
+	 * @param paths URL paths
+	 * @param params URL params
+	 * @param data Monitor data
+	 * @param initValues Init values
+	 * @return has actions
+	 */
+	public boolean doActions(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse,
+			final String[] paths, final Map<String, String> params,
+			final MonitorData data,
+			final MonitorInitValues initValues) {
+
+		boolean hasAction = false;
+
+		final List<Action> actions = getActions(getActions(), paths, params);
+		if(!actions.isEmpty()) {
+			for(final Action action : actions) {
+				if(action.match(paths, params)) {
+					// do action
+					action.action(params, data, initValues);
+
+					hasAction = true;
+				}
+			}
+		}
+		return hasAction;
+	}
+
+	/**
+	 * Return all actions to do.
+	 * @param actions Actions
+	 * @param paths URL paths
+	 * @param params URL parameters
+	 * @return actions
+	 */
+	private List<Action> getActions(final List<Action> actions, final String[] paths,
+			final Map<String, String> params) {
+		return actions;
+	}
+
+	/**
+	 * Return the first Controller which matches to URL paths.
+	 * @param controllers Rest services
+	 * @param paths URL paths
+	 * @return Controller
+	 */
+	protected Controller getControllerForURLPaths(final List<Controller> controllers, final String[] paths, final Map<String, String> params) {
+		for(final Controller controller : controllers) {
+			if(controller.match(paths, params)) {
+				return controller;
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * Redirect.
+	 * @param httpServletRequest Request
+	 * @param httpServletResponse Response
+	 */
+	private void redirect(final HttpServletRequest httpServletRequest,
+			final HttpServletResponse httpServletResponse) {
+		// Redirection to the default reporting url
+		final String redirectURL = httpServletRequest.getRequestURL().toString();
+		try {
+			httpServletResponse.sendRedirect(redirectURL);
+		} catch (final IOException e) {
+			log.manageError(e);
+		}
+	}
+
+	/**
+	 * Return paths from URL.
+	 * @param httpServletRequest Request
+	 * @param data Monitor data
+	 * @return URL Paths
+	 */
+	public String[] getPaths(final HttpServletRequest httpServletRequest,
+			final MonitorData data) {
+		String url = httpServletRequest.getServletPath();
+		url = utils.removeRootURL(url, data.reportingReqPath);
+		final String[] paths = utils.splitURLPaths(url);
+		return paths;
+	}
+
+	/**
+	 * @return the utils
+	 */
+	public Utils getUtils() {
+		return utils;
+	}
+
+	/**
+	 * @param utils the utils to set
+	 */
+	public void setUtils(final Utils utils) {
+		this.utils = utils;
 	}
 
 	/**
@@ -77,45 +228,32 @@ public class Dispatch {
 	}
 
 	/**
-	 * @return the action
+	 * @return the actions
 	 */
-	public Action getAction() {
-		return action;
+	public List<Action> getActions() {
+		return actions;
 	}
 
 	/**
-	 * @param action the action to set
+	 * @param actions the actions to set
 	 */
-	public void setAction(final Action action) {
-		this.action = action;
+	public void setActions(final List<Action> actions) {
+		this.actions = actions;
 	}
 
 	/**
-	 * @return the reporting
+	 * @return the controllers
 	 */
-	public Reporting getReporting() {
-		return reporting;
+	public List<Controller> getControllers() {
+		return controllers;
 	}
 
 	/**
-	 * @param reporting the reporting to set
+	 * @param controllers the controllers to set
 	 */
-	public void setReporting(final Reporting reporting) {
-		this.reporting = reporting;
+	public void setControllers(final List<Controller> controllers) {
+		this.controllers = controllers;
 	}
 
-	/**
-	 * @return the log
-	 */
-	public Log getLog() {
-		return log;
-	}
-
-	/**
-	 * @param log the log to set
-	 */
-	public void setLog(final Log log) {
-		this.log = log;
-	}
 
 }
