@@ -21,4 +21,4 @@ L'installation, les serveurs et les versions compatibles sont décrits dans la do
 
 ### Contact
 
-Pour tout support, vous pouvez nous contacter à : [telosysteam@gmail.com](telosysteam@gmail.com)
+Pour tout support, vous pouvez nous contacter à : [telosysteam@gmail.com](mailto:telosysteam@gmail.com)
