@@ -1,6 +1,8 @@
 package org.telosys.webtools.monitoring.monitor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Init values.
@@ -20,6 +22,8 @@ public class MonitorInitValues implements Serializable {
 	public final static int DEFAULT_TOP_TEN_SIZE        =  10 ;
 	/** Number of longest requests */
 	public final static int DEFAULT_LONGEST_SIZE        =  10 ;
+	/** Activate storage of URL params */
+	public static final boolean DEFAULT_URL_PARAMS_ACTIVATED = false;
 
 	/** Execution time threshold */
 	public int     durationThreshold     = DEFAULT_DURATION_THRESHOLD ;
@@ -43,5 +47,9 @@ public class MonitorInitValues implements Serializable {
 	public long   countLongTimeRequests     = 0 ;
 	/** Count all requests for request log */
 	public long   countAllRequestForRequest = 0 ;
+	/** Indicates if URL parameters are stored */
+	public Boolean urlParamsActivated = false;
+	/** Indicates if URL parameters are stored */
+	public List<String> urlParamsFilter = new ArrayList<String>();
 
 }

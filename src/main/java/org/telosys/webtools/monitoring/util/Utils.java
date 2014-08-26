@@ -4,9 +4,11 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -232,6 +234,56 @@ public class Utils {
 				url = url.substring(1);
 			}
 			return url.split(String.valueOf(separator));
+		}
+	}
+
+	/**
+	 * Parse String value.
+	 * @param value String value
+	 * @param defaultUrlParamsFilter Default value
+	 * @return String value
+	 */
+	public Object parseString(String value, final String defaultValue) {
+		value = trimToNull(value);
+		if(value == null) {
+			return defaultValue;
+		} else {
+			return value;
+		}
+	}
+
+	/**
+	 * Parse String value to return a Boolean value.
+	 * @param value String value
+	 * @param defaultValue Default value
+	 * @return Boolean value
+	 */
+	public Boolean parseBoolean(String value, final boolean defaultValue) {
+		value = trimToNull(value);
+		if(value == null) {
+			return defaultValue;
+		} else {
+			return Boolean.valueOf(value);
+		}
+	}
+
+	/**
+	 * Parse String value to get a list of String values
+	 * @param value String value
+	 * @param defaultValues Default list of values
+	 * @param charSeparator Separator character
+	 * @return List of String values
+	 */
+	public List<String> parseArrayOfString(String value, final List<String> defaultValues, final char charSeparator) {
+		value = trimToNull(value);
+		if(value == null) {
+			return defaultValues;
+		} else {
+			final List<String> values = new ArrayList<String>();
+			for(final String valueSplit : split(value, charSeparator)) {
+				values.add(valueSplit);
+			}
+			return values;
 		}
 	}
 

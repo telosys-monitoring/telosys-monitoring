@@ -17,6 +17,8 @@ import org.telosys.webtools.monitoring.dispatch.action.LogSizeAction;
 import org.telosys.webtools.monitoring.dispatch.action.ResetAction;
 import org.telosys.webtools.monitoring.dispatch.action.StartAction;
 import org.telosys.webtools.monitoring.dispatch.action.StopAction;
+import org.telosys.webtools.monitoring.dispatch.action.URLParamsActivatedAction;
+import org.telosys.webtools.monitoring.dispatch.action.URLParamsFilterAction;
 import org.telosys.webtools.monitoring.dispatch.display.Controller;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestInfoController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestLogController;
@@ -59,6 +61,8 @@ public class Dispatch {
 		actions.add(new LogSizeAction());
 		actions.add(new ByTimeSizeAction());
 		actions.add(new ByUrlSizeAction());
+		actions.add(new URLParamsActivatedAction());
+		actions.add(new URLParamsFilterAction());
 
 		// Report HTML page
 		controllers.add(new HtmlReporting());

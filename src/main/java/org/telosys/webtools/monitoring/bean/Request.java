@@ -19,6 +19,8 @@ import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Request.
@@ -43,6 +45,8 @@ public class Request implements Serializable {
 	public long countAllRequest;
 	/** Counting all longest requests */
 	public long countLongTimeRequests;
+	/** URL parameters */
+	public Map<String, String> urlParams = new HashMap<String, String>();
 
 	/**
 	 * Constructor
@@ -71,6 +75,19 @@ public class Request implements Serializable {
 		if ( queryString != null ) {
 			sb.append("?"+queryString );
 		}
+		if ( this.urlParams.size() > 0 ) {
+			sb.append(" - URL params : [ ");
+			boolean isFirst = true;
+			for(final String urlParamKey : urlParams.keySet()) {
+				if(isFirst) {
+					isFirst = false;
+				} else {
+					sb.append(", ");
+				}
+				sb.append(urlParamKey + ":" + urlParams.get(urlParamKey));
+			}
+			sb.append(" ]");
+		}
 		return sb.toString();
 	}
 
@@ -89,6 +106,19 @@ public class Request implements Serializable {
 		sb.append(requestURL );
 		if ( queryString != null ) {
 			sb.append("?"+queryString );
+		}
+		if ( this.urlParams.size() > 0 ) {
+			sb.append(" - URL params : [ ");
+			boolean isFirst = true;
+			for(final String urlParamKey : urlParams.keySet()) {
+				if(isFirst) {
+					isFirst = false;
+				} else {
+					sb.append(", ");
+				}
+				sb.append(urlParamKey + ":" + urlParams.get(urlParamKey));
+			}
+			sb.append(" ]");
 		}
 		return sb.toString();
 	}

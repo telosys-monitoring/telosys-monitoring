@@ -2,8 +2,8 @@ package org.telosys.webtools.monitoring.dispatch.display.web;
 
 import java.io.PrintWriter;
 
-import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
+import org.telosys.webtools.monitoring.monitor.MonitorData;
 
 public class ActionBarForReporting {
 
@@ -35,6 +35,8 @@ public class ActionBarForReporting {
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE+"'>Log size</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE+"'>Top requests by Time size</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE+"'>Top requests by URL size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED+"'>Catch URL parameters (true/false)</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_FILTER+"'>URL parameters names</option>");
 		out.println("</select>");
 		out.println("<input type='text' id='value' value=''/>");
 		out.println("<input type='button' value='Modify' onclick='doParam(document.getElementById(\"key\").value,document.getElementById(\"value\").value)'/>");

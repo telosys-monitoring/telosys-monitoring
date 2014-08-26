@@ -16,7 +16,11 @@
 package org.telosys.webtools.monitoring;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -156,13 +160,6 @@ public class RequestsMonitor implements Filter {
 				final String attrName = (String) attributeNamesEnumeration.nextElement();
 				System.out.println(" - " + attrName + " : "+request.getAttribute(attrName));
 			}
-			System.out.println("---");
-			System.out.println("=> Request content :");
-			String strLine;
-			while((strLine = request.getReader().readLine())!= null)
-			{
-				System.out.println(strLine);
-			}
 			System.out.println("<<< After");
 			System.out.println("=====");
 		}
@@ -299,6 +296,7 @@ public class RequestsMonitor implements Filter {
 			request.queryString = httpServletRequest.getQueryString();
 			request.requestURL = httpServletRequest.getRequestURL().toString();
 			request.servletPath = httpServletRequest.getServletPath();
+			defineURLParameters(request, httpServletRequest);
 		} else {
 			request.pathInfo = "";
 			request.queryString = "";
@@ -307,6 +305,45 @@ public class RequestsMonitor implements Filter {
 		}
 		this.incrementCountLongTimeRequests(request);
 		return request;
+	}
+
+	protected void defineURLParameters(final Request request, final HttpServletRequest httpServletRequest) {
+		if(!data.urlParamsActivated) {
+			return;
+		}
+
+		List<String> filters;
+		if(data.urlParamsFilter != null) {
+			filters = data.urlParamsFilter;
+		} else {
+			filters = new ArrayList<String>();
+		}
+
+		boolean containsJoker = false;
+		for(final String filter : filters) {
+			if("*".equals(filter)) {
+				containsJoker = true;
+			}
+		}
+
+		final Map<String, String> urlParams = utils.getParameters(httpServletRequest);
+		if((filters.size() == 0) || containsJoker) {
+			request.urlParams = urlParams;
+		} else {
+			final Map<String, String> urlParamsForRequest = new HashMap<String, String>();
+			for(final String urlParamName : urlParams.keySet()) {
+				if(urlParamName == null) {
+					continue;
+				}
+				for(final String filter : filters) {
+					if(urlParamName.equalsIgnoreCase(filter)) {
+						urlParamsForRequest.put(urlParamName, urlParams.get(urlParamName));
+						break;
+					}
+				}
+			}
+			request.urlParams = urlParamsForRequest;
+		}
 	}
 
 	/**

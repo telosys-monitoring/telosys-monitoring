@@ -1,6 +1,7 @@
 package org.telosys.webtools.monitoring.monitor;
 
 import java.net.InetAddress;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.servlet.FilterConfig;
@@ -31,6 +32,14 @@ public class MonitorInitValuesManager {
 		if ( activatedParam != null ) {
 			initValues.activated = activatedParam.equalsIgnoreCase("true");
 		}
+
+		//--- Parameter : parameters
+		initValues.urlParamsActivated =
+				utils.parseBoolean( filterConfig.getInitParameter("urlparams"), MonitorInitValues.DEFAULT_URL_PARAMS_ACTIVATED );
+
+		//--- Parameter : parameters names
+		initValues.urlParamsFilter =
+				utils.parseArrayOfString( filterConfig.getInitParameter("urlparamsfilter"), new ArrayList<String>(), ',');
 
 		//--- Parameter : duration threshold
 		initValues.durationThreshold =

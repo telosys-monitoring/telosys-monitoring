@@ -12,7 +12,7 @@ public interface MonitorAttributeNames {
 	String ATTRIBUTE_VALUE_ACTION_STOP = "stop";
 	/** Action : Start monitoring */
 	String ATTRIBUTE_VALUE_ACTION_START = "start";
-	
+
 	/** Execution time threshold */
 	String ATTRIBUTE_NAME_DURATION_THRESHOLD = "duration";
 	/** Number of last stored requests */
@@ -23,5 +23,10 @@ public interface MonitorAttributeNames {
 	String ATTRIBUTE_NAME_BY_URL_SIZE       = "by_url_size" ;
 	/** Indicates if information are displayed in the output console of the server */
 	String ATTRIBUTE_NAME_TRACE_FLAG         = "trace" ;
-	
+
+	/** Activates storage of URL parameters */
+	String ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED      = "url_params_activated" ;
+	/** Filter URL parameters */
+	String ATTRIBUTE_NAME_URL_PARAMS_FILTER         = "url_params_filter" ;
+
 }

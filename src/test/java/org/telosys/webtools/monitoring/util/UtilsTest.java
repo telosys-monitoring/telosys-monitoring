@@ -3,6 +3,10 @@ package org.telosys.webtools.monitoring.util;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.junit.Test;
 
 
@@ -327,6 +331,46 @@ public class UtilsTest {
 		assertEquals(null, utils.trimToNull("\n"));
 		assertEquals("a", utils.trimToNull("   a   "));
 		assertEquals("a", utils.trimToNull("   a  \n "));
+	}
+
+	@Test
+	public void testParseString() {
+		assertEquals(null, utils.parseString(null, null));
+		assertEquals("", utils.parseString(null, ""));
+		assertEquals(null, utils.parseString("", null));
+		assertEquals("default", utils.parseString(null, "default"));
+		assertEquals("value", utils.parseString("value", null));
+		assertEquals("value", utils.parseString("value", "default"));
+	}
+
+	@Test
+	public void testParseArrayOfString() {
+		List<String> res, def;
+		def = new ArrayList<String>();
+		def.addAll(Arrays.asList("0"));
+
+		assertEquals(null,
+				utils.parseArrayOfString(null, null, ','));
+
+		assertEquals(def,
+				utils.parseArrayOfString(null, def, ','));
+
+		assertEquals(null,
+				utils.parseArrayOfString("", null, ','));
+
+		res = new ArrayList<String>();
+		res.addAll(Arrays.asList("1"));
+		assertEquals(res,
+				utils.parseArrayOfString("1", null, ','));
+		assertEquals(res,
+				utils.parseArrayOfString("1", def, ','));
+
+		res = new ArrayList<String>();
+		res.addAll(Arrays.asList(new String[] {"1","2"}));
+		assertEquals(res,
+				utils.parseArrayOfString("1,2", null, ','));
+		assertEquals(res,
+				utils.parseArrayOfString("1,2", def, ','));
 	}
 
 }

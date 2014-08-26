@@ -1,6 +1,8 @@
 package org.telosys.webtools.monitoring.monitor;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.LongestRequests;
@@ -28,6 +30,11 @@ public class MonitorData implements Serializable {
 	public boolean traceFlag;
 	/** Indicates if the filter is activated */
 	public boolean activated;
+
+	/** Indicates if URL parameters are stored */
+	public Boolean urlParamsActivated = false;
+	/** Indicates if URL parameters are stored */
+	public List<String> urlParamsFilter = new ArrayList<String>();
 
 	/** Initialization date */
 	public String initializationDate;
