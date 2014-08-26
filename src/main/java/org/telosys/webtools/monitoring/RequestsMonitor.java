@@ -16,6 +16,7 @@
 package org.telosys.webtools.monitoring;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -28,8 +29,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.dispatch.Dispatch;
-import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
+import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValuesManager;
 import org.telosys.webtools.monitoring.util.Log;
 import org.telosys.webtools.monitoring.util.Utils;
@@ -83,12 +84,31 @@ public class RequestsMonitor implements Filter {
 
 		// Reset monitor data
 		monitorWebXmlManager.reset(this.initValues, this.data);
+
+		System.out.println("Telosys monitoring initialized");
 	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
 	 */
 	public void doFilter(final ServletRequest servletRequest, final ServletResponse response, final FilterChain chain) throws IOException, ServletException {
+
+		if(this.data.traceFlag) {
+			final HttpServletRequest request = (HttpServletRequest) servletRequest;
+			System.out.println("=====");
+			System.out.println("URL : "+request.getRequestURI());
+			System.out.println(">>> Before");
+			System.out.println("Parameters :");
+			System.out.println(request.getAttributeNames());
+			final Enumeration<?> parameterNamesEnumeration = request.getParameterNames();
+			while(parameterNamesEnumeration.hasMoreElements()) {
+				final String paramName = (String) parameterNamesEnumeration.nextElement();
+				System.out.println(paramName + " : "+request.getParameter(paramName));
+			}
+			System.out.println("<<< Before");
+			System.out.println("=====");
+		}
+
 		// Check if this request is to display the report page
 		boolean isRequestForReportPage = false;
 		try {
@@ -115,6 +135,36 @@ public class RequestsMonitor implements Filter {
 				doFilterWithMonitoring(servletRequest, response, chain);
 
 			}
+		}
+
+		if(this.data.traceFlag) {
+			final HttpServletRequest request = (HttpServletRequest) servletRequest;
+			System.out.println("=====");
+			System.out.println("URL : "+request.getRequestURI());
+			System.out.println(">>> After");
+			System.out.println("Parameters :");
+			System.out.println(request.getAttributeNames());
+			final Enumeration parameterNamesEnumeration = request.getParameterNames();
+			while(parameterNamesEnumeration.hasMoreElements()) {
+				final String paramName = (String) parameterNamesEnumeration.nextElement();
+				System.out.println(" - " + paramName + " : "+request.getParameter(paramName));
+			}
+			System.out.println("---");
+			System.out.println("Attributes :");
+			final Enumeration attributeNamesEnumeration = request.getAttributeNames();
+			while(attributeNamesEnumeration.hasMoreElements()) {
+				final String attrName = (String) attributeNamesEnumeration.nextElement();
+				System.out.println(" - " + attrName + " : "+request.getAttribute(attrName));
+			}
+			System.out.println("---");
+			System.out.println("=> Request content :");
+			String strLine;
+			while((strLine = request.getReader().readLine())!= null)
+			{
+				System.out.println(strLine);
+			}
+			System.out.println("<<< After");
+			System.out.println("=====");
 		}
 	}
 
@@ -180,8 +230,8 @@ public class RequestsMonitor implements Filter {
 		if(utils.isBlank(data.reportingReqPath)) {
 			return false;
 		}
-		final HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
-		final String pathInfo = httpRequest.getServletPath();
+		final HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
+		final String pathInfo = utils.getURI(httpServletRequest);
 		return ((pathInfo != null) && pathInfo.startsWith(data.reportingReqPath));
 	}
 

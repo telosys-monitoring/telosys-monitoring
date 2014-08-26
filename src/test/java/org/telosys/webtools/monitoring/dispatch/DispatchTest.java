@@ -50,7 +50,7 @@ public class DispatchTest {
 		data.reportingReqPath = "/monitor";
 
 		final String url = "/monitor/rest/path1/path2";
-		when(httpServletRequest.getServletPath()).thenReturn(url);
+		when(httpServletRequest.getRequestURI()).thenReturn(url);
 
 		// When
 		final String[] paths = dispatch.getPaths(httpServletRequest, data);
@@ -72,7 +72,7 @@ public class DispatchTest {
 		final MonitorData data = new MonitorData();
 		data.reportingReqPath = "/monitor";
 
-		when(httpServletRequest.getServletPath()).thenReturn(null);
+		when(httpServletRequest.getRequestURI()).thenReturn(null);
 
 		// When
 		final String[] paths = dispatch.getPaths(httpServletRequest, data);
@@ -91,7 +91,7 @@ public class DispatchTest {
 		final MonitorData data = new MonitorData();
 		data.reportingReqPath = "/monitor";
 
-		when(httpServletRequest.getServletPath()).thenReturn("");
+		when(httpServletRequest.getRequestURI()).thenReturn("");
 
 		// When
 		final String[] paths = dispatch.getPaths(httpServletRequest, data);

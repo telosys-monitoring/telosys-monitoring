@@ -131,12 +131,12 @@ public class RequestsMonitorTest {
 		final FilterChain chain = mock(FilterChain.class);
 
 		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
-		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
-		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
 
@@ -187,12 +187,12 @@ public class RequestsMonitorTest {
 		final FilterChain chain = mock(FilterChain.class);
 
 		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
-		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
-		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
 
@@ -240,17 +240,17 @@ public class RequestsMonitorTest {
 		final FilterChain chain = mock(FilterChain.class);
 
 		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
-		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
-		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
-		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/info");
+		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/info");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
 
@@ -313,17 +313,17 @@ public class RequestsMonitorTest {
 		final FilterChain chain = mock(FilterChain.class);
 
 		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
-		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
-		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
-		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/log");
+		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/log");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
 
@@ -386,17 +386,20 @@ public class RequestsMonitorTest {
 		final FilterChain chain = mock(FilterChain.class);
 
 		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
-		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURI()).thenReturn("/test1");
+		when(httpRequest1.getContextPath()).thenReturn(null);
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
-		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURI()).thenReturn("/test2");
+		when(httpRequest2.getContextPath()).thenReturn(null);
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
-		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/top");
+		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/top");
+		when(httpRequest3.getContextPath()).thenReturn(null);
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
 
@@ -459,17 +462,17 @@ public class RequestsMonitorTest {
 		final FilterChain chain = mock(FilterChain.class);
 
 		final HttpServletRequest httpRequest1 = mock(HttpServletRequest.class);
-		when(httpRequest1.getServletPath()).thenReturn("/test1");
+		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
-		when(httpRequest2.getServletPath()).thenReturn("/test2");
+		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
-		when(httpRequest3.getServletPath()).thenReturn(data.reportingReqPath+"/rest/longest");
+		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/longest");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
 

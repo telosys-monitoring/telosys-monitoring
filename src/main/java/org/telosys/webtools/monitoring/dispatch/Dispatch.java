@@ -193,7 +193,7 @@ public class Dispatch {
 	 */
 	public String[] getPaths(final HttpServletRequest httpServletRequest,
 			final MonitorData data) {
-		String url = httpServletRequest.getServletPath();
+		String url = utils.getURI(httpServletRequest);
 		url = utils.removeRootURL(url, data.reportingReqPath);
 		final String[] paths = utils.splitURLPaths(url);
 		return paths;

@@ -63,7 +63,7 @@ public class RequestsMonitorMultiThreadTest {
 		monitorWebXmlManager.reset(initValues, requestsMonitor.data);
 
 		final int nbRequestsBySender = 5;
-		final int nbThreads = 1500;
+		final int nbThreads = 150;
 		final int delayRequestSending = 0;
 		final int delayAction = 2;
 

@@ -14,6 +14,27 @@ public class Utils {
 
 	private final DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 
+	private final String EMPTY = "";
+
+	/**
+	 * Return URI without web application name.
+	 * @param httpServletRequest request
+	 * @return URI
+	 */
+	public String getURI(final HttpServletRequest httpServletRequest) {
+		String uri = httpServletRequest.getRequestURI();
+		if(uri == null) {
+			return EMPTY;
+		}
+		if(httpServletRequest.getContextPath() != null) {
+			uri = uri.substring(httpServletRequest.getContextPath().length());
+		}
+		if(uri == null) {
+			return EMPTY;
+		}
+		return uri;
+	}
+
 	/**
 	 * Return IP address and hostname.
 	 * @return IP address and hostname
