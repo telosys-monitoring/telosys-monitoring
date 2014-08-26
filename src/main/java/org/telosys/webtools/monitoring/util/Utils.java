@@ -281,10 +281,33 @@ public class Utils {
 		} else {
 			final List<String> values = new ArrayList<String>();
 			for(final String valueSplit : split(value, charSeparator)) {
-				values.add(valueSplit);
+				final String valueToAdd = trimToNull(valueSplit);
+				if(valueToAdd != null) {
+					values.add(valueToAdd);
+				}
 			}
 			return values;
 		}
+	}
+
+	/**
+	 * Merge list values to a String value
+	 * @param values List values
+	 * @param charSeparator Character separator
+	 * @return String value
+	 */
+	public String mergeToString(final List<String> values, final char charSeparator) {
+		final StringBuffer str = new StringBuffer();
+		boolean isFirst = true;
+		for(final String value : values) {
+			if(isFirst) {
+				isFirst = false;
+			} else {
+				str.append(charSeparator).append(" ");
+			}
+			str.append(value);
+		}
+		return str.toString();
 	}
 
 }

@@ -103,6 +103,10 @@ public class MonitorInitValuesManager {
 		//--- Parameter : trace
 		monitorBean.traceFlag = initValues.traceFlag;
 
+		//--- Parameter : url params
+		monitorBean.urlParamsActivated = initValues.urlParamsActivated;
+		monitorBean.urlParamsFilter = initValues.urlParamsFilter;
+
 		monitorBean.initializationDate = utils.format( new Date() );
 
 		final InetAddress adrLocale = utils.getLocalHost();

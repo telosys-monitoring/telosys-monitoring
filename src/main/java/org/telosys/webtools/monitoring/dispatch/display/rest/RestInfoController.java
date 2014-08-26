@@ -48,6 +48,8 @@ public class RestInfoController extends AbstractRestController implements Contro
 		configuration.put("logSize", data.logSize);
 		configuration.put("topTenSize", data.topTenSize);
 		configuration.put("longestSize", data.longestSize);
+		configuration.put("urlParamsActivated", (data.urlParamsActivated?"Yes":"No"));
+		configuration.put("urlParamsFilter", utils.mergeToString(data.urlParamsFilter, ','));
 
 		final Map<String, Object> monitoring = newMap();
 		json.put("monitoring", monitoring);
