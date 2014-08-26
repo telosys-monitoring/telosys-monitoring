@@ -23,7 +23,6 @@ import org.telosys.webtools.monitoring.dispatch.display.rest.RestLogController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestLongestController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestTopRequestController;
 import org.telosys.webtools.monitoring.dispatch.display.web.HtmlReporting;
-import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 import org.telosys.webtools.monitoring.util.Log;
@@ -33,9 +32,6 @@ import org.telosys.webtools.monitoring.util.Utils;
  * Dispatch.
  */
 public class Dispatch {
-
-	/** GetParameters */
-	private GetParameters getParameters = new GetParameters();
 
 	/** Actions */
 	private List<Action> actions = new ArrayList<Action>();
@@ -90,7 +86,7 @@ public class Dispatch {
 		final String[] paths = getPaths(httpServletRequest, data);
 
 		// URL parameters
-		final Map<String, String> params = getParameters.getParameters(httpServletRequest);
+		final Map<String, String> params = utils.getParameters(httpServletRequest);
 
 		// Actions
 		final boolean hasActions = doActions(httpServletRequest, httpServletResponse, paths, params, data, initValues);
@@ -211,20 +207,6 @@ public class Dispatch {
 	 */
 	public void setUtils(final Utils utils) {
 		this.utils = utils;
-	}
-
-	/**
-	 * @return the getParameters
-	 */
-	public GetParameters getGetParameters() {
-		return getParameters;
-	}
-
-	/**
-	 * @param getParameters the getParameters to set
-	 */
-	public void setGetParameters(final GetParameters getParameters) {
-		this.getParameters = getParameters;
 	}
 
 	/**

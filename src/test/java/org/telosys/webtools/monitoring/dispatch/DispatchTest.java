@@ -30,7 +30,6 @@ import org.telosys.webtools.monitoring.bean.TopRequests;
 import org.telosys.webtools.monitoring.dispatch.action.Action;
 import org.telosys.webtools.monitoring.dispatch.action.ResetAction;
 import org.telosys.webtools.monitoring.dispatch.display.Controller;
-import org.telosys.webtools.monitoring.dispatch.parameter.GetParameters;
 import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
@@ -105,8 +104,8 @@ public class DispatchTest {
 		// Given
 		final Dispatch dispatch = spy(new Dispatch());
 
-		final GetParameters getParameters = mock(GetParameters.class);
-		dispatch.setGetParameters(getParameters);
+		final Utils utils = mock(Utils.class);
+		dispatch.setUtils(utils);
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
@@ -119,7 +118,7 @@ public class DispatchTest {
 		doReturn(paths).when(dispatch).getPaths(httpServletRequest, data);
 
 		final Map<String,String> params = new HashMap<String, String>();
-		when(getParameters.getParameters(httpServletRequest)).thenReturn(params);
+		when(utils.getParameters(httpServletRequest)).thenReturn(params);
 
 		final Controller controller = mock(Controller.class);
 		when(controller.match(paths, params)).thenReturn(true);
@@ -141,8 +140,8 @@ public class DispatchTest {
 		// Given
 		final Dispatch dispatch = spy(new Dispatch());
 
-		final GetParameters getParameters = mock(GetParameters.class);
-		dispatch.setGetParameters(getParameters);
+		final Utils utils = mock(Utils.class);
+		dispatch.setUtils(utils);
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
@@ -155,7 +154,7 @@ public class DispatchTest {
 		doReturn(paths).when(dispatch).getPaths(httpServletRequest, data);
 
 		final Map<String,String> params = new HashMap<String, String>();
-		when(getParameters.getParameters(httpServletRequest)).thenReturn(params);
+		when(utils.getParameters(httpServletRequest)).thenReturn(params);
 
 		final Controller controller = mock(Controller.class);
 		when(controller.match(paths, params)).thenReturn(false);
@@ -177,8 +176,8 @@ public class DispatchTest {
 		// Given
 		final Dispatch dispatch = spy(new Dispatch());
 
-		final GetParameters getParameters = mock(GetParameters.class);
-		dispatch.setGetParameters(getParameters);
+		final Utils utils = mock(Utils.class);
+		dispatch.setUtils(utils);
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
@@ -191,7 +190,7 @@ public class DispatchTest {
 		doReturn(paths).when(dispatch).getPaths(httpServletRequest, data);
 
 		final Map<String,String> params = new HashMap<String, String>();
-		when(getParameters.getParameters(httpServletRequest)).thenReturn(params);
+		when(utils.getParameters(httpServletRequest)).thenReturn(params);
 		params.put("action", "reset");
 
 		final Action action = mock(Action.class);
