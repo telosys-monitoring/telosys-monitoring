@@ -89,7 +89,7 @@ public class RequestsMonitor implements Filter {
 		// Reset monitor data
 		monitorWebXmlManager.reset(this.initValues, this.data);
 
-		System.out.println("Telosys monitoring initialized");
+		System.out.println("[TRACE] : TELOSYS MONITOR INITIALIZED");
 	}
 
 	/**
