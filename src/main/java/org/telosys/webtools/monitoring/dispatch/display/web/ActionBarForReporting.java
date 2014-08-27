@@ -46,7 +46,7 @@ public class ActionBarForReporting {
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE+"'>Top requests by URL size</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED+"'>Catch URL parameters (true/false)</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_FILTER+"'>URL parameters names</option>");
-		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_EMPTY+"'>Show empty URL parameters (true/false)</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_EMPTY+"'>Show empty URL params (true/false)</option>");
 		out.println("</select>");
 		out.println("<input type='text' id='value' value=''/>");
 		out.println("<input type='button' value='Apply' onclick='doParam(document.getElementById(\"key\").value,document.getElementById(\"value\").value)'/>");
