@@ -74,10 +74,11 @@ public class HtmlReporting implements Controller {
 			out.println("<head>");
 			out.println("<style>");
 			out.println("body{font-family:monospace;font-size:13px;margin:0;padding:0}");
-			out.println("div{margin:10px 0}");
+			out.println("div{margin:5px}");
 			out.println(".title{width:100%;min-width:800px;margin:0;background-color:#bfbfbf;border-bottom:1px solid #8f8f8f;} .title h1{width:800px;margin:0;padding:20px 0 0 20px;} .title .version{width:800px;margin:0;padding:2px 0 2px 20px;font-size:13px;color:#4f4f4f;font-weight:bold;}");
-			out.println(".actionbar{width:100%;min-width:800px;margin:0;background-color:#f0f0f0;border-bottom:1px solid #bfbfbf;border-top:1px solid #ffffff;} .actionbar .content{width:800px;margin:0;padding:5px;}");
-			out.println(".main{width:800px;margin:0;}");
+			out.println(".actionbar{width:100%;min-width:800px;margin:0;background-color:#f0f0f0;border-bottom:1px solid #bfbfbf;border-top:1px solid #ffffff;}");
+			out.println(".actionbar .content{min-width:800px;margin:0;padding:5px;}");
+			out.println(".main{min-width:800px;margin:0;}");
 			out.println(".started{color:#009900;font-weight:bold;} .stopped{color:#990000;font-weight:bold;}");
 			out.println("h2{font-size:15px;}");
 			out.println("</style>");
@@ -97,6 +98,11 @@ public class HtmlReporting implements Controller {
 			} else {
 				out.println("<span class='stopped'>[Stopped]</span>");
 			}
+			out.println("</div>");
+
+			out.println("<div style='position:relative'>");
+
+			out.println("<div style='float:left'>");
 			out.println("<h2>Host</h2>" );
 			out.println("<ul>");
 			out.println("<li>IP address : " + data.ipAddress + "</li>");
@@ -106,7 +112,15 @@ public class HtmlReporting implements Controller {
 			out.println("</ul>");
 			out.println("</div>");
 
-			out.println("<div>");
+			out.println("<div style='float:left'>");
+			out.println("<h2>Monitoring</h2>" );
+			out.println("<ul>");
+			out.println("<li>Init date/time : " + data.initializationDate + "</li>");
+			out.println("<li>Total requests count     : " + data.countAllRequest + "</li>");
+			out.println("<li>Long time requests count : " + data.countLongTimeRequests + "</li>");
+			out.println("</ul></div>");
+
+			out.println("<div style='float:left'>");
 			out.println("<h2>Configuration</h2>" );
 			out.println("<ul>");
 			out.println("<li>Duration threshold : " + data.durationThreshold + " ms</li>");
@@ -117,13 +131,9 @@ public class HtmlReporting implements Controller {
 			out.println("<li>Filter URL parameters : " + utils.mergeToString(data.urlParamsFilter, ',') + " </li>" );
 			out.println("</ul></div>");
 
-			out.println("<div>");
-			out.println("<h2>Monitoring</h2>" );
-			out.println("<ul>");
-			out.println("<li>Initialization date/time : " + data.initializationDate + "</li>");
-			out.println("<li>Total requests count     : " + data.countAllRequest + "</li>");
-			out.println("<li>Long time requests count : " + data.countLongTimeRequests + "</li>");
-			out.println("</ul></div>");
+			out.println("</div>");
+
+			out.println("<div style='clear:both'></div>");
 
 			out.println("<div>");
 			List<Request> requests = data.logLines.getAllAscending();
@@ -164,7 +174,7 @@ public class HtmlReporting implements Controller {
 
 			out.println("</div>");
 
-			actionBarForReporting.addActionBarJS(out);
+			actionBarForReporting.addActionBarJS(out, data);
 
 			out.println("</body>");
 			out.println("</html>");

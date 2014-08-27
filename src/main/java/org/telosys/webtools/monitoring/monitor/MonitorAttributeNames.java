@@ -29,4 +29,11 @@ public interface MonitorAttributeNames {
 	/** Filter URL parameters */
 	String ATTRIBUTE_NAME_URL_PARAMS_FILTER         = "url_params_filter" ;
 
+	/** Auto Refresh */
+	String ATTRIBUTE_NAME_AUTO_REFRESH         = "auto_refresh_activated" ;
+	/** Start Auto Refresh */
+	String ATTRIBUTE_VALUE_AUTO_REFRESH_START = "true";
+	/** Stop Auto Refresh */
+	String ATTRIBUTE_VALUE_AUTO_REFRESH_STOP = "false";
+
 }

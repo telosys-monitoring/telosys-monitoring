@@ -56,4 +56,8 @@ public class MonitorData implements Serializable {
 	public String ipAddress;
 	/** Host name */
 	public String hostname;
+
+	/** Auto refresh */
+	public boolean autoRefreshActivated;
+
 }

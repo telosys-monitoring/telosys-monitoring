@@ -11,11 +11,14 @@ public class ActionBarForReporting {
 	 * Add action bar Javascript.
 	 * @param out Output
 	 */
-	public void addActionBarJS(final PrintWriter out) {
+	public void addActionBarJS(final PrintWriter out, final MonitorData data) {
 		out.println("<script>");
 		out.println("function doRefresh(){document.location=document.location;}");
 		out.println("function doAction(action){document.location=document.location+'?action='+action;}");
 		out.println("function doParam(key,value){if(key==null||key==''||value==null||value==''){return;}document.location=document.location+'?'+key+'='+value;}");
+		out.println("function startRefreshAuto(){document.location=document.location+'?"+MonitorAttributeNames.ATTRIBUTE_NAME_AUTO_REFRESH+"="+MonitorAttributeNames.ATTRIBUTE_VALUE_AUTO_REFRESH_START+"';}");
+		out.println("function stopRefreshAuto(){document.location=document.location+'?"+MonitorAttributeNames.ATTRIBUTE_NAME_AUTO_REFRESH+"="+MonitorAttributeNames.ATTRIBUTE_VALUE_AUTO_REFRESH_STOP+"';}");
+		out.println("if("+data.autoRefreshActivated+") {window.setTimeout(doRefresh,5000);}");
 		out.println("</script>");
 	}
 
@@ -28,6 +31,12 @@ public class ActionBarForReporting {
 		out.println("<div class='actionbar'>");
 		out.println("<div class='content'>");
 		out.println("<input type='button' value='Refresh' onclick='doRefresh()'/>");
+		out.println(" | ");
+		if(data.autoRefreshActivated) {
+			out.println("<input type='button' value=' Stop Auto Refresh' onclick='stopRefreshAuto()'/>");
+		} else {
+			out.println("<input type='button' value=' Start Auto Refresh ' onclick='startRefreshAuto()'/>");
+		}
 		out.println(" | ");
 		out.println("<select id='key'>");
 		out.println("<option value=''></option>");

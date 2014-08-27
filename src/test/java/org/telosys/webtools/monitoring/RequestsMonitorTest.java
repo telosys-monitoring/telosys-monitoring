@@ -28,7 +28,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -219,6 +221,7 @@ public class RequestsMonitorTest {
 		// Given
 		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
 		requestsMonitor.utils = spy(requestsMonitor.utils);
+		requestsMonitor.dispatch.setUtils(spy(requestsMonitor.dispatch.getUtils()));
 
 		final MonitorData data = requestsMonitor.data;
 		data.activated = false;
@@ -243,16 +246,22 @@ public class RequestsMonitorTest {
 		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
+		final Map<String,String> parameters1 = new HashMap<String,String>();
+		doReturn(parameters1).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest1);
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
 		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
+		final Map<String,String> parameters2 = new HashMap<String,String>();
+		doReturn(parameters2).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest2);
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
 		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/info");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
+		final Map<String,String> parameters3 = new HashMap<String,String>();
+		doReturn(parameters3).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest3);
 
 		final PrintWriter printWriter = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(printWriter);
@@ -292,6 +301,7 @@ public class RequestsMonitorTest {
 		// Given
 		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
 		requestsMonitor.utils = spy(requestsMonitor.utils);
+		requestsMonitor.dispatch.setUtils(spy(requestsMonitor.dispatch.getUtils()));
 
 		final MonitorData data = requestsMonitor.data;
 		data.activated = false;
@@ -316,16 +326,22 @@ public class RequestsMonitorTest {
 		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
+		final Map<String,String> parameters1 = new HashMap<String,String>();
+		doReturn(parameters1).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest1);
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
 		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
+		final Map<String,String> parameters2 = new HashMap<String,String>();
+		doReturn(parameters2).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest2);
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
 		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/log");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
+		final Map<String,String> parameters3 = new HashMap<String,String>();
+		doReturn(parameters3).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest3);
 
 		final PrintWriter printWriter = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(printWriter);
@@ -365,6 +381,7 @@ public class RequestsMonitorTest {
 		// Given
 		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
 		requestsMonitor.utils = spy(requestsMonitor.utils);
+		requestsMonitor.dispatch.setUtils(spy(requestsMonitor.dispatch.getUtils()));
 
 		final MonitorData data = requestsMonitor.data;
 		data.activated = false;
@@ -390,18 +407,24 @@ public class RequestsMonitorTest {
 		when(httpRequest1.getContextPath()).thenReturn(null);
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
+		final Map<String,String> parameters1 = new HashMap<String,String>();
+		doReturn(parameters1).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest1);
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
 		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getContextPath()).thenReturn(null);
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
+		final Map<String,String> parameters2 = new HashMap<String,String>();
+		doReturn(parameters2).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest2);
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
 		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/top");
 		when(httpRequest3.getContextPath()).thenReturn(null);
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
+		final Map<String,String> parameters3 = new HashMap<String,String>();
+		doReturn(parameters3).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest3);
 
 		final PrintWriter printWriter = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(printWriter);
@@ -441,6 +464,7 @@ public class RequestsMonitorTest {
 		// Given
 		final RequestsMonitor requestsMonitor = spy(new RequestsMonitor());
 		requestsMonitor.utils = spy(requestsMonitor.utils);
+		requestsMonitor.dispatch.setUtils(spy(requestsMonitor.dispatch.getUtils()));
 
 		final MonitorData data = requestsMonitor.data;
 		data.activated = false;
@@ -465,16 +489,22 @@ public class RequestsMonitorTest {
 		when(httpRequest1.getRequestURI()).thenReturn("/test1");
 		when(httpRequest1.getRequestURL()).thenReturn(new StringBuffer("http://request1.url"));
 		when(httpRequest1.getQueryString()).thenReturn("query1");
+		final Map<String,String> parameters1 = new HashMap<String,String>();
+		doReturn(parameters1).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest1);
 
 		final HttpServletRequest httpRequest2 = mock(HttpServletRequest.class);
 		when(httpRequest2.getRequestURI()).thenReturn("/test2");
 		when(httpRequest2.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest2.getQueryString()).thenReturn("query2");
+		final Map<String,String> parameters2 = new HashMap<String,String>();
+		doReturn(parameters2).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest2);
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
 		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/longest");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
+		final Map<String,String> parameters3 = new HashMap<String,String>();
+		doReturn(parameters3).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest3);
 
 		final PrintWriter printWriter = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(printWriter);
