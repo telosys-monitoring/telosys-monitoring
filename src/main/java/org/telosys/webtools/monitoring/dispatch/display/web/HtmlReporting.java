@@ -127,9 +127,9 @@ public class HtmlReporting implements Controller {
 			out.println("<li>Log in memory size : " + data.logSize + " lines</li>" );
 			out.println("<li>Top requests by time : " + data.topTenSize + " lines</li>" );
 			out.println("<li>Top requests by URL : " + data.longestSize + " lines</li>" );
-			out.println("<li>Catch URL parameters : " + (data.urlParamsActivated?"Yes":"No") + " </li>" );
+			out.println("<li>Catch URL parameters : " + (data.urlParamsActivated?"true":"false") + " </li>" );
 			out.println("<li>URL parameters names : " + utils.mergeToString(data.urlParamsFilter, ',') + " </li>" );
-			out.println("<li>Show empty URL param : " + (data.urlParamsEmpty?"Yes":"No") + " </li>" );
+			out.println("<li>Show empty URL param : " + (data.urlParamsEmpty?"true":"false") + " </li>" );
 			out.println("</ul></div>");
 
 			out.println("</div>");

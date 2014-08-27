@@ -25,7 +25,7 @@ public class MonitorInitValues implements Serializable {
 	/** Activate storage of URL params */
 	public static final boolean DEFAULT_URL_PARAMS_ACTIVATED = false;
 	/** Activate storage of empty URL params */
-	public static final boolean DEFAULT_URL_PARAMS_EMPTY = false;
+	public static final boolean DEFAULT_URL_PARAMS_EMPTY = true;
 
 	/** Execution time threshold */
 	public int     durationThreshold     = DEFAULT_DURATION_THRESHOLD ;

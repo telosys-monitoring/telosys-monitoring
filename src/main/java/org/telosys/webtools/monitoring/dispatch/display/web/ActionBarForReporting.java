@@ -49,7 +49,7 @@ public class ActionBarForReporting {
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_EMPTY+"'>Show empty URL parameters (true/false)</option>");
 		out.println("</select>");
 		out.println("<input type='text' id='value' value=''/>");
-		out.println("<input type='button' value='Modify' onclick='doParam(document.getElementById(\"key\").value,document.getElementById(\"value\").value)'/>");
+		out.println("<input type='button' value='Apply' onclick='doParam(document.getElementById(\"key\").value,document.getElementById(\"value\").value)'/>");
 		out.println(" | ");
 		out.println("<input type='button' value='Clear logs' onclick='doAction(\"clear\")'/>");
 		out.println(" | ");
