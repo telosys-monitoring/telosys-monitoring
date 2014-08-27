@@ -24,6 +24,8 @@ public class MonitorInitValues implements Serializable {
 	public final static int DEFAULT_LONGEST_SIZE        =  10 ;
 	/** Activate storage of URL params */
 	public static final boolean DEFAULT_URL_PARAMS_ACTIVATED = false;
+	/** Activate storage of empty URL params */
+	public static final boolean DEFAULT_URL_PARAMS_EMPTY = false;
 
 	/** Execution time threshold */
 	public int     durationThreshold     = DEFAULT_DURATION_THRESHOLD ;
@@ -51,5 +53,15 @@ public class MonitorInitValues implements Serializable {
 	public Boolean urlParamsActivated = false;
 	/** Indicates if URL parameters are stored */
 	public List<String> urlParamsFilter = new ArrayList<String>();
+	/** Store empty URL parameters */
+	public Boolean urlParamsEmpty = true;
+
+	/**
+	 * Constructor.
+	 */
+	public MonitorInitValues() {
+		// Joker
+		urlParamsFilter.add("*");
+	}
 
 }

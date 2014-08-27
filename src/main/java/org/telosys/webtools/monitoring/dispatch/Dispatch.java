@@ -20,6 +20,7 @@ import org.telosys.webtools.monitoring.dispatch.action.StartAutoRefreshAction;
 import org.telosys.webtools.monitoring.dispatch.action.StopAction;
 import org.telosys.webtools.monitoring.dispatch.action.StopAutoRefreshAction;
 import org.telosys.webtools.monitoring.dispatch.action.URLParamsActivatedAction;
+import org.telosys.webtools.monitoring.dispatch.action.URLParamsEmptyAction;
 import org.telosys.webtools.monitoring.dispatch.action.URLParamsFilterAction;
 import org.telosys.webtools.monitoring.dispatch.display.Controller;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestInfoController;
@@ -65,6 +66,7 @@ public class Dispatch {
 		actions.add(new ByUrlSizeAction());
 		actions.add(new URLParamsActivatedAction());
 		actions.add(new URLParamsFilterAction());
+		actions.add(new URLParamsEmptyAction());
 		actions.add(new StartAutoRefreshAction());
 		actions.add(new StopAutoRefreshAction());
 

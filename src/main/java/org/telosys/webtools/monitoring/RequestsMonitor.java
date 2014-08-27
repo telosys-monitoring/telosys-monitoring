@@ -18,9 +18,9 @@ package org.telosys.webtools.monitoring;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -327,23 +327,27 @@ public class RequestsMonitor implements Filter {
 		}
 
 		final Map<String, String> urlParams = utils.getParameters(httpServletRequest);
-		if((filters.size() == 0) || containsJoker) {
-			request.urlParams = urlParams;
-		} else {
-			final Map<String, String> urlParamsForRequest = new HashMap<String, String>();
-			for(final String urlParamName : urlParams.keySet()) {
-				if(urlParamName == null) {
-					continue;
-				}
+		final Map<String, String> urlParamsForRequest = new TreeMap<String, String>();
+		for(final String urlParamName : urlParams.keySet()) {
+			if(urlParamName == null) {
+				continue;
+			}
+			boolean isFiltered;
+			if(containsJoker) {
+				isFiltered = false;
+			} else {
+				isFiltered = true;
 				for(final String filter : filters) {
 					if(urlParamName.equalsIgnoreCase(filter)) {
-						urlParamsForRequest.put(urlParamName, urlParams.get(urlParamName));
-						break;
+						isFiltered = false;
 					}
 				}
 			}
-			request.urlParams = urlParamsForRequest;
+			if(!isFiltered) {
+				urlParamsForRequest.put(urlParamName, urlParams.get(urlParamName));
+			}
 		}
+		request.urlParams = urlParamsForRequest;
 	}
 
 	/**

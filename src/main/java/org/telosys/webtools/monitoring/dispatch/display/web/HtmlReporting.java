@@ -129,6 +129,7 @@ public class HtmlReporting implements Controller {
 			out.println("<li>Top requests by URL : " + data.longestSize + " lines</li>" );
 			out.println("<li>Catch URL parameters : " + (data.urlParamsActivated?"Yes":"No") + " </li>" );
 			out.println("<li>URL parameters names : " + utils.mergeToString(data.urlParamsFilter, ',') + " </li>" );
+			out.println("<li>Show empty URL param : " + (data.urlParamsEmpty?"Yes":"No") + " </li>" );
 			out.println("</ul></div>");
 
 			out.println("</div>");
@@ -141,7 +142,8 @@ public class HtmlReporting implements Controller {
 			out.println("<pre>");
 			for ( final Request request : requests ) {
 				if(request != null) {
-					out.println(request.toString());
+					out.print(request.toString());
+					out.println(request.toStringUrlParameters(data.urlParamsEmpty));
 				}
 			}
 			out.println("</pre>");
@@ -154,7 +156,8 @@ public class HtmlReporting implements Controller {
 			out.println("<pre>");
 			for ( final Request request : requests ) {
 				if(request != null) {
-					out.println(request.toStringWithoutCounting());
+					out.print(request.toStringWithoutCounting());
+					out.println(request.toStringUrlParameters(data.urlParamsEmpty));
 				}
 			}
 			out.println("</pre>");
@@ -166,7 +169,8 @@ public class HtmlReporting implements Controller {
 			out.println("<pre>");
 			for ( final Request request : requests ) {
 				if(request != null) {
-					out.println(request.toStringWithoutCounting());
+					out.print(request.toStringWithoutCounting());
+					out.println(request.toStringUrlParameters(data.urlParamsEmpty));
 				}
 			}
 			out.println("</pre>");

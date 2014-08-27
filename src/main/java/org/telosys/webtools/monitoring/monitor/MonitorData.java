@@ -32,9 +32,12 @@ public class MonitorData implements Serializable {
 	public boolean activated;
 
 	/** Indicates if URL parameters are stored */
-	public Boolean urlParamsActivated = false;
+	public boolean urlParamsActivated = false;
 	/** Indicates if URL parameters are stored */
 	public List<String> urlParamsFilter = new ArrayList<String>();
+	/** Show empty parameters */
+	public boolean urlParamsEmpty = false;
+
 
 	/** Initialization date */
 	public String initializationDate;

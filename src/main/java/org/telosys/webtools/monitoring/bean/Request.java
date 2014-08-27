@@ -75,19 +75,6 @@ public class Request implements Serializable {
 		if ( queryString != null ) {
 			sb.append("?"+queryString );
 		}
-		if ( this.urlParams.size() > 0 ) {
-			sb.append(" - URL params : [ ");
-			boolean isFirst = true;
-			for(final String urlParamKey : urlParams.keySet()) {
-				if(isFirst) {
-					isFirst = false;
-				} else {
-					sb.append(", ");
-				}
-				sb.append(urlParamKey + ":" + urlParams.get(urlParamKey));
-			}
-			sb.append(" ]");
-		}
 		return sb.toString();
 	}
 
@@ -107,16 +94,38 @@ public class Request implements Serializable {
 		if ( queryString != null ) {
 			sb.append("?"+queryString );
 		}
+		return sb.toString();
+	}
+
+	/**
+	 * Display URL parameters.
+	 * @param urlParamsEmpty Show empty URL parameters
+	 * @return String output
+	 */
+	public String toStringUrlParameters(final boolean urlParamsEmpty) {
+		final StringBuilder sb = new StringBuilder();
 		if ( this.urlParams.size() > 0 ) {
 			sb.append(" - URL params : [ ");
 			boolean isFirst = true;
 			for(final String urlParamKey : urlParams.keySet()) {
+				// filter empty values
+				final String urlParamValue = urlParams.get(urlParamKey);
+				if(!urlParamsEmpty) {
+					if((urlParamValue == null) || "".equals(urlParamValue.trim())) {
+						continue;
+					}
+				}
+				// display parameters
 				if(isFirst) {
 					isFirst = false;
 				} else {
 					sb.append(", ");
 				}
-				sb.append(urlParamKey + ":" + urlParams.get(urlParamKey));
+				if(urlParamValue == null) {
+					sb.append(urlParamKey + " = ");
+				} else {
+					sb.append(urlParamKey + " = \"" + urlParamValue+"\"");
+				}
 			}
 			sb.append(" ]");
 		}

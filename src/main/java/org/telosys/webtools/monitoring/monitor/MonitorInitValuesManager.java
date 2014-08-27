@@ -3,6 +3,7 @@ package org.telosys.webtools.monitoring.monitor;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
@@ -38,8 +39,14 @@ public class MonitorInitValuesManager {
 				utils.parseBoolean( filterConfig.getInitParameter("urlparams"), MonitorInitValues.DEFAULT_URL_PARAMS_ACTIVATED );
 
 		//--- Parameter : parameters names
+		final List<String> urlParamsFiltersDefault = new ArrayList<String>();
+		urlParamsFiltersDefault.add("*");
 		initValues.urlParamsFilter =
-				utils.parseArrayOfString( filterConfig.getInitParameter("urlparamsfilter"), new ArrayList<String>(), ',');
+				utils.parseArrayOfString( filterConfig.getInitParameter("urlparamsfilter"), urlParamsFiltersDefault, ',');
+
+		//--- Parameter : parameters empty
+		initValues.urlParamsEmpty =
+				utils.parseBoolean( filterConfig.getInitParameter("urlparamsempty"), MonitorInitValues.DEFAULT_URL_PARAMS_EMPTY );
 
 		//--- Parameter : duration threshold
 		initValues.durationThreshold =
@@ -106,6 +113,7 @@ public class MonitorInitValuesManager {
 		//--- Parameter : url params
 		monitorBean.urlParamsActivated = initValues.urlParamsActivated;
 		monitorBean.urlParamsFilter = initValues.urlParamsFilter;
+		monitorBean.urlParamsEmpty = initValues.urlParamsEmpty;
 
 		monitorBean.initializationDate = utils.format( new Date() );
 

@@ -28,6 +28,8 @@ public interface MonitorAttributeNames {
 	String ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED      = "url_params_activated" ;
 	/** Filter URL parameters */
 	String ATTRIBUTE_NAME_URL_PARAMS_FILTER         = "url_params_filter" ;
+	/** Show empty URL parameters */
+	String ATTRIBUTE_NAME_URL_PARAMS_EMPTY         = "url_params_empty" ;
 
 	/** Auto Refresh */
 	String ATTRIBUTE_NAME_AUTO_REFRESH         = "auto_refresh_activated" ;
