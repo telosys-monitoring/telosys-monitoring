@@ -148,6 +148,8 @@ Summary :
 
 # Actions
 
-action | parameter name | parameter value 
------- | -------------- | --------------- 
-h      | h              | h               
+action | parameter 
+------ | --------- 
+reset | action=reset
+stop | action=stop               
+start | action=start
