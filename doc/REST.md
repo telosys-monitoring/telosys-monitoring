@@ -14,27 +14,28 @@ Summary :
 ```
 {
 "monitoring": {
-"countAllRequest": 0,
-"countLongTimeRequests": 0,
+"count_long_time_requests": 1,
+"count_all_request": 1,
 "activated": "true",
-"initializationDate": "2014/08/28 17:06:13"
+"initialization_date": "2014/08/28 17:39:37"
 },
 "host": {
-"os.version": "6.1",
-"ipAdress": "192.168.10.183",
-"os.arch": "amd64",
-"java.version": "1.6.0_45",
+"ip_adress": "192.168.10.183",
+"java_vendor": "Sun Microsystems Inc.",
+"os_name": "Windows 7",
+"os_arch": "amd64",
 "hostname": "FR-44-02-13-023",
-"os.name": "Windows 7",
-"java.vendor": "Sun Microsystems Inc."
+"java_version": "1.6.0_45",
+"os_version": "6.1"
 },
 "configuration": {
-"urlParamsActivated": "No",
-"longestSize": 5,
-"logSize": 15,
-"urlParamsFilter": "*",
-"topTenSize": 20,
-"durationThreshold": 1
+"duration": 1,
+"url_params_activated": "false",
+"url_params_empty": "true",
+"url_params_filter": "*",
+"log_size": 15,
+"by_url_size": 5,
+"by_time_size": 20
 }
 }
 ```
