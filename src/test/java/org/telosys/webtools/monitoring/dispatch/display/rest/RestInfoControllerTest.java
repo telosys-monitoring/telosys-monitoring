@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestInfoController;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 
@@ -68,27 +67,27 @@ public class RestInfoControllerTest {
 
 		final Map<String, Object> host = (Map<String, Object>) json.get("host");
 
-		assertEquals("1.2.3.4", host.get("ipAdress"));
+		assertEquals("1.2.3.4", host.get("ip_adress"));
 		assertEquals("hostname",host.get("hostname"));
-		assertNotNull(host.get("java.version"));
-		assertNotNull(host.get("java.vendor"));
-		assertNotNull(host.get("os.arch"));
-		assertNotNull(host.get("os.name"));
-		assertNotNull(host.get("os.version"));
+		assertNotNull(host.get("java_version"));
+		assertNotNull(host.get("java_vendor"));
+		assertNotNull(host.get("os_arch"));
+		assertNotNull(host.get("os_name"));
+		assertNotNull(host.get("os_version"));
 
 		final Map<String, Object> configuration = (Map<String, Object>) json.get("configuration");
 
-		assertEquals(100,configuration.get("durationThreshold"));
-		assertEquals(200,configuration.get("logSize"));
-		assertEquals(300,configuration.get("topTenSize"));
-		assertEquals(400,configuration.get("longestSize"));
+		assertEquals(100,configuration.get("duration"));
+		assertEquals(200,configuration.get("log_size"));
+		assertEquals(300,configuration.get("by_time_size"));
+		assertEquals(400,configuration.get("by_url_size"));
 
 		final Map<String, Object> monitoring = (Map<String, Object>) json.get("monitoring");
 
 		assertEquals(Boolean.TRUE, monitoring.get("activated"));
-		assertEquals("initializationDate",monitoring.get("initializationDate"));
-		assertEquals(500L,monitoring.get("countAllRequest"));
-		assertEquals(600L,monitoring.get("countLongTimeRequests"));
+		assertEquals("initializationDate",monitoring.get("initialization_date"));
+		assertEquals(500L,monitoring.get("count_all_request"));
+		assertEquals(600L,monitoring.get("count_long_time_requests"));
 
 	}
 
