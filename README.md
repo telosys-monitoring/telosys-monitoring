@@ -21,3 +21,7 @@ L'installation, les serveurs et les versions compatibles sont décrits dans la do
 ### Contact
 
 Pour tout support, vous pouvez nous contacter à : [telosysteam@gmail.com](mailto:telosysteam@gmail.com)
+
+### Documentation of REST services
+
+See : [REST.md](doc/REST.md)

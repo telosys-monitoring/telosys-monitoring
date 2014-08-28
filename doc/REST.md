@@ -151,5 +151,13 @@ Summary :
 action | parameter 
 ------ | --------- 
 reset | action=reset
+clear | action=clear
 stop | action=stop               
 start | action=start
+duration threshold | duration=[value]
+max number of requests in the log | log_size=[value]
+max number of requests sorted by time | by_time_size=[value]
+max number of requests sorted by url | by_url_size=[value]
+activate catching of URL parameters | url_params_activated=[true|false]
+URL parameters name filter | url_params_filter=[*|name1,name2,...]
+display URL parameters without value | url_params_empty=[true|false]
