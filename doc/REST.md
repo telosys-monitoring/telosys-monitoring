@@ -41,7 +41,7 @@ Summary :
 ```
 
 ### /monitor/rest/log
-#### Empty
+* Empty
 ```
 {
 "log": [
@@ -49,7 +49,7 @@ Summary :
 }
 ```
 
-#### With logs
+* With logs
 ```
 {
 "log": [
@@ -79,7 +79,7 @@ Summary :
 ```
 
 ### /monitor/rest/longest
-#### Empty
+* Empty
 ```
 {
 "longest": [
@@ -87,7 +87,7 @@ Summary :
 }
 ```
 
-#### With logs
+* With logs
 ```
 {
 "longest": [
@@ -110,7 +110,7 @@ Summary :
 ```
 
 ### /monitor/rest/top
-#### Empty
+* Empty
 ```
 {
 "top": [
@@ -118,7 +118,7 @@ Summary :
 }
 ```
 
-#### With logs
+* With logs
 ```
 {
 "top": [
