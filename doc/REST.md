@@ -148,16 +148,16 @@ Summary :
 
 # Actions
 
-action | parameter 
+Type of Action | parameter 
 ------ | --------- 
-reset | action=reset
-clear | action=clear
-stop | action=stop               
-start | action=start
-duration threshold | duration=[value]
-max number of requests in the log | log_size=[value]
-max number of requests sorted by time | by_time_size=[value]
-max number of requests sorted by url | by_url_size=[value]
-activate catching of URL parameters | url_params_activated=[true|false]
+Reset | action=reset
+Clear | action=clear
+Stop | action=stop               
+Start | action=start
+Duration threshold | duration=[value]
+Max number of requests in the log | log_size=[value]
+Max number of requests sorted by time | by_time_size=[value]
+Max number of requests sorted by url | by_url_size=[value]
+Activate catching of URL parameters | url_params_activated=[true|false]
 URL parameters name filter | url_params_filter=[*|name1,name2,...]
-display URL parameters without value | url_params_empty=[true|false]
+Display URL parameters without value | url_params_empty=[true|false]
