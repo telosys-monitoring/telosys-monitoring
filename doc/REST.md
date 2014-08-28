@@ -1,5 +1,9 @@
 # REST 
 
+Summary :
+* Get data
+* Actions
+
 ## Get data
 * ```/monitor/rest/info```
 * ```/monitor/rest/log```
@@ -141,3 +145,11 @@
 ]
 }
 ```
+
+# Actions
+
+|--------|----------------|-----------------|
+| action | parameter name | parameter value |
+|--------|----------------|-----------------|
+| h      | h              | h               |
+|--------|----------------|-----------------|
