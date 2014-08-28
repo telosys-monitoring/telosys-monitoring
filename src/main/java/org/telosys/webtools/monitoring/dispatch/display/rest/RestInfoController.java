@@ -33,31 +33,32 @@ public class RestInfoController extends AbstractRestController implements Contro
 		final Map<String, Object> host = newMap();
 		json.put("host", host);
 
-		host.put("ipAdress", data.ipAddress);
+		host.put("ip_adress", data.ipAddress);
 		host.put("hostname", data.hostname);
-		host.put("java.version", System.getProperty("java.version"));
-		host.put("java.vendor", System.getProperty("java.vendor"));
-		host.put("os.arch", System.getProperty("os.arch"));
-		host.put("os.name", System.getProperty("os.name"));
-		host.put("os.version", System.getProperty("os.version"));
+		host.put("java_version", System.getProperty("java.version"));
+		host.put("java_vendor", System.getProperty("java.vendor"));
+		host.put("os_arch", System.getProperty("os.arch"));
+		host.put("os_name", System.getProperty("os.name"));
+		host.put("os_version", System.getProperty("os.version"));
 
 		final Map<String, Object> configuration = newMap();
 		json.put("configuration", configuration);
 
-		configuration.put("durationThreshold", data.durationThreshold);
-		configuration.put("logSize", data.logSize);
-		configuration.put("topTenSize", data.topTenSize);
-		configuration.put("longestSize", data.longestSize);
-		configuration.put("urlParamsActivated", (data.urlParamsActivated?"Yes":"No"));
-		configuration.put("urlParamsFilter", utils.mergeToString(data.urlParamsFilter, ','));
+		configuration.put("duration", data.durationThreshold);
+		configuration.put("log_size", data.logSize);
+		configuration.put("by_time_size", data.topTenSize);
+		configuration.put("by_url_size", data.longestSize);
+		configuration.put("url_params_activated", (data.urlParamsActivated?"true":"false"));
+		configuration.put("url_params_filter", utils.mergeToString(data.urlParamsFilter, ','));
+		configuration.put("url_params_empty", (data.urlParamsEmpty?"true":"false"));
 
 		final Map<String, Object> monitoring = newMap();
 		json.put("monitoring", monitoring);
 
 		monitoring.put("activated", data.activated);
-		monitoring.put("initializationDate", data.initializationDate);
-		monitoring.put("countAllRequest", data.countAllRequest);
-		monitoring.put("countLongTimeRequests", data.countLongTimeRequests);
+		monitoring.put("initialization_date", data.initializationDate);
+		monitoring.put("count_all_request", data.countAllRequest);
+		monitoring.put("count_long_time_requests", data.countLongTimeRequests);
 
 		return json;
 	}
