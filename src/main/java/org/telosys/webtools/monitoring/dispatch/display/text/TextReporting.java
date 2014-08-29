@@ -44,17 +44,17 @@ public class TextReporting {
 			out.println(" ");
 
 			out.println("Duration threshold : " + data.durationThreshold );
-			out.println("Log in memory size : " + data.logSize + " lines" );
-			out.println("Top requests by time : " + data.topTenSize + " lines" );
-			out.println("Top requests by URL : " + data.longestSize + " lines" );
+			out.println("Log in memory size : " + data.latestSize + " lines" );
+			out.println("Top requests by time : " + data.longestSize + " lines" );
+			out.println("Top requests by URL : " + data.longestByUrlTempSize + " lines" );
 			out.println(" ");
 
 			out.println("Initialization date/time : " + data.initializationDate );
-			out.println("Total requests count     : " + data.countAllRequest);
+			out.println("Total requests count     : " + data.countAllRequests);
 			out.println("Long time requests count : " + data.countLongTimeRequests );
 			out.println(" ");
 
-			List<Request> requests = data.logLines.getAllAscending();
+			List<Request> requests = data.latestLines.getAllAscending();
 			out.println("Last longest requests : " );
 			for ( final Request request : requests ) {
 				if(request != null) {
@@ -62,7 +62,7 @@ public class TextReporting {
 				}
 			}
 
-			requests = data.topRequests.getAllDescending();
+			requests = data.longestRequests.getAllDescending();
 			out.println(" ");
 			out.println("Top requests by time : " );
 			for ( final Request request : requests ) {
@@ -71,7 +71,7 @@ public class TextReporting {
 				}
 			}
 
-			requests = data.longestRequests.getAllDescending();
+			requests = data.longestByUrlTempRequests.getAllDescending();
 			out.println(" ");
 			out.println("Top requests by URL : " );
 			for ( final Request request : requests ) {

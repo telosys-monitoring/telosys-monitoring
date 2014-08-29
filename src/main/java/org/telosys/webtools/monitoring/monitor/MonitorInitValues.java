@@ -17,9 +17,9 @@ public class MonitorInitValues implements Serializable {
 	/** Execution time threshold */
 	public final static int DEFAULT_DURATION_THRESHOLD  = 1000 ; // 1 second
 	/** Number of last stored requests */
-	public final static int DEFAULT_LOG_SIZE            =  100 ;
+	public final static int DEFAULT_LATEST_SIZE            =  100 ;
 	/** Number of top longest requests */
-	public final static int DEFAULT_TOP_TEN_SIZE        =  10 ;
+	public final static int DEFAULT_LONGEST_BY_URL_SIZE        =  10 ;
 	/** Number of longest requests */
 	public final static int DEFAULT_LONGEST_SIZE        =  10 ;
 	/** Activate storage of URL params */
@@ -29,12 +29,12 @@ public class MonitorInitValues implements Serializable {
 
 	/** Execution time threshold */
 	public int     durationThreshold     = DEFAULT_DURATION_THRESHOLD ;
-	/** Number of last stored requests */
-	public int     logSize               = DEFAULT_LOG_SIZE ;
-	/** Number of top longest requests */
-	public int     topTenSize            = DEFAULT_TOP_TEN_SIZE ;
+	/** Number of latest requests */
+	public int     latestSize               = DEFAULT_LATEST_SIZE ;
 	/** Number of longest requests */
-	public int     longestSize          = DEFAULT_LONGEST_SIZE ;
+	public int     longestSize           = DEFAULT_LONGEST_SIZE ;
+	/** Number of longest requests by url */
+	public int     longestByUrlSize      = DEFAULT_LONGEST_BY_URL_SIZE ;
 
 	/** URL path to the monitor reporting */
 	public String  reportingReqPath      = "/monitor" ;

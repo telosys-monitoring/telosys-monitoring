@@ -53,8 +53,8 @@ public class RequestsMonitorMultiThreadTest {
 
 		final MonitorInitValues initValues = new MonitorInitValues();
 		initValues.durationThreshold = -999;
-		initValues.logSize = 100;
-		initValues.topTenSize = 100;
+		initValues.latestSize = 100;
+		initValues.longestByUrlSize = 100;
 		initValues.longestSize = 100;
 		initValues.traceFlag = false;
 		requestsMonitor.initValues = initValues;
@@ -100,16 +100,16 @@ public class RequestsMonitorMultiThreadTest {
 
 		System.out.println("Test - End");
 
-		System.out.println("countAllRequest: " + requestsMonitor.data.countAllRequest);
+		System.out.println("countAllRequest: " + requestsMonitor.data.countAllRequests);
 		System.out.println("countLongTimeRequests: " + requestsMonitor.data.countLongTimeRequests);
-		System.out.println("logLines: " + requestsMonitor.data.logLines.getAllAscending().size());
-		System.out.println("by_time: " + requestsMonitor.data.topRequests.getAllDescending().size());
-		System.out.println("by_url : " + requestsMonitor.data.longestRequests.getAllDescending().size());
+		System.out.println("logLines: " + requestsMonitor.data.latestLines.getAllAscending().size());
+		System.out.println("by_time: " + requestsMonitor.data.longestRequests.getAllDescending().size());
+		System.out.println("by_url : " + requestsMonitor.data.longestByUrlTempRequests.getAllDescending().size());
 
 		// Verify counts in requests
 		long countAll = -1;
 		long countLongest = -1;
-		for(final Request request : requestsMonitor.data.logLines.getAllAscending()) {
+		for(final Request request : requestsMonitor.data.latestLines.getAllAscending()) {
 			if((countAll != -1) && (countLongest != -1)) {
 				assertTrue(countAll < request.countAllRequest);
 				assertTrue(countLongest < request.countLongTimeRequests);
@@ -138,11 +138,11 @@ public class RequestsMonitorMultiThreadTest {
 			requestsMonitor.dispatch.doActions(null, null, null, getParams("action", "start"), requestsMonitor.data, requestsMonitor.initValues);
 		}
 		// log size
-		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by time size
-		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 		// by url size
-		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
+		requestsMonitor.dispatch.doActions(null, null, null, getParams(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE, ""+(random.nextInt(150)+1)), requestsMonitor.data, requestsMonitor.initValues);
 	}
 
 	private Map<String,String> getParams(final String key, final String name) {

@@ -53,7 +53,7 @@ public class RestTopRequestController extends AbstractRestController implements 
 	protected List<Request> getRequests(final String[] paths, final Map<String, String> params, final MonitorData data) {
 		final List<Request> requests;
 
-		requests = data.topRequests.getAllDescending();
+		requests = data.longestRequests.getAllDescending();
 
 		return requests;
 	}

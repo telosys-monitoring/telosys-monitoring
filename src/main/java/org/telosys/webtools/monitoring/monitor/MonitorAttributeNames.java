@@ -14,15 +14,15 @@ public interface MonitorAttributeNames {
 	String ATTRIBUTE_VALUE_ACTION_START = "start";
 
 	/** Execution time threshold */
-	String ATTRIBUTE_NAME_DURATION_THRESHOLD = "duration";
-	/** Number of last stored requests */
-	String ATTRIBUTE_NAME_LOG_SIZE           = "log_size" ;
-	/** Number of top longest requests */
-	String ATTRIBUTE_NAME_BY_TIME_SIZE       = "by_time_size" ;
+	String ATTRIBUTE_NAME_DURATION_THRESHOLD    = "duration";
+	/** Number of latest requests */
+	String ATTRIBUTE_NAME_LATEST_SIZE           = "latest_size" ;
 	/** Number of longest requests */
-	String ATTRIBUTE_NAME_BY_URL_SIZE       = "by_url_size" ;
+	String ATTRIBUTE_NAME_LONGEST_SIZE          = "longest_size" ;
+	/** Number of longest by url requests */
+	String ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE   = "longest_by_url_size" ;
 	/** Indicates if information are displayed in the output console of the server */
-	String ATTRIBUTE_NAME_TRACE_FLAG         = "trace" ;
+	String ATTRIBUTE_NAME_TRACE_FLAG            = "trace" ;
 
 	/** Activates storage of URL parameters */
 	String ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED      = "url_params_activated" ;

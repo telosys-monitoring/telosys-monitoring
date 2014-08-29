@@ -78,8 +78,8 @@ public class RestTopRequestControllerTest {
 		final Map<String, Object> mapRequest3 = new HashMap<String, Object>();
 		requestToMap.transformRequestToMap(request3);
 
-		data.topRequests = mock(TopRequests.class);
-		when(data.topRequests.getAllDescending()).thenReturn(requests);
+		data.longestRequests = mock(TopRequests.class);
+		when(data.longestRequests.getAllDescending()).thenReturn(requests);
 
 		// When
 		final Map<String, Object> map = restTopRequestController.getData(paths, params, data);

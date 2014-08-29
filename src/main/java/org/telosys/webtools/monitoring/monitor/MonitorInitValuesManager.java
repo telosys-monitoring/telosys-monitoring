@@ -36,33 +36,48 @@ public class MonitorInitValuesManager {
 
 		//--- Parameter : parameters
 		initValues.urlParamsActivated =
-				utils.parseBoolean( filterConfig.getInitParameter("urlparams"), MonitorInitValues.DEFAULT_URL_PARAMS_ACTIVATED );
+				utils.parseBoolean(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED),
+						MonitorInitValues.DEFAULT_URL_PARAMS_ACTIVATED );
 
 		//--- Parameter : parameters names
 		final List<String> urlParamsFiltersDefault = new ArrayList<String>();
 		urlParamsFiltersDefault.add("*");
 		initValues.urlParamsFilter =
-				utils.parseArrayOfString( filterConfig.getInitParameter("urlparamsfilter"), urlParamsFiltersDefault, ',');
+				utils.parseArrayOfString(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_FILTER),
+						urlParamsFiltersDefault,
+						',');
 
 		//--- Parameter : parameters empty
 		initValues.urlParamsEmpty =
-				utils.parseBoolean( filterConfig.getInitParameter("urlparamsempty"), MonitorInitValues.DEFAULT_URL_PARAMS_EMPTY );
+				utils.parseBoolean(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_EMPTY),
+						MonitorInitValues.DEFAULT_URL_PARAMS_EMPTY );
 
 		//--- Parameter : duration threshold
 		initValues.durationThreshold =
-				utils.parseInt( filterConfig.getInitParameter("duration"), MonitorInitValues.DEFAULT_DURATION_THRESHOLD );
+				utils.parseInt(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD),
+						MonitorInitValues.DEFAULT_DURATION_THRESHOLD );
 
 		//--- Parameter : memory log size
-		initValues.logSize =
-				utils.parseInt( filterConfig.getInitParameter("logsize"), MonitorInitValues.DEFAULT_LOG_SIZE );
-
-		//--- Parameter : memory top ten size
-		initValues.topTenSize =
-				utils.parseInt( filterConfig.getInitParameter("toptensize"), MonitorInitValues.DEFAULT_TOP_TEN_SIZE );
+		initValues.latestSize =
+				utils.parseInt(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE),
+						MonitorInitValues.DEFAULT_LATEST_SIZE );
 
 		//--- Parameter : memory longest requests size
 		initValues.longestSize =
-				utils.parseInt( filterConfig.getInitParameter("longestsize"), MonitorInitValues.DEFAULT_LONGEST_SIZE );
+				utils.parseInt(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE),
+						MonitorInitValues.DEFAULT_LONGEST_SIZE );
+
+		//--- Parameter : memory longest requests by url size
+		initValues.longestByUrlSize =
+				utils.parseInt(
+						filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE),
+						MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE );
 
 		//--- Parameter : status report URI
 		final String reportingParam = filterConfig.getInitParameter("reporting");
@@ -93,16 +108,16 @@ public class MonitorInitValuesManager {
 		monitorBean.activated = initValues.activated;
 
 		//--- Parameter : memory log size
-		monitorBean.logSize = initValues.logSize;
-		monitorBean.logLines = new CircularStack(monitorBean.logSize);
+		monitorBean.latestSize = initValues.latestSize;
+		monitorBean.latestLines = new CircularStack(monitorBean.latestSize);
 
 		//--- Parameter : memory top ten size
-		monitorBean.topTenSize = initValues.topTenSize;
-		monitorBean.topRequests = new TopRequests(monitorBean.topTenSize);
+		monitorBean.longestSize = initValues.longestByUrlSize;
+		monitorBean.longestRequests = new TopRequests(monitorBean.longestSize);
 
 		//--- Parameter : memory longest requests size
-		monitorBean.longestSize = initValues.longestSize;
-		monitorBean.longestRequests = new LongestRequests(monitorBean.longestSize);
+		monitorBean.longestByUrlTempSize = initValues.longestSize;
+		monitorBean.longestByUrlTempRequests = new LongestRequests(monitorBean.longestByUrlTempSize);
 
 		//--- Parameter : status report URI
 		monitorBean.reportingReqPath = initValues.reportingReqPath;

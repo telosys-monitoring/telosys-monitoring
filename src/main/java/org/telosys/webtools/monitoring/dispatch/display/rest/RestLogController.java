@@ -57,13 +57,13 @@ public class RestLogController extends AbstractRestController implements Control
 		if(startAsString != null) {
 			requests = new ArrayList<Request>();
 			final Integer start = utils.parseInt(startAsString, 0);
-			for(final Request request : data.logLines.getAllAscending()) {
+			for(final Request request : data.latestLines.getAllAscending()) {
 				if(request.countLongTimeRequests >= start) {
 					requests.add(request);
 				}
 			}
 		} else {
-			requests = data.logLines.getAllAscending();
+			requests = data.latestLines.getAllAscending();
 		}
 
 		return requests;

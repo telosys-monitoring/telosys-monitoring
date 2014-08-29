@@ -64,7 +64,7 @@ public class DurationThresholdActionTest {
 		final DurationThresholdAction action = new DurationThresholdAction();
 
 		final Map<String, String> params = new HashMap<String, String>();
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "1");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE, "1");
 
 		// When
 		assertFalse(action.match(null, params));

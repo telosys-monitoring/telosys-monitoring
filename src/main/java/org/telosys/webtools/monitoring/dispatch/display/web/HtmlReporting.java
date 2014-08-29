@@ -116,7 +116,7 @@ public class HtmlReporting implements Controller {
 			out.println("<h2>Monitoring</h2>" );
 			out.println("<ul>");
 			out.println("<li>Init date/time : " + data.initializationDate + "</li>");
-			out.println("<li>Total requests count     : " + data.countAllRequest + "</li>");
+			out.println("<li>Total requests count     : " + data.countAllRequests + "</li>");
 			out.println("<li>Long time requests count : " + data.countLongTimeRequests + "</li>");
 			out.println("</ul></div>");
 
@@ -124,9 +124,9 @@ public class HtmlReporting implements Controller {
 			out.println("<h2>Configuration</h2>" );
 			out.println("<ul>");
 			out.println("<li>Duration threshold : " + data.durationThreshold + " ms</li>");
-			out.println("<li>Log in memory size : " + data.logSize + " lines</li>" );
-			out.println("<li>Top requests by time : " + data.topTenSize + " lines</li>" );
-			out.println("<li>Top requests by URL : " + data.longestSize + " lines</li>" );
+			out.println("<li>Latest requests log size : " + data.latestSize + " lines</li>" );
+			out.println("<li>Longest requests log size : " + data.longestSize + " lines</li>" );
+			out.println("<li>Longest requests by URL log size : " + data.longestByUrlTempSize + " lines</li>" );
 			out.println("<li>Catch URL parameters : " + (data.urlParamsActivated?"true":"false") + " </li>" );
 			out.println("<li>URL parameters names : " + utils.mergeToString(data.urlParamsFilter, ',') + " </li>" );
 			out.println("<li>Show empty URL param : " + (data.urlParamsEmpty?"true":"false") + " </li>" );
@@ -137,8 +137,8 @@ public class HtmlReporting implements Controller {
 			out.println("<div style='clear:both'></div>");
 
 			out.println("<div style=\"width:100%\">");
-			List<Request> requests = data.logLines.getAllAscending();
-			out.println("<h2>Last longest requests</h2>" );
+			List<Request> requests = data.latestLines.getAllAscending();
+			out.println("<h2>Latest requests</h2>" );
 			out.println("<p>");
 			for ( final Request request : requests ) {
 				if(request != null) {
@@ -151,9 +151,9 @@ public class HtmlReporting implements Controller {
 			out.println("</div>");
 
 			out.println("<div style=\"width:100%\">");
-			requests = data.topRequests.getAllDescending();
+			requests = data.longestRequests.getAllDescending();
 			out.println(" ");
-			out.println("<h2>Top requests by time</h2>" );
+			out.println("<h2>Longest requests</h2>" );
 			out.println("<p>");
 			for ( final Request request : requests ) {
 				if(request != null) {
@@ -166,8 +166,8 @@ public class HtmlReporting implements Controller {
 			out.println("</div>");
 
 			out.println("<div style=\"width:100%\">");
-			requests = data.longestRequests.getAllDescending();
-			out.println("<h2>Top requests by URL</h2>" );
+			requests = data.longestByUrlTempRequests.getAllDescending();
+			out.println("<h2>Longest requests by URL</h2>" );
 			out.println("<p>");
 			for ( final Request request : requests ) {
 				if(request != null) {

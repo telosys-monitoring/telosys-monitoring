@@ -2,7 +2,7 @@ package org.telosys.webtools.monitoring.dispatch.display.rest.base;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -83,7 +83,7 @@ public abstract class AbstractRestController implements Controller {
 	 * @return new Map
 	 */
 	public Map<String, Object> newMap() {
-		return new HashMap<String, Object>();
+		return new LinkedHashMap<String, Object>();
 	}
 
 	/**

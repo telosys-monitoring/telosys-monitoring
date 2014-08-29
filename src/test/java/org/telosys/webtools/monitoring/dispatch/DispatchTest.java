@@ -230,14 +230,14 @@ public class DispatchTest {
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
 		final LongestRequests longestRequests = mock(LongestRequests.class);
-		data.logLines = logLines;
-		data.topRequests = topRequests;
-		data.longestRequests = longestRequests;
+		data.latestLines = logLines;
+		data.longestRequests = topRequests;
+		data.longestByUrlTempRequests = longestRequests;
 
 		data.durationThreshold = 200;
-		data.logSize = 300;
-		data.topTenSize = 400;
-		data.longestSize = 500;
+		data.latestSize = 300;
+		data.longestSize = 400;
+		data.longestByUrlTempSize = 500;
 		data.traceFlag = true;
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
@@ -247,9 +247,9 @@ public class DispatchTest {
 
 		final Map<String,String> params = new HashMap<String,String>();
 		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD, "201");
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "301");
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, "401");
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, "501");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE, "301");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE, "401");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE, "501");
 		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_TRACE_FLAG, "true");
 
 		// When
@@ -258,12 +258,12 @@ public class DispatchTest {
 		// Then
 		assertTrue(hasActions);
 		assertEquals(201, data.durationThreshold);
-		assertEquals(301, data.logSize);
-		assertNotEquals(logLines, data.logLines);
-		assertEquals(401, data.topTenSize);
-		assertNotEquals(topRequests, data.topRequests);
-		assertEquals(501, data.longestSize);
-		assertNotEquals(longestRequests, data.longestRequests);
+		assertEquals(301, data.latestSize);
+		assertNotEquals(logLines, data.latestLines);
+		assertEquals(401, data.longestSize);
+		assertNotEquals(topRequests, data.longestRequests);
+		assertEquals(501, data.longestByUrlTempSize);
+		assertNotEquals(longestRequests, data.longestByUrlTempRequests);
 		assertTrue(data.traceFlag);
 
 	}
@@ -279,14 +279,14 @@ public class DispatchTest {
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
 		final LongestRequests longestRequests = mock(LongestRequests.class);
-		data.logLines = logLines;
-		data.topRequests = topRequests;
-		data.longestRequests = longestRequests;
+		data.latestLines = logLines;
+		data.longestRequests = topRequests;
+		data.longestByUrlTempRequests = longestRequests;
 
 		data.durationThreshold = 200;
-		data.logSize = 300;
-		data.topTenSize = 400;
-		data.longestSize = 500;
+		data.latestSize = 300;
+		data.longestSize = 400;
+		data.longestByUrlTempSize = 500;
 		data.traceFlag = true;
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
@@ -296,9 +296,9 @@ public class DispatchTest {
 
 		final Map<String,String> params = new HashMap<String,String>();
 		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD, "200");
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE, "300");
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE, "400");
-		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE, "500");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE, "300");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE, "400");
+		params.put(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE, "500");
 
 		// When
 		final boolean hasActions = dispatch.doActions(httpServletRequest, httpServletResponse, paths, params, data, initValues);
@@ -306,12 +306,12 @@ public class DispatchTest {
 		// Then
 		assertTrue(hasActions);
 		assertEquals(200, data.durationThreshold);
-		assertEquals(300, data.logSize);
-		assertEquals(logLines, data.logLines);
-		assertEquals(400, data.topTenSize);
-		assertEquals(topRequests, data.topRequests);
-		assertEquals(500, data.longestSize);
-		assertEquals(longestRequests, data.longestRequests);
+		assertEquals(300, data.latestSize);
+		assertEquals(logLines, data.latestLines);
+		assertEquals(400, data.longestSize);
+		assertEquals(topRequests, data.longestRequests);
+		assertEquals(500, data.longestByUrlTempSize);
+		assertEquals(longestRequests, data.longestByUrlTempRequests);
 	}
 
 	@Test
@@ -330,9 +330,9 @@ public class DispatchTest {
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
 		final LongestRequests longestRequests = mock(LongestRequests.class);
-		data.logLines = logLines;
-		data.topRequests = topRequests;
-		data.longestRequests = longestRequests;
+		data.latestLines = logLines;
+		data.longestRequests = topRequests;
+		data.longestByUrlTempRequests = longestRequests;
 
 		data.activated = true;
 
@@ -358,9 +358,9 @@ public class DispatchTest {
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
 		final LongestRequests longestRequests = mock(LongestRequests.class);
-		data.logLines = logLines;
-		data.topRequests = topRequests;
-		data.longestRequests = longestRequests;
+		data.latestLines = logLines;
+		data.longestRequests = topRequests;
+		data.longestByUrlTempRequests = longestRequests;
 
 		data.activated = false;
 
@@ -390,13 +390,13 @@ public class DispatchTest {
 		final CircularStack logLines = mock(CircularStack.class);
 		final TopRequests topRequests = mock(TopRequests.class);
 		final LongestRequests longestRequests = mock(LongestRequests.class);
-		data.logLines = logLines;
-		data.topRequests = topRequests;
-		data.longestRequests = longestRequests;
+		data.latestLines = logLines;
+		data.longestRequests = topRequests;
+		data.longestByUrlTempRequests = longestRequests;
 
-		data.logSize = 300;
-		data.topTenSize = 400;
-		data.longestSize = 500;
+		data.latestSize = 300;
+		data.longestSize = 400;
+		data.longestByUrlTempSize = 500;
 
 		final HttpServletRequest httpServletRequest = mock(HttpServletRequest.class);
 		final HttpServletResponse httpServletResponse = mock(HttpServletResponse.class);
@@ -411,9 +411,9 @@ public class DispatchTest {
 
 		// Then
 		assertTrue(hasActions);
-		assertNotEquals(logLines, data.logLines);
-		assertNotEquals(topRequests, data.topRequests);
-		assertNotEquals(longestRequests, data.longestRequests);
+		assertNotEquals(logLines, data.latestLines);
+		assertNotEquals(topRequests, data.longestRequests);
+		assertNotEquals(longestRequests, data.longestByUrlTempRequests);
 	}
 
 	@Test
@@ -442,9 +442,9 @@ public class DispatchTest {
 
 		// Then
 		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
-		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logSize);
-		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
-		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LATEST_SIZE, data.latestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestByUrlTempSize);
 		assertEquals("/monitor", data.reportingReqPath);
 		assertFalse(data.traceFlag);
 		assertEquals("10.11.12.13", data.ipAddress);
@@ -455,9 +455,9 @@ public class DispatchTest {
 		 */
 
 		data.durationThreshold = 1;
-		data.logSize = 2;
-		data.topTenSize = 3;
-		data.longestSize = 4;
+		data.latestSize = 2;
+		data.longestSize = 3;
+		data.longestByUrlTempSize = 4;
 		data.reportingReqPath = "test";
 		data.traceFlag = true;
 		data.ipAddress = "1.2.3.4";
@@ -492,9 +492,9 @@ public class DispatchTest {
 		// Then
 		assertTrue(hasActions);
 		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
-		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logSize);
-		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
-		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LATEST_SIZE, data.latestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestByUrlTempSize);
 		assertEquals("/monitor", data.reportingReqPath);
 		assertFalse(data.traceFlag);
 		assertEquals("10.11.12.13", data.ipAddress);

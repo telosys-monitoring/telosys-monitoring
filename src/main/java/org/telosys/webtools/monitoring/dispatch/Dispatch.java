@@ -9,11 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.telosys.webtools.monitoring.dispatch.action.Action;
-import org.telosys.webtools.monitoring.dispatch.action.ByTimeSizeAction;
-import org.telosys.webtools.monitoring.dispatch.action.ByUrlSizeAction;
+import org.telosys.webtools.monitoring.dispatch.action.LongestSizeAction;
+import org.telosys.webtools.monitoring.dispatch.action.LongestByUrlSizeAction;
 import org.telosys.webtools.monitoring.dispatch.action.CleanAction;
 import org.telosys.webtools.monitoring.dispatch.action.DurationThresholdAction;
-import org.telosys.webtools.monitoring.dispatch.action.LogSizeAction;
+import org.telosys.webtools.monitoring.dispatch.action.LatestAction;
 import org.telosys.webtools.monitoring.dispatch.action.ResetAction;
 import org.telosys.webtools.monitoring.dispatch.action.StartAction;
 import org.telosys.webtools.monitoring.dispatch.action.StartAutoRefreshAction;
@@ -61,9 +61,9 @@ public class Dispatch {
 		actions.add(new StartAction());
 		actions.add(new StopAction());
 		actions.add(new DurationThresholdAction());
-		actions.add(new LogSizeAction());
-		actions.add(new ByTimeSizeAction());
-		actions.add(new ByUrlSizeAction());
+		actions.add(new LatestAction());
+		actions.add(new LongestSizeAction());
+		actions.add(new LongestByUrlSizeAction());
 		actions.add(new URLParamsActivatedAction());
 		actions.add(new URLParamsFilterAction());
 		actions.add(new URLParamsEmptyAction());

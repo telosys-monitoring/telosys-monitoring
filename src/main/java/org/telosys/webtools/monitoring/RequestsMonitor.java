@@ -236,11 +236,11 @@ public class RequestsMonitor implements Filter {
 	 * Increment count all requests.
 	 */
 	protected synchronized long incrementCountAllRequest() {
-		data.countAllRequest = data.countAllRequest + 1;
-		if(data.countAllRequest > COUNT_LIMIT) {
-			data.countAllRequest = 1;
+		data.countAllRequests = data.countAllRequests + 1;
+		if(data.countAllRequests > COUNT_LIMIT) {
+			data.countAllRequests = 1;
 		}
-		return data.countAllRequest;
+		return data.countAllRequests;
 	}
 
 	/**
@@ -264,15 +264,15 @@ public class RequestsMonitor implements Filter {
 	 * @param httpRequest HTTP request
 	 * @param startTime Start date
 	 * @param elapsedTime Execution time
-	 * @param countAllRequest Count all resquests
+	 * @param countAllRequests Count all resquests
 	 * @param countLongTimeRequests Count Longest requests
 	 */
 	protected final void logRequest(final ServletRequest servletRequest, final long startTime, final long elapsedTime ) {
 		final Request request = createRequest(servletRequest, startTime, elapsedTime);
 
-		data.logLines.add(request);
-		data.topRequests.add(request);
+		data.latestLines.add(request);
 		data.longestRequests.add(request);
+		data.longestByUrlTempRequests.add(request);
 
 		log.trace(request);
 	}
@@ -282,7 +282,7 @@ public class RequestsMonitor implements Filter {
 	 * @param httpRequest HTTP request
 	 * @param startTime Start date
 	 * @param elapsedTime Request execution time
-	 * @param countAllRequest Count all requests
+	 * @param countAllRequests Count all requests
 	 * @param countLongTimeRequests Count longest requests
 	 * @return request
 	 */

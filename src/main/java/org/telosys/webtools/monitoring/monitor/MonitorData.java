@@ -18,10 +18,10 @@ public class MonitorData implements Serializable {
 	/** Execution time threshold */
 	public int     durationThreshold;
 	/** Number of last stored requests */
-	public int     logSize;
-	/** Number of top longest requests */
-	public int     topTenSize;
+	public int     latestSize;
 	/** Number of longest requests */
+	public int     longestByUrlTempSize;
+	/** Number of longest by url requests */
 	public int     longestSize;
 
 	/** URL path to the monitor reporting */
@@ -42,18 +42,18 @@ public class MonitorData implements Serializable {
 	/** Initialization date */
 	public String initializationDate;
 	/** Count all requests */
-	public long   countAllRequest;
+	public long   countAllRequests;
 	/** Count longest requests */
 	public long   countLongTimeRequests;
 	/** Count all requests for request log */
 	public long   countAllRequestForRequest;
 
 	/** Last stored requests */
-	public CircularStack logLines;
+	public CircularStack latestLines;
 	/** Top longest requests */
-	public TopRequests topRequests;
+	public TopRequests longestRequests;
 	/** Longest requests */
-	public LongestRequests longestRequests;
+	public LongestRequests longestByUrlTempRequests;
 
 	/** IP address */
 	public String ipAddress;

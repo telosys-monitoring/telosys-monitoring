@@ -19,9 +19,9 @@ public class CleanAction implements Action {
 	}
 
 	public void action(final Map<String, String> params, final MonitorData data, final MonitorInitValues initValues) {
-		data.logLines = new CircularStack(data.logSize);
-		data.topRequests = new TopRequests(data.topTenSize);
-		data.longestRequests = new LongestRequests(data.longestSize);
+		data.latestLines = new CircularStack(data.latestSize);
+		data.longestRequests = new TopRequests(data.longestSize);
+		data.longestByUrlTempRequests = new LongestRequests(data.longestByUrlTempSize);
 	}
 
 }

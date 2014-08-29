@@ -82,17 +82,17 @@ public class CleanActionTest {
 		final MonitorInitValues initValues = new MonitorInitValues();
 		final MonitorData data = new MonitorData();
 
-		data.logSize = 100;
-		data.topTenSize = 200;
-		data.longestSize = 300;
+		data.latestSize = 100;
+		data.longestSize = 200;
+		data.longestByUrlTempSize = 300;
 
 		// When
 		action.action(params, data, initValues);
 
 		// Then
-		assertEquals(100, data.logLines.getSize());
-		assertEquals(200, data.topRequests.getSize());
-		assertEquals(300, data.longestRequests.getSize());
+		assertEquals(100, data.latestLines.getSize());
+		assertEquals(200, data.longestRequests.getSize());
+		assertEquals(300, data.longestByUrlTempRequests.getSize());
 	}
 
 	@Test
@@ -104,21 +104,21 @@ public class CleanActionTest {
 		final MonitorInitValues initValues = new MonitorInitValues();
 		final MonitorData data = new MonitorData();
 
-		data.logSize = 100;
-		data.topTenSize = 200;
-		data.longestSize = 300;
+		data.latestSize = 100;
+		data.longestSize = 200;
+		data.longestByUrlTempSize = 300;
 
-		data.logLines = new CircularStack(10);
-		data.topRequests = new TopRequests(20);
-		data.longestRequests = new LongestRequests(20);
+		data.latestLines = new CircularStack(10);
+		data.longestRequests = new TopRequests(20);
+		data.longestByUrlTempRequests = new LongestRequests(20);
 
 		// When
 		action.action(params, data, initValues);
 
 		// Then
-		assertEquals(100, data.logLines.getSize());
-		assertEquals(200, data.topRequests.getSize());
-		assertEquals(300, data.longestRequests.getSize());
+		assertEquals(100, data.latestLines.getSize());
+		assertEquals(200, data.longestRequests.getSize());
+		assertEquals(300, data.longestByUrlTempRequests.getSize());
 	}
 
 }

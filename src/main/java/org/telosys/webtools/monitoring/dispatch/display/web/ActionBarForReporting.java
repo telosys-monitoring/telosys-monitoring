@@ -41,9 +41,9 @@ public class ActionBarForReporting {
 		out.println("<select id='key'>");
 		out.println("<option value=''></option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD+"'>Duration threshold</option>");
-		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_LOG_SIZE+"'>Log size</option>");
-		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_TIME_SIZE+"'>Top requests by Time size</option>");
-		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_BY_URL_SIZE+"'>Top requests by URL size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE+"'>Latest requests log size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE+"'>Longest requests log size</option>");
+		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE+"'>Longest requests by URL log size</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_ACTIVATED+"'>Catch URL parameters (true/false)</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_FILTER+"'>URL parameters names</option>");
 		out.println("<option value='"+MonitorAttributeNames.ATTRIBUTE_NAME_URL_PARAMS_EMPTY+"'>Show empty URL params (true/false)</option>");

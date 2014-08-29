@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
+import org.telosys.webtools.monitoring.monitor.MonitorAttributeNames;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 
@@ -52,11 +53,11 @@ public class RestInfoControllerTest {
 		data.ipAddress = "1.2.3.4";
 		data.hostname = "hostname";
 		data.durationThreshold = 100;
-		data.logSize = 200;
-		data.topTenSize = 300;
-		data.longestSize = 400;
+		data.latestSize = 200;
+		data.longestSize = 300;
+		data.longestByUrlTempSize = 400;
 		data.initializationDate = "initializationDate";
-		data.countAllRequest = 500;
+		data.countAllRequests = 500;
 		data.countLongTimeRequests = 600;
 
 		// When
@@ -78,15 +79,15 @@ public class RestInfoControllerTest {
 		final Map<String, Object> configuration = (Map<String, Object>) json.get("configuration");
 
 		assertEquals(100,configuration.get("duration"));
-		assertEquals(200,configuration.get("log_size"));
-		assertEquals(300,configuration.get("by_time_size"));
-		assertEquals(400,configuration.get("by_url_size"));
+		assertEquals(200,configuration.get(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE));
+		assertEquals(300,configuration.get(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE));
+		assertEquals(400,configuration.get(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE));
 
 		final Map<String, Object> monitoring = (Map<String, Object>) json.get("monitoring");
 
 		assertEquals(Boolean.TRUE, monitoring.get("activated"));
 		assertEquals("initializationDate",monitoring.get("initialization_date"));
-		assertEquals(500L,monitoring.get("count_all_request"));
+		assertEquals(500L,monitoring.get("count_all_requests"));
 		assertEquals(600L,monitoring.get("count_long_time_requests"));
 
 	}

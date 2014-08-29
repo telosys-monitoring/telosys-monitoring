@@ -71,8 +71,8 @@ public class RestLogControllerTest {
 		final Map<String, Object> mapRequest2 = new HashMap<String, Object>();
 		requestToMap.transformRequestToMap(request2);
 
-		data.logLines = mock(CircularStack.class);
-		when(data.logLines.getAllAscending()).thenReturn(requests);
+		data.latestLines = mock(CircularStack.class);
+		when(data.latestLines.getAllAscending()).thenReturn(requests);
 
 		// When
 		final Map<String, Object> map = restLogController.getData(paths, params, data);
@@ -122,8 +122,8 @@ public class RestLogControllerTest {
 		final Map<String, Object> mapRequest3 = new HashMap<String, Object>();
 		requestToMap.transformRequestToMap(request2);
 
-		data.logLines = mock(CircularStack.class);
-		when(data.logLines.getAllAscending()).thenReturn(requests);
+		data.latestLines = mock(CircularStack.class);
+		when(data.latestLines.getAllAscending()).thenReturn(requests);
 
 		// When
 		final Map<String, Object> map = restLogController.getData(paths, params, data);

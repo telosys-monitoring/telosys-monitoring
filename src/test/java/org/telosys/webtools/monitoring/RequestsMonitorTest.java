@@ -114,12 +114,12 @@ public class RequestsMonitorTest {
 		data.activated = true;
 		data.reportingReqPath = "/monitoring";
 		data.durationThreshold = -99999999;
-		data.countAllRequest = RequestsMonitor.COUNT_LIMIT-1;
+		data.countAllRequests = RequestsMonitor.COUNT_LIMIT-1;
 		data.countAllRequestForRequest = RequestsMonitor.COUNT_LIMIT-1;
 		data.countLongTimeRequests = RequestsMonitor.COUNT_LIMIT-1;
-		data.logLines = new CircularStack(200);
-		data.topRequests = new TopRequests(200);
-		data.longestRequests = new LongestRequests(200);
+		data.latestLines = new CircularStack(200);
+		data.longestRequests = new TopRequests(200);
+		data.longestByUrlTempRequests = new LongestRequests(200);
 
 		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -150,15 +150,15 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest1, response);
 		verify(chain).doFilter(httpRequest2, response);
 
-		List<Request> requests = data.logLines.getAllAscending();
+		List<Request> requests = data.latestLines.getAllAscending();
 		assertEquals("1970/01/01 01:00:00 - [ "+RequestsMonitor.COUNT_LIMIT+" / "+RequestsMonitor.COUNT_LIMIT+" ] - 500 ms - http://request1.url?query1", requests.get(0).toString());
 		assertEquals("1970/01/01 01:00:01 - [ 1 / 1 ] - 500 ms - http://request2.url?query2", requests.get(1).toString());
 
-		requests = data.topRequests.getAllAscending();
+		requests = data.longestRequests.getAllAscending();
 		assertEquals("1970/01/01 01:00:00 - [ "+RequestsMonitor.COUNT_LIMIT+" / "+RequestsMonitor.COUNT_LIMIT+" ] - 500 ms - http://request1.url?query1", requests.get(0).toString());
 		assertEquals("1970/01/01 01:00:01 - [ 1 / 1 ] - 500 ms - http://request2.url?query2", requests.get(1).toString());
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals("1970/01/01 01:00:01 - [ 1 / 1 ] - 500 ms - http://request2.url?query2", requests.get(0).toString());
 		assertEquals("1970/01/01 01:00:00 - [ "+RequestsMonitor.COUNT_LIMIT+" / "+RequestsMonitor.COUNT_LIMIT+" ] - 500 ms - http://request1.url?query1", requests.get(1).toString());
 	}
@@ -173,9 +173,9 @@ public class RequestsMonitorTest {
 		data.activated = false;
 		data.reportingReqPath = "/monitoring";
 		data.durationThreshold = -99999999;
-		data.logLines = new CircularStack(200);
-		data.topRequests = new TopRequests(200);
-		data.longestRequests = new LongestRequests(200);
+		data.latestLines = new CircularStack(200);
+		data.longestRequests = new TopRequests(200);
+		data.longestByUrlTempRequests = new LongestRequests(200);
 
 		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -206,13 +206,13 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest1, response);
 		verify(chain).doFilter(httpRequest2, response);
 
-		List<Request> requests = data.logLines.getAllAscending();
+		List<Request> requests = data.latestLines.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.topRequests.getAllAscending();
+		requests = data.longestRequests.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 	}
 
@@ -227,9 +227,9 @@ public class RequestsMonitorTest {
 		data.activated = false;
 		data.reportingReqPath = "/monitoring";
 		data.durationThreshold = -99999999;
-		data.logLines = new CircularStack(200);
-		data.topRequests = new TopRequests(200);
-		data.longestRequests = new LongestRequests(200);
+		data.latestLines = new CircularStack(200);
+		data.longestRequests = new TopRequests(200);
+		data.longestByUrlTempRequests = new LongestRequests(200);
 
 		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -284,13 +284,13 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest1, response);
 		verify(chain).doFilter(httpRequest2, response);
 
-		List<Request> requests = data.logLines.getAllAscending();
+		List<Request> requests = data.latestLines.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.topRequests.getAllAscending();
+		requests = data.longestRequests.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 
 		assertTrue(out.toString().indexOf("\"host\":") != -1);
@@ -307,9 +307,9 @@ public class RequestsMonitorTest {
 		data.activated = false;
 		data.reportingReqPath = "/monitoring";
 		data.durationThreshold = -99999999;
-		data.logLines = new CircularStack(200);
-		data.topRequests = new TopRequests(200);
-		data.longestRequests = new LongestRequests(200);
+		data.latestLines = new CircularStack(200);
+		data.longestRequests = new TopRequests(200);
+		data.longestByUrlTempRequests = new LongestRequests(200);
 
 		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -364,13 +364,13 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest1, response);
 		verify(chain).doFilter(httpRequest2, response);
 
-		List<Request> requests = data.logLines.getAllAscending();
+		List<Request> requests = data.latestLines.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.topRequests.getAllAscending();
+		requests = data.longestRequests.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 
 		assertTrue(out.toString().indexOf("\"log\":") != -1);
@@ -387,9 +387,9 @@ public class RequestsMonitorTest {
 		data.activated = false;
 		data.reportingReqPath = "/monitoring";
 		data.durationThreshold = -99999999;
-		data.logLines = new CircularStack(200);
-		data.topRequests = new TopRequests(200);
-		data.longestRequests = new LongestRequests(200);
+		data.latestLines = new CircularStack(200);
+		data.longestRequests = new TopRequests(200);
+		data.longestByUrlTempRequests = new LongestRequests(200);
 
 		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -447,13 +447,13 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest1, response);
 		verify(chain).doFilter(httpRequest2, response);
 
-		List<Request> requests = data.logLines.getAllAscending();
+		List<Request> requests = data.latestLines.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.topRequests.getAllAscending();
+		requests = data.longestRequests.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 
 		assertTrue(out.toString().indexOf("\"top\":") != -1);
@@ -470,9 +470,9 @@ public class RequestsMonitorTest {
 		data.activated = false;
 		data.reportingReqPath = "/monitoring";
 		data.durationThreshold = -99999999;
-		data.logLines = new CircularStack(200);
-		data.topRequests = new TopRequests(200);
-		data.longestRequests = new LongestRequests(200);
+		data.latestLines = new CircularStack(200);
+		data.longestRequests = new TopRequests(200);
+		data.longestByUrlTempRequests = new LongestRequests(200);
 
 		when(requestsMonitor.utils.getTime()).thenAnswer(new Answer<Long>() {
 			private long time = 0;
@@ -527,13 +527,13 @@ public class RequestsMonitorTest {
 		verify(chain).doFilter(httpRequest1, response);
 		verify(chain).doFilter(httpRequest2, response);
 
-		List<Request> requests = data.logLines.getAllAscending();
+		List<Request> requests = data.latestLines.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.topRequests.getAllAscending();
+		requests = data.longestRequests.getAllAscending();
 		assertEquals(0, requests.size());
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 
 		assertTrue(out.toString().indexOf("\"longest\":") != -1);

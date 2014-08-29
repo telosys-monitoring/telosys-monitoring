@@ -41,24 +41,24 @@ public class RestInfoController extends AbstractRestController implements Contro
 		host.put("os_name", System.getProperty("os.name"));
 		host.put("os_version", System.getProperty("os.version"));
 
-		final Map<String, Object> configuration = newMap();
-		json.put("configuration", configuration);
-
-		configuration.put("duration", data.durationThreshold);
-		configuration.put("log_size", data.logSize);
-		configuration.put("by_time_size", data.topTenSize);
-		configuration.put("by_url_size", data.longestSize);
-		configuration.put("url_params_activated", (data.urlParamsActivated?"true":"false"));
-		configuration.put("url_params_filter", utils.mergeToString(data.urlParamsFilter, ','));
-		configuration.put("url_params_empty", (data.urlParamsEmpty?"true":"false"));
-
 		final Map<String, Object> monitoring = newMap();
 		json.put("monitoring", monitoring);
 
 		monitoring.put("activated", data.activated);
 		monitoring.put("initialization_date", data.initializationDate);
-		monitoring.put("count_all_request", data.countAllRequest);
+		monitoring.put("count_all_requests", data.countAllRequests);
 		monitoring.put("count_long_time_requests", data.countLongTimeRequests);
+
+		final Map<String, Object> configuration = newMap();
+		json.put("configuration", configuration);
+
+		configuration.put("duration", data.durationThreshold);
+		configuration.put("latest_size", data.latestSize);
+		configuration.put("longest_size", data.longestSize);
+		configuration.put("longest_by_url_size", data.longestByUrlTempSize);
+		configuration.put("url_params_activated", (data.urlParamsActivated?"true":"false"));
+		configuration.put("url_params_filter", utils.mergeToString(data.urlParamsFilter, ','));
+		configuration.put("url_params_empty", (data.urlParamsEmpty?"true":"false"));
 
 		return json;
 	}

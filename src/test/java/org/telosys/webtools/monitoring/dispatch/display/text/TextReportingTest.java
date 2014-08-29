@@ -51,14 +51,14 @@ public class TextReportingTest {
 		r2.countLongTimeRequests = 2;
 		r2.countAllRequest = 10;
 
-		monitorData.logLines = mock(CircularStack.class);
-		when(monitorData.logLines.getAllAscending()).thenReturn(lines);
+		monitorData.latestLines = mock(CircularStack.class);
+		when(monitorData.latestLines.getAllAscending()).thenReturn(lines);
 
-		monitorData.topRequests = mock(TopRequests.class);
-		when(monitorData.topRequests.getAllDescending()).thenReturn(lines);
-
-		monitorData.longestRequests = mock(LongestRequests.class);
+		monitorData.longestRequests = mock(TopRequests.class);
 		when(monitorData.longestRequests.getAllDescending()).thenReturn(lines);
+
+		monitorData.longestByUrlTempRequests = mock(LongestRequests.class);
+		when(monitorData.longestByUrlTempRequests.getAllDescending()).thenReturn(lines);
 
 		final HttpServletResponse response = mock(HttpServletResponse.class);
 		final PrintWriter out = mock(PrintWriter.class);
@@ -73,18 +73,18 @@ public class TextReportingTest {
 		verify(response).setHeader("Cache-Control", "no-store, no-cache, must-revalidate");
 		verify(response).setDateHeader ("Expires", 0);
 
-		verify(monitorData.logLines).getAllAscending();
-		verify(monitorData.topRequests).getAllDescending();
+		verify(monitorData.latestLines).getAllAscending();
 		verify(monitorData.longestRequests).getAllDescending();
+		verify(monitorData.longestByUrlTempRequests).getAllDescending();
 
 		verify(out).println("IP address : " + monitorData.ipAddress);
 		verify(out).println("Hostname : " + monitorData.hostname);
 		verify(out).println("Duration threshold : " + monitorData.durationThreshold);
-		verify(out).println("Log in memory size : " + monitorData.logSize + " lines");
-		verify(out).println("Top requests by time : " + monitorData.topTenSize + " lines");
-		verify(out).println("Top requests by URL : " + monitorData.longestSize + " lines");
+		verify(out).println("Log in memory size : " + monitorData.latestSize + " lines");
+		verify(out).println("Top requests by time : " + monitorData.longestSize + " lines");
+		verify(out).println("Top requests by URL : " + monitorData.longestByUrlTempSize + " lines");
 		verify(out).println("Initialization date/time : " + monitorData.initializationDate);
-		verify(out).println("Total requests count     : " + monitorData.countAllRequest);
+		verify(out).println("Total requests count     : " + monitorData.countAllRequests);
 		verify(out).println("Long time requests count : " + monitorData.countLongTimeRequests);
 		verify(out).println("Last longest requests : " );
 		verify(out).println("1970/01/01 01:00:11 - [ 1 / 5 ] - 12 ms - requestURL1?queryString1");

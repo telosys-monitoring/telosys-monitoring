@@ -31,8 +31,8 @@ public class MonitorInitValuesManagerTest {
 
 		// Then
 		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, initValues.durationThreshold);
-		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, initValues.logSize);
-		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, initValues.topTenSize);
+		assertEquals(MonitorInitValues.DEFAULT_LATEST_SIZE, initValues.latestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE, initValues.longestByUrlSize);
 		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, initValues.longestSize);
 		assertEquals("/monitor", initValues.reportingReqPath);
 		assertFalse(initValues.traceFlag);
@@ -46,10 +46,10 @@ public class MonitorInitValuesManagerTest {
 		final MonitorInitValuesManager monitorWebXmlManager = new MonitorInitValuesManager();
 
 		final FilterConfig filterConfig = mock(FilterConfig.class);
-		when(filterConfig.getInitParameter("duration")).thenReturn("200");
-		when(filterConfig.getInitParameter("logsize")).thenReturn("300");
-		when(filterConfig.getInitParameter("toptensize")).thenReturn("400");
-		when(filterConfig.getInitParameter("longestsize")).thenReturn("500");
+		when(filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_DURATION_THRESHOLD)).thenReturn("200");
+		when(filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_LATEST_SIZE)).thenReturn("300");
+		when(filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_BY_URL_SIZE)).thenReturn("400");
+		when(filterConfig.getInitParameter(MonitorAttributeNames.ATTRIBUTE_NAME_LONGEST_SIZE)).thenReturn("500");
 		when(filterConfig.getInitParameter("reporting")).thenReturn("/monitoring2");
 		when(filterConfig.getInitParameter("trace")).thenReturn("true");
 		when(filterConfig.getInitParameter("activated")).thenReturn("true");
@@ -59,8 +59,8 @@ public class MonitorInitValuesManagerTest {
 
 		// Then
 		assertEquals(200, initValues.durationThreshold);
-		assertEquals(300, initValues.logSize);
-		assertEquals(400, initValues.topTenSize);
+		assertEquals(300, initValues.latestSize);
+		assertEquals(400, initValues.longestByUrlSize);
 		assertEquals(500, initValues.longestSize);
 		assertEquals("/monitoring2", initValues.reportingReqPath);
 		assertTrue(initValues.traceFlag);
@@ -96,8 +96,8 @@ public class MonitorInitValuesManagerTest {
 		final MonitorData data = new MonitorData();
 
 		initValues.durationThreshold = MonitorInitValues.DEFAULT_DURATION_THRESHOLD;
-		initValues.logSize = MonitorInitValues.DEFAULT_LOG_SIZE;
-		initValues.topTenSize = MonitorInitValues.DEFAULT_TOP_TEN_SIZE;
+		initValues.latestSize = MonitorInitValues.DEFAULT_LATEST_SIZE;
+		initValues.longestByUrlSize = MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE;
 		initValues.longestSize = MonitorInitValues.DEFAULT_LONGEST_SIZE;
 		initValues.reportingReqPath = "/monitor";
 		initValues.traceFlag = true;
@@ -113,12 +113,12 @@ public class MonitorInitValuesManagerTest {
 
 		// Then
 		assertEquals(MonitorInitValues.DEFAULT_DURATION_THRESHOLD, data.durationThreshold);
-		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logSize);
-		assertEquals(MonitorInitValues.DEFAULT_LOG_SIZE, data.logLines.getSize());
-		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topTenSize);
-		assertEquals(MonitorInitValues.DEFAULT_TOP_TEN_SIZE, data.topRequests.getSize());
-		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestSize);
-		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestRequests.getSize());
+		assertEquals(MonitorInitValues.DEFAULT_LATEST_SIZE, data.latestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LATEST_SIZE, data.latestLines.getSize());
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE, data.longestSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_BY_URL_SIZE, data.longestRequests.getSize());
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestByUrlTempSize);
+		assertEquals(MonitorInitValues.DEFAULT_LONGEST_SIZE, data.longestByUrlTempRequests.getSize());
 		assertEquals("/monitor", data.reportingReqPath);
 		assertEquals("10.11.12.13", data.ipAddress);
 		assertEquals("hostname", data.hostname);
@@ -137,8 +137,8 @@ public class MonitorInitValuesManagerTest {
 		final MonitorData data = new MonitorData();
 
 		initValues.durationThreshold = 200;
-		initValues.logSize = 300;
-		initValues.topTenSize = 400;
+		initValues.latestSize = 300;
+		initValues.longestByUrlSize = 400;
 		initValues.longestSize = 500;
 		initValues.reportingReqPath = "/monitoring2";
 		initValues.traceFlag = false;
@@ -154,12 +154,12 @@ public class MonitorInitValuesManagerTest {
 
 		// Then
 		assertEquals(200, data.durationThreshold);
-		assertEquals(300, data.logSize);
-		assertEquals(300, data.logLines.getSize());
-		assertEquals(400, data.topTenSize);
-		assertEquals(400, data.topRequests.getSize());
-		assertEquals(500, data.longestSize);
-		assertEquals(500, data.longestRequests.getSize());
+		assertEquals(300, data.latestSize);
+		assertEquals(300, data.latestLines.getSize());
+		assertEquals(400, data.longestSize);
+		assertEquals(400, data.longestRequests.getSize());
+		assertEquals(500, data.longestByUrlTempSize);
+		assertEquals(500, data.longestByUrlTempRequests.getSize());
 		assertEquals("/monitoring2", data.reportingReqPath);
 		assertEquals("10.11.12.13", data.ipAddress);
 		assertEquals("hostname", data.hostname);

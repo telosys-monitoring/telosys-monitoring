@@ -53,7 +53,7 @@ public class RestLongestController extends AbstractRestController implements Con
 	protected List<Request> getRequests(final String[] paths, final Map<String, String> params, final MonitorData data) {
 		final List<Request> requests;
 
-		requests = data.longestRequests.getAllDescending();
+		requests = data.longestByUrlTempRequests.getAllDescending();
 
 		return requests;
 	}

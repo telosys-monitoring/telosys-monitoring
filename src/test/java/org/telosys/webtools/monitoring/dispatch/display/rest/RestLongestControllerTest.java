@@ -78,8 +78,8 @@ public class RestLongestControllerTest {
 		final Map<String, Object> mapRequest3 = new HashMap<String, Object>();
 		requestToMap.transformRequestToMap(request3);
 
-		data.longestRequests = mock(LongestRequests.class);
-		when(data.longestRequests.getAllDescending()).thenReturn(requests);
+		data.longestByUrlTempRequests = mock(LongestRequests.class);
+		when(data.longestByUrlTempRequests.getAllDescending()).thenReturn(requests);
 
 		// When
 		final Map<String, Object> map = restLongestsService.getData(paths, params, data);
