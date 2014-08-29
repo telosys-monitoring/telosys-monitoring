@@ -52,29 +52,30 @@ Summary :
 * With logs
 ```
 {
-"log": [
-{
-"startTime": 1409238846253,
-"countAllRequest": 1,
-"countLongTimeRequests": 1,
-"url": "http://localhost:8080/telosys-timeout/timeout?t=100",
-"elapsedTime": 105
+"host": {
+"ip_adress": "192.168.56.1",
+"hostname": "FR-44-02-13-023",
+"java_version": "1.6.0_45",
+"java_vendor": "Sun Microsystems Inc.",
+"os_arch": "amd64",
+"os_name": "Windows 7",
+"os_version": "6.1"
 },
-{
-"startTime": 1409238847806,
-"countAllRequest": 2,
-"countLongTimeRequests": 2,
-"url": "http://localhost:8080/telosys-timeout/timeout?t=100",
-"elapsedTime": 102
+"monitoring": {
+"activated": "true",
+"initialization_date": "2014/08/29 11:34:53",
+"count_all_requests": 0,
+"count_long_time_requests": 0
 },
-{
-"startTime": 1409238876151,
-"countAllRequest": 3,
-"countLongTimeRequests": 3,
-"url": "http://localhost:8080/telosys-timeout/timeout?t=110",
-"elapsedTime": 112
+"configuration": {
+"duration": 1,
+"latest_size": 100,
+"longest_size": 10,
+"longest_by_url_size": 10,
+"url_params_activated": "false",
+"url_params_filter": "*",
+"url_params_empty": "true"
 }
-]
 }
 ```
 
@@ -156,9 +157,9 @@ Clear | action=clear
 Stop | action=stop               
 Start | action=start
 Duration threshold | duration=[value]
-Max number of requests in the log | log_size=[value]
-Max number of requests sorted by time | by_time_size=[value]
-Max number of requests sorted by url | by_url_size=[value]
+Max number of requests in the log | latest_size=[value]
+Max number of requests sorted by time | longest_size=[value]
+Max number of requests sorted by url | longest_by_url_size=[value]
 Activate catching of URL parameters | url_params_activated=[true / false]
 URL parameters name filter | url_params_filter=[* / name1,name2,...]
 Display URL parameters without value | url_params_empty=[true / false]
