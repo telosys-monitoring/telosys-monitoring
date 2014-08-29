@@ -24,9 +24,9 @@ import org.telosys.webtools.monitoring.dispatch.action.URLParamsEmptyAction;
 import org.telosys.webtools.monitoring.dispatch.action.URLParamsFilterAction;
 import org.telosys.webtools.monitoring.dispatch.display.Controller;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestInfoController;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestLogController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestLatestController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.RestLongestController;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestTopRequestController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestLongestByUrlRequestController;
 import org.telosys.webtools.monitoring.dispatch.display.web.HtmlReporting;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
@@ -75,8 +75,8 @@ public class Dispatch {
 
 		// REST URL
 		controllers.add(new RestInfoController());
-		controllers.add(new RestLogController());
-		controllers.add(new RestTopRequestController());
+		controllers.add(new RestLatestController());
+		controllers.add(new RestLongestByUrlRequestController());
 		controllers.add(new RestLongestController());
 	}
 

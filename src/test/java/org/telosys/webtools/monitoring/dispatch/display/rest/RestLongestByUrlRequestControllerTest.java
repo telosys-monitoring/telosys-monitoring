@@ -17,18 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.bean.TopRequests;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestTopRequestController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestLongestByUrlRequestController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.common.RequestToMap;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 
 
-public class RestTopRequestControllerTest {
+public class RestLongestByUrlRequestControllerTest {
 
 	@Test
 	public void testMatch() throws Exception {
 		// Given
-		final RestTopRequestController restTopRequestController = new RestTopRequestController();
+		final RestLongestByUrlRequestController restTopRequestController = new RestLongestByUrlRequestController();
 
 		// When/Then
 		assertFalse(restTopRequestController.match(null, null));
@@ -45,7 +45,7 @@ public class RestTopRequestControllerTest {
 	@Test
 	public void testGetData() throws Exception {
 		// Given
-		final RestTopRequestController restTopRequestController = new RestTopRequestController();
+		final RestLongestByUrlRequestController restTopRequestController = new RestLongestByUrlRequestController();
 
 		final RequestToMap requestToMap = mock(RequestToMap.class);
 		restTopRequestController.setRequestToMap(requestToMap);

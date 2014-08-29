@@ -10,9 +10,9 @@ import org.telosys.webtools.monitoring.dispatch.display.rest.base.AbstractRestCo
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 
 /**
- * REST URL : /rest/top
+ * REST URL : /rest/longestByUrl
  */
-public class RestTopRequestController extends AbstractRestController implements Controller {
+public class RestLongestByUrlRequestController extends AbstractRestController implements Controller {
 
 	/**
 	 * Indicates if URL paths match to this manager.
@@ -26,20 +26,20 @@ public class RestTopRequestController extends AbstractRestController implements 
 		if(paths.length != 2) {
 			return false;
 		}
-		return "rest".equals(paths[0]) && "top".equals(paths[1]);
+		return "rest".equals(paths[0]) && "longestByUrl".equals(paths[1]);
 	}
 
 	@Override
 	public Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
-		final List<Map<String,Object>> top = new ArrayList<Map<String,Object>>();
-		json.put("top", top);
+		final List<Map<String,Object>> longestByUrl = new ArrayList<Map<String,Object>>();
+		json.put("longestByUrl", longestByUrl);
 
 		final List<Request> requests = getRequests(paths, params, data);
 
 		for(final Request request : requests) {
-			top.add(getRequestToMap().transformRequestToMap(request));
+			longestByUrl.add(getRequestToMap().transformRequestToMap(request));
 		}
 
 		return json;

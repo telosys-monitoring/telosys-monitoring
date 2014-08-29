@@ -6,9 +6,9 @@ Summary :
 
 ## Get data
 * ```/monitor/rest/info```
-* ```/monitor/rest/log```
+* ```/monitor/rest/latest```
 * ```/monitor/rest/longest```
-* ```/monitor/rest/top```
+* ```/monitor/rest/longestByUrl```
 
 ### /monitor/rest/info
 ```
@@ -40,11 +40,11 @@ Summary :
 }
 ```
 
-### /monitor/rest/log
+### /monitor/rest/latest
 * Empty
 ```
 {
-"log": [
+"latest": [
 ]
 }
 ```
@@ -52,30 +52,29 @@ Summary :
 * With logs
 ```
 {
-"host": {
-"ip_adress": "192.168.56.1",
-"hostname": "FR-44-02-13-023",
-"java_version": "1.6.0_45",
-"java_vendor": "Sun Microsystems Inc.",
-"os_arch": "amd64",
-"os_name": "Windows 7",
-"os_version": "6.1"
+"latest": [
+{
+"startTime": 1409305861894,
+"countAllRequest": 1,
+"countLongTimeRequests": 1,
+"url": "http://localhost:8080/telosys-timeout/timeout?t=100",
+"elapsedTime": 105
 },
-"monitoring": {
-"activated": "true",
-"initialization_date": "2014/08/29 11:34:53",
-"count_all_requests": 0,
-"count_long_time_requests": 0
+{
+"startTime": 1409305866395,
+"countAllRequest": 2,
+"countLongTimeRequests": 2,
+"url": "http://localhost:8080/telosys-timeout/timeout?t=101",
+"elapsedTime": 105
 },
-"configuration": {
-"duration": 1,
-"latest_size": 100,
-"longest_size": 10,
-"longest_by_url_size": 10,
-"url_params_activated": "false",
-"url_params_filter": "*",
-"url_params_empty": "true"
+{
+"startTime": 1409305869515,
+"countAllRequest": 3,
+"countLongTimeRequests": 3,
+"url": "http://localhost:8080/telosys-timeout/timeout?t=102",
+"elapsedTime": 104
 }
+]
 }
 ```
 
@@ -110,11 +109,11 @@ Summary :
 }
 ```
 
-### /monitor/rest/top
+### /monitor/rest/longestByUrl
 * Empty
 ```
 {
-"top": [
+"longestByUrl": [
 ]
 }
 ```
@@ -122,7 +121,7 @@ Summary :
 * With logs
 ```
 {
-"top": [
+"longestByUrl": [
 {
 "startTime": 1409238876151,
 "countAllRequest": 3,

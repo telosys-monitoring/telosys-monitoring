@@ -12,7 +12,7 @@ import org.telosys.webtools.monitoring.monitor.MonitorData;
 /**
  * REST URL : /rest/log
  */
-public class RestLogController extends AbstractRestController implements Controller {
+public class RestLatestController extends AbstractRestController implements Controller {
 
 	/**
 	 * Indicates if URL paths match to this manager.
@@ -26,20 +26,20 @@ public class RestLogController extends AbstractRestController implements Control
 		if(paths.length != 2) {
 			return false;
 		}
-		return "rest".equals(paths[0]) && "log".equals(paths[1]);
+		return "rest".equals(paths[0]) && "latest".equals(paths[1]);
 	}
 
 	@Override
 	public Map<String, Object> getData(final String[] paths, final Map<String,String> params, final MonitorData data) {
 		final Map<String, Object> json = newMap();
 
-		final List<Map<String,Object>> log = new ArrayList<Map<String,Object>>();
-		json.put("log", log);
+		final List<Map<String,Object>> latest = new ArrayList<Map<String,Object>>();
+		json.put("latest", latest);
 
 		final List<Request> requests = getRequests(paths, params, data);
 
 		for(final Request request : requests) {
-			log.add(getRequestToMap().transformRequestToMap(request));
+			latest.add(getRequestToMap().transformRequestToMap(request));
 		}
 
 		return json;

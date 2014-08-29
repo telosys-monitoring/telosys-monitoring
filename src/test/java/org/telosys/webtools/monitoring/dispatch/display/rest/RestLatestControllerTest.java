@@ -17,18 +17,18 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.Request;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestLogController;
+import org.telosys.webtools.monitoring.dispatch.display.rest.RestLatestController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.common.RequestToMap;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
 
 
-public class RestLogControllerTest {
+public class RestLatestControllerTest {
 
 	@Test
 	public void testMatch() throws Exception {
 		// Given
-		final RestLogController restLogController = new RestLogController();
+		final RestLatestController restLogController = new RestLatestController();
 
 		// When/Then
 		assertFalse(restLogController.match(null, null));
@@ -45,7 +45,7 @@ public class RestLogControllerTest {
 	@Test
 	public void testGetData() throws Exception {
 		// Given
-		final RestLogController restLogController = new RestLogController();
+		final RestLatestController restLogController = new RestLatestController();
 
 		final RequestToMap requestToMap = mock(RequestToMap.class);
 		restLogController.setRequestToMap(requestToMap);
@@ -88,7 +88,7 @@ public class RestLogControllerTest {
 	@Test
 	public void testGetData_withStart() throws Exception {
 		// Given
-		final RestLogController restLogController = new RestLogController();
+		final RestLatestController restLogController = new RestLatestController();
 
 		final RequestToMap requestToMap = mock(RequestToMap.class);
 		restLogController.setRequestToMap(requestToMap);
