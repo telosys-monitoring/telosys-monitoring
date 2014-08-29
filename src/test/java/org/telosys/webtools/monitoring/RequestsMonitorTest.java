@@ -337,7 +337,7 @@ public class RequestsMonitorTest {
 		doReturn(parameters2).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest2);
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
-		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/log");
+		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/latest");
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
 		final Map<String,String> parameters3 = new HashMap<String,String>();
@@ -373,7 +373,7 @@ public class RequestsMonitorTest {
 		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 
-		assertTrue(out.toString().indexOf("\"log\":") != -1);
+		assertTrue(out.toString().indexOf("\"latest\":") != -1);
 	}
 
 	@Test
@@ -419,7 +419,7 @@ public class RequestsMonitorTest {
 		doReturn(parameters2).when(requestsMonitor.dispatch.getUtils()).getParameters(httpRequest2);
 
 		final HttpServletRequest httpRequest3 = mock(HttpServletRequest.class);
-		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/top");
+		when(httpRequest3.getRequestURI()).thenReturn(data.reportingReqPath+"/rest/longestByUrl");
 		when(httpRequest3.getContextPath()).thenReturn(null);
 		when(httpRequest3.getRequestURL()).thenReturn(new StringBuffer("http://request2.url"));
 		when(httpRequest3.getQueryString()).thenReturn("");
@@ -456,7 +456,7 @@ public class RequestsMonitorTest {
 		requests = data.longestByUrlTempRequests.getAllDescending();
 		assertEquals(0, requests.size());
 
-		assertTrue(out.toString().indexOf("\"top\":") != -1);
+		assertTrue(out.toString().indexOf("\"longestByUrl\":") != -1);
 	}
 
 	@Test

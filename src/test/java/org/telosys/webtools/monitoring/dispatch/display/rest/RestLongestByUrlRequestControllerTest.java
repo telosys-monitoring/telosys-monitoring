@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.Request;
 import org.telosys.webtools.monitoring.bean.TopRequests;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestLongestByUrlRequestController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.common.RequestToMap;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
@@ -33,13 +32,13 @@ public class RestLongestByUrlRequestControllerTest {
 		// When/Then
 		assertFalse(restTopRequestController.match(null, null));
 		assertFalse(restTopRequestController.match(new String[] {}, null));
-		assertFalse(restTopRequestController.match(new String[] {"top"}, null));
-		assertFalse(restTopRequestController.match(new String[] {"top","after"}, null));
-		assertTrue(restTopRequestController.match(new String[] {"rest","top"}, null));
-		assertFalse(restTopRequestController.match(new String[] {"rest","top","after"}, null));
-		assertFalse(restTopRequestController.match(new String[] {"rest","before","top"}, null));
-		assertFalse(restTopRequestController.match(new String[] {"rest","before","top","after"}, null));
-		assertFalse(restTopRequestController.match(new String[] {"rest","top2"}, null));
+		assertFalse(restTopRequestController.match(new String[] {"longestByUrl"}, null));
+		assertFalse(restTopRequestController.match(new String[] {"longestByUrl","after"}, null));
+		assertTrue(restTopRequestController.match(new String[] {"rest","longestByUrl"}, null));
+		assertFalse(restTopRequestController.match(new String[] {"rest","longestByUrl","after"}, null));
+		assertFalse(restTopRequestController.match(new String[] {"rest","before","longestByUrl"}, null));
+		assertFalse(restTopRequestController.match(new String[] {"rest","before","longestByUrl","after"}, null));
+		assertFalse(restTopRequestController.match(new String[] {"rest","longestByUrl2"}, null));
 	}
 
 	@Test
@@ -55,7 +54,7 @@ public class RestLongestByUrlRequestControllerTest {
 		final MonitorData data = mock(MonitorData.class);
 		final MonitorInitValues initValues = new MonitorInitValues();
 
-		final String[] paths = new String[] {"top"};
+		final String[] paths = new String[] {"longestByUrl"};
 		final Map<String,String> params = new HashMap<String, String>();
 
 		final List<Request> requests = new ArrayList<Request>();
@@ -86,10 +85,10 @@ public class RestLongestByUrlRequestControllerTest {
 
 		// Then
 		assertEquals(1, map.keySet().size());
-		assertEquals(3, ((List<String>)map.get("top")).size());
-		assertEquals(mapRequest1, ((List<String>)map.get("top")).get(0));
-		assertEquals(mapRequest2, ((List<String>)map.get("top")).get(1));
-		assertEquals(mapRequest3, ((List<String>)map.get("top")).get(2));
+		assertEquals(3, ((List<String>)map.get("longestByUrl")).size());
+		assertEquals(mapRequest1, ((List<String>)map.get("longestByUrl")).get(0));
+		assertEquals(mapRequest2, ((List<String>)map.get("longestByUrl")).get(1));
+		assertEquals(mapRequest3, ((List<String>)map.get("longestByUrl")).get(2));
 
 	}
 

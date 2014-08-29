@@ -17,7 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.Test;
 import org.telosys.webtools.monitoring.bean.CircularStack;
 import org.telosys.webtools.monitoring.bean.Request;
-import org.telosys.webtools.monitoring.dispatch.display.rest.RestLatestController;
 import org.telosys.webtools.monitoring.dispatch.display.rest.common.RequestToMap;
 import org.telosys.webtools.monitoring.monitor.MonitorData;
 import org.telosys.webtools.monitoring.monitor.MonitorInitValues;
@@ -33,12 +32,12 @@ public class RestLatestControllerTest {
 		// When/Then
 		assertFalse(restLogController.match(null, null));
 		assertFalse(restLogController.match(new String[] {}, null));
-		assertFalse(restLogController.match(new String[] {"log"}, null));
-		assertFalse(restLogController.match(new String[] {"log","after"}, null));
-		assertTrue(restLogController.match(new String[] {"rest","log"}, null));
-		assertFalse(restLogController.match(new String[] {"rest","log","after"}, null));
-		assertFalse(restLogController.match(new String[] {"rest","before","log"}, null));
-		assertFalse(restLogController.match(new String[] {"rest","before","log","after"}, null));
+		assertFalse(restLogController.match(new String[] {"latest"}, null));
+		assertFalse(restLogController.match(new String[] {"latest","after"}, null));
+		assertTrue(restLogController.match(new String[] {"rest","latest"}, null));
+		assertFalse(restLogController.match(new String[] {"rest","latest","after"}, null));
+		assertFalse(restLogController.match(new String[] {"rest","before","latest"}, null));
+		assertFalse(restLogController.match(new String[] {"rest","before","latest","after"}, null));
 		assertFalse(restLogController.match(new String[] {"rest","info2"}, null));
 	}
 
@@ -55,7 +54,7 @@ public class RestLatestControllerTest {
 		final MonitorData data = mock(MonitorData.class);
 		final MonitorInitValues initValues = new MonitorInitValues();
 
-		final String[] paths = new String[] {"log"};
+		final String[] paths = new String[] {"latest"};
 		final Map<String,String> params = new HashMap<String, String>();
 
 		final List<Request> requests = new ArrayList<Request>();
@@ -79,9 +78,9 @@ public class RestLatestControllerTest {
 
 		// Then
 		assertEquals(1, map.keySet().size());
-		assertEquals(2, ((List<String>)map.get("log")).size());
-		assertEquals(mapRequest1, ((List<String>)map.get("log")).get(0));
-		assertEquals(mapRequest2, ((List<String>)map.get("log")).get(1));
+		assertEquals(2, ((List<String>)map.get("latest")).size());
+		assertEquals(mapRequest1, ((List<String>)map.get("latest")).get(0));
+		assertEquals(mapRequest2, ((List<String>)map.get("latest")).get(1));
 
 	}
 
@@ -98,7 +97,7 @@ public class RestLatestControllerTest {
 		final MonitorData data = mock(MonitorData.class);
 		final MonitorInitValues initValues = new MonitorInitValues();
 
-		final String[] paths = new String[] {"log"};
+		final String[] paths = new String[] {"latest"};
 		final Map<String,String> params = new HashMap<String, String>();
 		params.put("start", "2");
 
@@ -130,9 +129,9 @@ public class RestLatestControllerTest {
 
 		// Then
 		assertEquals(1, map.keySet().size());
-		assertEquals(2, ((List<String>)map.get("log")).size());
-		assertEquals(mapRequest2, ((List<String>)map.get("log")).get(0));
-		assertEquals(mapRequest3, ((List<String>)map.get("log")).get(1));
+		assertEquals(2, ((List<String>)map.get("latest")).size());
+		assertEquals(mapRequest2, ((List<String>)map.get("latest")).get(0));
+		assertEquals(mapRequest3, ((List<String>)map.get("latest")).get(1));
 
 	}
 
